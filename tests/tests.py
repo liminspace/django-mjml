@@ -31,11 +31,11 @@ def safe_change_mjml_settings():
 class TestMJMLApps(TestCase):
     def test_check_mjml_command(self):
         with safe_change_mjml_settings():
-            mjml_settings.MJML_EXEC_PATH = '/no_mjml_exec_test'
+            mjml_settings.MJML_EXEC_CMD = '/no_mjml_exec_test'
             with self.assertRaises(ImproperlyConfigured):
                 check_mjml_command()
 
-            mjml_settings.MJML_EXEC_PATH = ['python', '-c', 'print "wrong result for testing"', '-']
+            mjml_settings.MJML_EXEC_CMD = ['python', '-c', 'print "wrong result for testing"', '-']
             with self.assertRaises(ImproperlyConfigured):
                 check_mjml_command()
 

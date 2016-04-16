@@ -1,6 +1,5 @@
-import subprocess
 from django import template
-from ..tools import get_mjml_popen_args
+from ..tools import mjml_render
 
 
 register = template.Library()
@@ -12,9 +11,7 @@ class MJMLRenderNode(template.Node):
 
     def render(self, context):
         mjml = self.nodelist.render(context)
-        p = subprocess.Popen(get_mjml_popen_args(), stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-        html = p.communicate(mjml)[0]
-        return html
+        return mjml_render(mjml)
 
 
 @register.tag
