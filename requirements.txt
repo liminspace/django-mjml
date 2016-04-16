@@ -1,0 +1,6 @@
+pip
+setuptools
+wheel
+
+django>=1.9,<1.10
+coverage==4.0.3
