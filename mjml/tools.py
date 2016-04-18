@@ -19,3 +19,7 @@ def mjml_render(mjml_code):
             'See https://github.com/mjmlio/mjml#installation'
         )
     return html
+
+
+def make_mjml_fragment_key(fragment_name):
+    return '{}{}'.format(mjml_settings.MJML_CACHE_KEY_PREFIX, fragment_name)
