@@ -1,5 +1,6 @@
 .. image:: https://cloud.githubusercontent.com/assets/5173158/14615647/5fc03bf8-05af-11e6-8cdd-f87bf432c4a2.png
-  :align: right
+  :target: #
+  :alt: Django + MJML
 
 django-mjml
 ===========
