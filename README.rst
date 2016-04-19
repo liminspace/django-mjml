@@ -42,7 +42,7 @@ See https://github.com/mjmlio/mjml#installation and https://mjml.io/documentatio
 Usage
 -----
 
-Load ``mjml`` in your django template and use ``mjml`` tag that will be compile mjml to html::
+Load ``mjml`` in your django template and use ``mjml`` tag that will compile mjml to html::
 
   [email_template.html]
   
