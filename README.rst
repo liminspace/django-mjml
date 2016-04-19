@@ -7,6 +7,8 @@ django-mjml
 
 The simplest way to use `MJML <https://mjml.io/>`_ in `Django <https://www.djangoproject.com/>`_ templates.
 
+|
+
 Installation
 ------------
 
@@ -38,6 +40,8 @@ See https://github.com/mjmlio/mjml#installation and https://mjml.io/documentatio
     ...,
     'mjml',
   )
+
+|
 
 Usage
 -----
