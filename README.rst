@@ -5,7 +5,7 @@
 django-mjml
 ===========
 
-Use MJML in Django templates
+The simplest way to use `MJML <https://mjml.io/>`_ in `Django <https://www.djangoproject.com/>`_ templates.
 
 Installation
 ------------
@@ -38,3 +38,22 @@ See https://github.com/mjmlio/mjml#installation and https://mjml.io/documentatio
     ...,
     'mjml',
   )
+
+Usage
+-----
+
+Load ``mjml`` in your django template and use ``mjml`` tag that will be compile mjml to html::
+
+  [email_template.html]
+  
+  {% load mjml %}
+  
+  {% mjml %}
+      <mj-body>
+          <mj-section>
+              <mj-column>
+                  <mj-text>Hello world!</mj-text>
+              </mj-column>
+          </mj-section>
+      </mj-body>
+  {% endmjml %}
