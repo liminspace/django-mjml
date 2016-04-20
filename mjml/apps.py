@@ -6,7 +6,7 @@ from .tools import mjml_render
 def check_mjml_command():
     try:
         html = mjml_render('<mj-body></mj-body>')
-    except RuntimeError, e:
+    except RuntimeError as e:
         raise ImproperlyConfigured(e)
     if '<html ' not in html:
         raise ImproperlyConfigured(
