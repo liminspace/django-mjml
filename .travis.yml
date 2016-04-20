@@ -9,8 +9,6 @@ env:
   - DJANGO_VERSION=1.9.5
   
 before_install:
-  - curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
-  - apt-get install -y nodejs
   - npm install -g mjml
 
 install:
