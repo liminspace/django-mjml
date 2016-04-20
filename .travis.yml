@@ -9,9 +9,13 @@ env:
   - DJANGO_VERSION=1.9.5
   
 before_install:
-  - npm install -g mjml
+  - npm cache clean -f 
+  - npm install n
+  - n stable
+  - npm install mjml
   - node --version
   - mjml --version
+  - whereis node
   - whereis mjml
 
 install:
