@@ -1,5 +1,8 @@
-.. image:: https://travis-ci.org/liminspace/django-mjml.svg?branch=develop
+
+.. figure:: https://travis-ci.org/liminspace/django-mjml.svg?branch=develop
   :target: https://travis-ci.org/liminspace/django-mjml
+
+|
 
 .. image:: https://cloud.githubusercontent.com/assets/5173158/14615647/5fc03bf8-05af-11e6-8cdd-f87bf432c4a2.png
   :target: #
