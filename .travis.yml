@@ -17,10 +17,10 @@ before_install:
   - whereis node
   - whereis mjml
   - ls -lah
+  - la -lah node_modules
 
 install:
   - pip install -q Django==$DJANGO_VERSION
 
 script:
-  - cd django-mjml
   - python tools.py test
