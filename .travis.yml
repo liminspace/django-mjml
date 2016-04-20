@@ -1,0 +1,19 @@
+language: python
+
+python:
+  - "2.7"
+  - "3.4"
+  - "3.5"
+
+env:
+  - DJANGO_VERSION=1.9
+  - DJANGO_VERSION=1.9.1
+  - DJANGO_VERSION=1.9.2
+  - DJANGO_VERSION=1.9.3
+  - DJANGO_VERSION=1.9.4
+  - DJANGO_VERSION=1.9.5
+
+install:
+  - pip install -q Django==$DJANGO_VERSION
+
+script: python tools.py test
