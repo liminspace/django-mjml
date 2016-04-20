@@ -10,7 +10,7 @@ env:
   
 before_install:
   - npm install -g mjml
-  - node --vestion
+  - node --version
   - mjml --version
   - whereis mjml
 
