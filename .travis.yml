@@ -2,14 +2,12 @@ language: python
 
 python:
   - "2.7"
-  - "3.4"
-  - "3.5"
 
 env:
   - DJANGO_VERSION=1.9.5
   
 before_install:
-  - sudo npm cache clean -f 
+  - npm cache clean -f 
   - sudo npm install -g n
   - sudo n stable
   - npm install mjml
