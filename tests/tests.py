@@ -19,13 +19,13 @@ def safe_change_mjml_settings():
     ...
     """
     settings_bak = {}
-    for k, v in mjml_settings.__dict__.iteritems():
+    for k, v in mjml_settings.__dict__.items():
         if k[:5] == 'MJML_':
             settings_bak[k] = copy.deepcopy(v)
     try:
         yield
     finally:
-        for k, v in settings_bak.iteritems():
+        for k, v in settings_bak.items():
             setattr(mjml_settings, k, v)
 
 
