@@ -7,12 +7,16 @@ env:
   - DJANGO_VERSION=1.9.5
   
 before_install:
-  - npm update 
+  - . $HOME/.nvm/nvm.sh
+  - nvm install stable
+  - nvm use stable
+  - npm install
   - npm install mjml
   - node --version
   - mjml --version
   - whereis node
   - whereis mjml
+  - ls -lah
 
 install:
   - pip install -q Django==$DJANGO_VERSION
