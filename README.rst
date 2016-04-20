@@ -54,8 +54,6 @@ Usage
 
 Load ``mjml`` in your django template and use ``mjml`` tag that will compile mjml to html::
 
-  [email_template.html]
-  
   {% load mjml %}
   
   {% mjml %}
