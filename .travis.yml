@@ -10,6 +10,9 @@ env:
   
 before_install:
   - npm install -g mjml
+  - node --vestion
+  - mjml --version
+  - whereis mjml
 
 install:
   - pip install -q Django==$DJANGO_VERSION
