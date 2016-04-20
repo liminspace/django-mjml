@@ -8,7 +8,7 @@ env:
   
 before_install:
   - npm cache clean -f 
-  - sudo npm install -g n
+  - npm install -g n
   - sudo n stable
   - npm install mjml
   - node --version
