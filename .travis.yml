@@ -17,7 +17,7 @@ before_install:
   - whereis node
   - whereis mjml
   - ls -lah
-  - ls -lah node_modules
+  - ls -lah node_modules/mjml
 
 install:
   - pip install -q Django==$DJANGO_VERSION
