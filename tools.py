@@ -35,6 +35,6 @@ if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] in COMMANDS_LIST:
         locals()[sys.argv[1]](*sys.argv[2:])
     else:
-        print 'Available commands:'
+        print('Available commands:')
         for c in COMMANDS_LIST:
-            print c + ' - ' + COMMANDS_INFO[c]
+            print(c + ' - ' + COMMANDS_INFO[c])

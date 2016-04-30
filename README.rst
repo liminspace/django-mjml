@@ -1,3 +1,9 @@
+
+.. figure:: https://travis-ci.org/liminspace/django-mjml.svg?branch=develop
+  :target: https://travis-ci.org/liminspace/django-mjml
+
+|
+
 .. image:: https://cloud.githubusercontent.com/assets/5173158/14615647/5fc03bf8-05af-11e6-8cdd-f87bf432c4a2.png
   :target: #
   :alt: Django + MJML
@@ -15,7 +21,7 @@ Installation
 **Requirements:**
 
 * Django v1.9+
-* mjml v1.3.4+
+* mjml v2.0+
 
 **\1\. Install** ``mjml``.
 
@@ -48,16 +54,18 @@ Usage
 
 Load ``mjml`` in your django template and use ``mjml`` tag that will compile mjml to html::
 
-  [email_template.html]
-  
   {% load mjml %}
   
   {% mjml %}
+      <mjml>
       <mj-body>
+      <mj-container>
           <mj-section>
               <mj-column>
                   <mj-text>Hello world!</mj-text>
               </mj-column>
           </mj-section>
+      </mj-container>
       </mj-body>
+      </mjml>
   {% endmjml %}

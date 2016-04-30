@@ -19,13 +19,13 @@ def safe_change_mjml_settings():
     ...
     """
     settings_bak = {}
-    for k, v in mjml_settings.__dict__.iteritems():
+    for k, v in mjml_settings.__dict__.items():
         if k[:5] == 'MJML_':
             settings_bak[k] = copy.deepcopy(v)
     try:
         yield
     finally:
-        for k, v in settings_bak.iteritems():
+        for k, v in settings_bak.items():
             setattr(mjml_settings, k, v)
 
 
@@ -48,7 +48,9 @@ class TestMJMLTemplatetag(TestCase):
     def test_simple(self):
         html = self.render_tpl("""
             {% mjml %}
+                <mjml>
                 <mj-body>
+                <mj-container>
                     <mj-section>
                         <mj-column>
                             <mj-image src="img/test.png"></mj-image>
@@ -60,7 +62,9 @@ class TestMJMLTemplatetag(TestCase):
                             <mj-button background-color="#ffcc00" font-size="15px">Test button</mj-button>
                         </mj-column>
                     </mj-section>
+                </mj-container>
                 </mj-body>
+                </mjml>
             {% endmjml %}
         """)
         self.assertIn('<html ', html)
@@ -78,7 +82,9 @@ class TestMJMLTemplatetag(TestCase):
         }
         html = self.render_tpl("""
             {% mjml %}
+                <mjml>
                 <mj-body>
+                <mj-container>
                     <mj-section>
                         <mj-column>
                             <mj-image src="img/test.png"></mj-image>
@@ -90,7 +96,9 @@ class TestMJMLTemplatetag(TestCase):
                             <mj-button background-color="{{ btn_color }}" font-size="15px">{{ btn_label }}</mj-button>
                         </mj-column>
                     </mj-section>
+                </mj-container>
                 </mj-body>
+                </mjml>
             {% endmjml %}
         """, context)
         self.assertIn('<html ', html)
@@ -105,7 +113,9 @@ class TestMJMLTemplatetag(TestCase):
         }
         html = self.render_tpl("""
             {% mjml %}
+                <mjml>
                 <mj-body>
+                <mj-container>
                     <mj-section>
                         <mj-column>
                             <mj-image src="img/test.png"></mj-image>
@@ -121,7 +131,9 @@ class TestMJMLTemplatetag(TestCase):
                             <mj-button background-color="#ffcc00" font-size="15px">Test button</mj-button>
                         </mj-column>
                     </mj-section>
+                </mj-container>
                 </mj-body>
+                </mjml>
             {% endmjml %}
         """, context)
         self.assertIn('<html ', html)
@@ -134,27 +146,31 @@ class TestMJMLTemplatetag(TestCase):
         with self.assertRaises(TemplateSyntaxError):
             self.render_tpl("""
                 {% mjml "var"%}
-                    <mj-body></mj-body>
+                    <mjml><mj-body><mj-container></mj-container></mj-body></mjml>
                 {% endmjml %}
             """)
 
         with self.assertRaises(TemplateSyntaxError):
             self.render_tpl("""
                 {% mjml var %}
-                    <mj-body></mj-body>
+                    <mjml><mj-body><mj-container></mj-container></mj-body></mjml>
                 {% endmjml %}
             """, {'var': 'test'})
 
     def test_unicode(self):
         html = self.render_tpl(u"""
             {% mjml %}
+                <mjml>
                 <mj-body>
+                <mj-container>
                     <mj-section>
                         <mj-column>
                             <mj-text>Український текст</mj-text>
                         </mj-column>
                     </mj-section>
+                </mj-container>
                 </mj-body>
+                </mjml>
             {% endmjml %}
         """)
         self.assertIn('<html ', html)

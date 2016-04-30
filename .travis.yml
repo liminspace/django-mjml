@@ -1,0 +1,21 @@
+language: python
+
+python:
+  - "2.7"
+  - "3.4"
+  - "3.5"
+
+env:
+  - DJANGO_VERSION=1.9.5
+  
+before_install:
+  - . $HOME/.nvm/nvm.sh
+  - nvm install stable
+  - nvm use stable
+  - npm install -g mjml
+
+install:
+  - pip install -q Django==$DJANGO_VERSION
+
+script:
+  - python tools.py test
