@@ -21,7 +21,7 @@ Installation
 **Requirements:**
 
 * Django v1.9+
-* mjml v1.3.4+
+* mjml v2.0+
 
 **\1\. Install** ``mjml``.
 
@@ -57,11 +57,15 @@ Load ``mjml`` in your django template and use ``mjml`` tag that will compile mjm
   {% load mjml %}
   
   {% mjml %}
+      <mjml>
       <mj-body>
+      <mj-container>
           <mj-section>
               <mj-column>
                   <mj-text>Hello world!</mj-text>
               </mj-column>
           </mj-section>
+      </mj-container>
       </mj-body>
+      </mjml>
   {% endmjml %}
