@@ -27,8 +27,10 @@ def test(*args):
 def release(*args):
     root_dir = os.path.dirname(os.path.abspath(__file__))
     shutil.rmtree(os.path.join(root_dir, 'build'), ignore_errors=True)
+    shutil.rmtree(os.path.join(root_dir, 'dist'), ignore_errors=True)
     shutil.rmtree(os.path.join(root_dir, 'django_mjml.egg-info'), ignore_errors=True)
-    subprocess.call(['python', 'setup.py', 'bdist_wheel', 'upload'])
+    subprocess.call(['python', 'setup.py', 'sdist', 'bdist_wheel'])
+    subprocess.call(['twine', 'upload', 'dist/*'])
 
 
 if __name__ == '__main__':
