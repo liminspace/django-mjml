@@ -1,6 +1,11 @@
 pip
 setuptools
 wheel
+twine
 
 django>=1.9,<1.10
 coverage==4.0.3
+
+
+# for Py2
+# pip install -U ndg-httpsclient

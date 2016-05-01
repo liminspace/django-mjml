@@ -19,4 +19,20 @@ setup(
     install_requires=[
         'django>=1.9,<1.10',
     ],
+    keywords=[
+        'django', 'mjml', 'django-mjml', 'email', 'layout', 'template', 'templatetag',
+    ],
+    classifiers=[
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Intended Audience :: Developers',
+        'Topic :: Software Development :: Libraries',
+        'Topic :: Software Development :: Libraries :: Application Frameworks',
+        'Framework :: Django',
+        'License :: OSI Approved :: MIT License',
+    ],
 )
