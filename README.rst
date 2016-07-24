@@ -69,12 +69,3 @@ Load ``mjml`` in your django template and use ``mjml`` tag that will compile mjm
       </mj-body>
       </mjml>
   {% endmjml %}
-
-|
-
-Advanced settings
------
-
-There are two backend modes for compiling: ``cmd`` and ``tcpserver``. ``cmd`` is used by default.
-
-``**cmd**``
