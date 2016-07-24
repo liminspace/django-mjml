@@ -11,8 +11,7 @@ before_install:
   - . $HOME/.nvm/nvm.sh
   - nvm install stable
   - nvm use stable
-  - pwd
-  - npm install -g mjml
+  - npm install mjml
 
 install:
   - pip install -q Django==$DJANGO_VERSION
