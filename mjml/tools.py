@@ -1,7 +1,14 @@
+import six
 import socket
 import random
 import subprocess
 from . import settings as mjml_settings
+
+
+def decode_bytes(b):
+    if six.PY3:
+        return b.decode()
+    return b
 
 
 def _mjml_render_by_cmd(mjml_code):
@@ -35,9 +42,9 @@ def _mjml_render_by_tcpserver(mjml_code):
             continue
         try:
             s.send(mjml_code.encode('utf8') or ' ')
-            ok = s.recv(1) == '0'
-            result_len = int(s.recv(9))
-            result = s.recv(result_len)
+            ok = decode_bytes(s.recv(1)) == '0'
+            result_len = int(decode_bytes(s.recv(9)))
+            result = decode_bytes(s.recv(result_len))
             if ok:
                 return result
             else:
