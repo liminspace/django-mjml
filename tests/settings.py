@@ -48,3 +48,11 @@ TEMPLATES = [
         },
     },
 ]
+
+MJML_BACKEND = 'cmd'
+MJML_EXEC_CMD = os.path.join(os.path.dirname(BASE_DIR), 'node_modules', '.bin', 'mjml')
+MJML_TCPSERVERS = (
+    ('127.0.0.1', 28101),
+    ('127.0.0.1', 28102),
+    ('127.0.0.1', 28103),
+)
