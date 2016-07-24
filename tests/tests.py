@@ -210,7 +210,7 @@ class TestMJMLTCPServer(TestCase):
 
     def test_simple(self):
         with safe_change_mjml_settings():
-            mjml_settings.MJML_BACKEND = 'tcpserver'
+            mjml_settings.MJML_BACKEND_MODE = 'tcpserver'
 
             html = self.render_tpl("""
                 {% mjml %}

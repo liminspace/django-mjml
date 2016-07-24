@@ -26,6 +26,7 @@ def _mjml_render_by_cmd(mjml_code):
 def _mjml_render_by_tcpserver(mjml_code):
     servers = list(mjml_settings.MJML_TCPSERVERS)[:]
     random.shuffle(servers)
+
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     for host, port in servers:
         try:
@@ -33,7 +34,7 @@ def _mjml_render_by_tcpserver(mjml_code):
         except socket.error:
             continue
         try:
-            s.send(mjml_code.encode('utf8'))
+            s.send(mjml_code.encode('utf8') or ' ')
             ok = s.recv(1) == '0'
             result_len = int(s.recv(9))
             result = s.recv(result_len)
