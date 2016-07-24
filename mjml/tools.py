@@ -1,7 +1,8 @@
 import socket
 import random
 import subprocess
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_str
+
 from . import settings as mjml_settings
 
 
@@ -36,9 +37,9 @@ def _mjml_render_by_tcpserver(mjml_code):
             continue
         try:
             s.send(mjml_code.encode('utf8') or ' ')
-            ok = force_unicode(s.recv(1)) == '0'
-            result_len = int(force_unicode(s.recv(9)))
-            result = force_unicode(s.recv(result_len))
+            ok = force_str(s.recv(1)) == '0'
+            result_len = int(force_str(s.recv(9)))
+            result = force_str(s.recv(result_len))
             if ok:
                 return result
             else:
