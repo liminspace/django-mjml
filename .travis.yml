@@ -2,11 +2,10 @@ language: python
 
 python:
   - "2.7"
-  - "3.4"
   - "3.5"
 
 env:
-  - DJANGO_VERSION=1.9.5
+  - DJANGO_VERSION=1.9.8
   
 before_install:
   - . $HOME/.nvm/nvm.sh

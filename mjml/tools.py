@@ -1,8 +1,10 @@
+import socket
+import random
 import subprocess
 from . import settings as mjml_settings
 
 
-def mjml_render(mjml_code):
+def _mjml_render_by_cmd(mjml_code):
     cmd_args = mjml_settings.MJML_EXEC_CMD
     if not isinstance(cmd_args, list):
         cmd_args = [cmd_args]
@@ -19,3 +21,38 @@ def mjml_render(mjml_code):
             'See https://github.com/mjmlio/mjml#installation'
         )
     return html
+
+
+def _mjml_render_by_tcpserver(mjml_code):
+    servers = list(mjml_settings.MJML_TCPSERVERS)[:]
+    random.shuffle(servers)
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    for host, port in servers:
+        try:
+            s.connect((host, port))
+        except socket.error:
+            continue
+        try:
+            s.send(mjml_code.encode('utf8'))
+            ok = s.recv(1) == '0'
+            result_len = int(s.recv(9))
+            result = s.recv(result_len)
+            if ok:
+                return result
+            else:
+                raise RuntimeError('MJML compile error (via MJML TCP server): {}'.format(result))
+        finally:
+            s.close()
+    raise RuntimeError('MJML compile error (via MJML TCP server): no working server')
+
+
+def mjml_render(mjml_code):
+    if mjml_code is '':
+        return mjml_code
+
+    if mjml_settings.MJML_BACKEND_MODE == 'cmd':
+        return _mjml_render_by_cmd(mjml_code)
+    elif mjml_settings.MJML_BACKEND_MODE == 'tcpserver':
+        return _mjml_render_by_tcpserver(mjml_code)
+    else:
+        raise RuntimeError('Invalid settings.MJML_BACKEND_MODE "{}"'.format(mjml_settings.MJML_BACKEND_MODE))

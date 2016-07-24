@@ -1,10 +1,14 @@
 # coding=utf-8
 import copy
+import os
+import subprocess
+import time
 from contextlib import contextmanager
 from django.test import TestCase
 from django.template import Template, Context
 from django.template.exceptions import TemplateSyntaxError
 from django.core.exceptions import ImproperlyConfigured
+from django.conf import settings
 from mjml.apps import check_mjml_command
 from mjml import settings as mjml_settings
 
@@ -176,3 +180,68 @@ class TestMJMLTemplatetag(TestCase):
         self.assertIn('<html ', html)
         self.assertIn('<body', html)
         self.assertIn(u'Український текст', html)
+
+
+class TestMJMLTCPServer(TestCase):
+    processes = []
+
+    @classmethod
+    def setUpClass(cls):
+        super(TestMJMLTCPServer, cls).setUpClass()
+        root_dir = os.path.dirname(settings.BASE_DIR)
+        tcpserver_path = os.path.join(root_dir, 'mjml', 'node', 'tcpserver.js')
+        env = os.environ.copy()
+        env['NODE_PATH'] = root_dir
+        for host, port in mjml_settings.MJML_TCPSERVERS:
+            p = subprocess.Popen(['node', tcpserver_path, str(port), host],
+                                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env)
+            cls.processes.append(p)
+        time.sleep(5)
+
+    @classmethod
+    def tearDownClass(cls):
+        super(TestMJMLTCPServer, cls).tearDownClass()
+        while cls.processes:
+            p = cls.processes.pop()
+            p.terminate()
+
+    def render_tpl(self, tpl, context=None):
+        return Template('{% load mjml %}' + tpl).render(Context(context))
+
+    def test_simple(self):
+        with safe_change_mjml_settings():
+            mjml_settings.MJML_BACKEND = 'tcpserver'
+
+            html = self.render_tpl("""
+                {% mjml %}
+                    <mjml>
+                    <mj-body>
+                    <mj-container>
+                        <mj-section>
+                            <mj-column>
+                                <mj-image src="img/test.png"></mj-image>
+                                <mj-text font-size="20px" align="center">Test title</mj-text>
+                            </mj-column>
+                        </mj-section>
+                        <mj-section>
+                            <mj-column>
+                                <mj-button background-color="#ffcc00" font-size="15px">Test button</mj-button>
+                            </mj-column>
+                        </mj-section>
+                    </mj-container>
+                    </mj-body>
+                    </mjml>
+                {% endmjml %}
+            """)
+            self.assertIn('<html ', html)
+            self.assertIn('<body', html)
+            self.assertIn('20px ', html)
+            self.assertIn('Test title', html)
+            self.assertIn('Test button', html)
+
+            with self.assertRaises(RuntimeError):
+                self.render_tpl("""
+                    {% mjml %}
+                        123
+                    {% endmjml %}
+                """)
