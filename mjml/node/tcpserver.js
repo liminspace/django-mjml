@@ -2,7 +2,7 @@
 
 
 var host = '127.0.0.1',
-    port = '42201',
+    port = '28101',
     argv = process.argv.slice(2);
 
 
@@ -17,7 +17,7 @@ switch (argv.length) {
         host = argv[1];
         break;
     default:
-        console.log('Run command: NODE_PATH=node_modules node tcpserver.js 42201 127.0.0.1');
+        console.log('Run command: NODE_PATH=node_modules node tcpserver.js 28101 127.0.0.1');
 }
 
 
