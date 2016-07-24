@@ -70,3 +70,65 @@ Load ``mjml`` in your django template and use ``mjml`` tag that will compile mjm
       </mjml>
   {% endmjml %}
 
+|
+
+Advanced settings
+-----------------
+
+There are two backend modes for compiling: ``cmd`` and ``tcpserver``.
+
+**cmd mode**
+
+This mode is very simple, slow and used by default. ::
+
+  MJML_BACKEND_MODE = 'cmd'
+  MJML_EXEC_CMD = 'mjml'
+
+You can change ``MJML_EXEC_CMD`` and set path to executable ``mjml`` file, for example::
+
+  MJML_EXEC_CMD = '/home/user/node_modules/.bin/mjml'
+
+
+
+**tcpserver mode**
+
+This mode is faster than ``cmd`` but it needs run a server process in background. ::
+
+  MJML_BACKEND_MODE = 'tcpserver'
+  MJML_TCPSERVERS = [
+      ('127.0.0.1', 28101),  # host and port
+  ]
+
+You can set several servers and it will be used random one::
+
+  MJML_TCPSERVERS = [
+      ('127.0.0.1', 28101),
+      ('127.0.0.1', 28102),
+      ('127.0.0.1', 28103),
+  ]
+
+You can run servers by commands::
+
+  # NODE_PATH=/home/user/node_modules node /home/user/.virtualenv/default/lib/python2.7/site-packages/mjml/node/tcpserver.js 28101 127.0.0.1 /tmp/mjmltcpserver.stop
+
+``28101`` -- port
+``127.0.0.1`` -- host
+``/tmp/mjmltcpserver.stop`` -- file that will stop server after touch
+
+For daemonize server process you can use, for example, supervisor::
+
+  /etc/supervisor/conf.d/mjml.conf
+
+  [program:mjmltcpserver]
+  user=user
+  environment=NODE_PATH=/home/user/node_modules
+  command=node
+      /home/user/.virtualenv/default/lib/python2.7/site-packages/mjml/node/tcpserver.js
+      28101 127.0.0.1 /tmp/mjmltcpserver.stop
+  stdout_logfile=/home/user/project/var/log/supervisor/mjml.log
+  autostart=true
+  autorestart=true
+  redirect_stderr=true
+  stopwaitsecs=10
+  stopsignal=INT
+

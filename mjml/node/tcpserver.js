@@ -3,6 +3,7 @@
 
 var host = '127.0.0.1',
     port = '28101',
+    touchstop_fn = null,
     argv = process.argv.slice(2);
 
 
@@ -16,13 +17,19 @@ switch (argv.length) {
         port = argv[0];
         host = argv[1];
         break;
+    case 3:
+        port = argv[0];
+        host = argv[1];
+        touchstop_fn = argv[2];
+        break;
     default:
-        console.log('Run command: NODE_PATH=node_modules node tcpserver.js 28101 127.0.0.1');
+        console.log('Run command: NODE_PATH=node_modules node tcpserver.js 28101 127.0.0.1 /tmp/mjmltcpserver.stop');
 }
 
 
 var mjml = require('mjml'),
     net = require('net'),
+    fs = require('fs'),
     server = net.createServer();
 
 
@@ -49,3 +56,17 @@ server.on('connection', handleConnection);
 server.listen(port, host, function () {
     console.log('RUN SERVER %s:%s', host, port);
 });
+
+
+if (touchstop_fn) {
+    try {
+        fs.statSync(touchstop_fn);
+    } catch (e) {
+        fs.closeSync(fs.openSync(touchstop_fn, 'w'));
+    }
+
+    fs.watchFile(touchstop_fn, function() {
+        server.close();
+        process.exit();
+    });
+}
