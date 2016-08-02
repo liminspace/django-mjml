@@ -3,8 +3,8 @@ setuptools
 wheel
 twine
 
-django>=1.9,<1.10
-coverage==4.1
+django>=1.9,<1.11
+coverage==4.2
 
 
 # for Py2
