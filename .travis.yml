@@ -7,14 +7,19 @@ python:
 env:
   - DJANGO_VERSION=1.9.9
   - DJANGO_VERSION=1.10
-  
+  - MJML_VERSION=2.0
+  - MJML_VERSION=2.1
+  - MJML_VERSION=2.2
+  - MJML_VERSION=2.3
+
 before_install:
   - . $HOME/.nvm/nvm.sh
   - nvm install stable
   - nvm use stable
-  - npm install mjml
 
 install:
+  - npm install mjml@$MJML_VERSION
+  - node_modules/.bin/mjml --version
   - pip install -q Django==$DJANGO_VERSION
 
 script:
