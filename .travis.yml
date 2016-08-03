@@ -22,7 +22,7 @@ before_install:
 install:
   - npm install mjml@$MJML_VERSION
   - node_modules/.bin/mjml --version
-  - pip install -U "Django$DJANGO_VERSION"
+  - pip install "Django$DJANGO_VERSION"
 
 script:
   - python tools.py test
