@@ -5,17 +5,24 @@ python:
   - "3.5"
 
 env:
-  - DJANGO_VERSION=1.9.9
-  - DJANGO_VERSION=1.10
-  
+  - DJANGO_VERSION="<1.10" MJML_VERSION=2.0
+  - DJANGO_VERSION="<1.10" MJML_VERSION=2.1
+  - DJANGO_VERSION="<1.10" MJML_VERSION=2.2
+  - DJANGO_VERSION="<1.10" MJML_VERSION=2.3
+  - DJANGO_VERSION="<1.11" MJML_VERSION=2.0
+  - DJANGO_VERSION="<1.11" MJML_VERSION=2.1
+  - DJANGO_VERSION="<1.11" MJML_VERSION=2.2
+  - DJANGO_VERSION="<1.11" MJML_VERSION=2.3
+
 before_install:
   - . $HOME/.nvm/nvm.sh
   - nvm install stable
   - nvm use stable
-  - npm install mjml
 
 install:
-  - pip install -q Django==$DJANGO_VERSION
+  - npm install mjml@$MJML_VERSION
+  - node_modules/.bin/mjml --version
+  - pip install "Django$DJANGO_VERSION"
 
 script:
   - python tools.py test

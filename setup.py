@@ -17,7 +17,7 @@ setup(
     include_package_data=True,
     zip_safe=False,  # because include static
     install_requires=[
-        'django>=1.9,<1.10',
+        'django>=1.9,<1.11',
     ],
     keywords=[
         'django', 'mjml', 'django-mjml', 'email', 'layout', 'template', 'templatetag',
