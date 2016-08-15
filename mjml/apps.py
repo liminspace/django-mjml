@@ -1,6 +1,7 @@
 from django.apps import AppConfig
 from django.core.exceptions import ImproperlyConfigured
 from .tools import mjml_render
+from . import settings as mjml_settings
 
 
 def check_mjml_command():
@@ -22,4 +23,5 @@ class MJMLConfig(AppConfig):
     verbose_name = 'Use MJML in Django templates'
 
     def ready(self):
-        check_mjml_command()
+        if mjml_settings.MJML_BACKEND_MODE == 'cmd':
+            check_mjml_command()
