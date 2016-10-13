@@ -1,6 +1,10 @@
+.. image:: https://travis-ci.org/liminspace/django-mjml.svg?branch=develop
+ :target: https://travis-ci.org/liminspace/django-mjml
+ :alt: CI
 
-.. figure:: https://travis-ci.org/liminspace/django-mjml.svg?branch=develop
-  :target: https://travis-ci.org/liminspace/django-mjml
+.. image:: https://img.shields.io/pypi/dm/django-mjml.svg
+ :target: https://pypi.python.org/pypi/django-mjml/
+ :alt: Downloads
 
 |
 
@@ -20,7 +24,7 @@ Installation
 
 **Requirements:**
 
-* Django v1.9+
+* Django v1.8+
 * mjml v2.0+
 
 **\1\. Install** ``mjml``.
