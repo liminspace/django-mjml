@@ -1,3 +1,8 @@
+0.2.3 (2016-10-13)
+==================
+  * Add supporting django 1.8
+  
+
 0.2.2 (2016-08-15)
 ==================
   * Check mjml only if mode is "cmd"
