@@ -39,6 +39,7 @@ function handleConnection(conn) {
         var result;
         try {
             result = mjml.mjml2html(d.toString());
+            if (typeof result === 'object') result = result.html;
             conn.write('0');
         } catch (err) {
             result = err.message;

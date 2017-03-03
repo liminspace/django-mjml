@@ -1,3 +1,9 @@
+0.3.0 (2017-03-03)
+==================
+  * Update support new versions of MJML (up to 3.2.2)
+  * Add support Python 3.6
+
+
 0.2.3 (2016-10-13)
 ==================
   * Add supporting django 1.8

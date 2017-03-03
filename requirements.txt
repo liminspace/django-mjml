@@ -4,7 +4,7 @@ wheel
 twine
 
 django>=1.9,<1.11
-coverage==4.2
+coverage==4.3.4
 
 
 # for Py2
