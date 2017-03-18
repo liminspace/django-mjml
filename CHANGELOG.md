@@ -1,3 +1,8 @@
+0.3.1 (2017-03-18)
+==================
+  * Update support new versions of MJML (up to 3.3.0)
+
+
 0.3.0 (2017-03-03)
 ==================
   * Update support new versions of MJML (up to 3.2.2)
