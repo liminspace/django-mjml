@@ -39,7 +39,7 @@ class TestMJMLApps(TestCase):
             with self.assertRaises(ImproperlyConfigured):
                 check_mjml_command()
 
-            mjml_settings.MJML_EXEC_CMD = ['python', '-c', 'print "wrong result for testing"', '-']
+            mjml_settings.MJML_EXEC_CMD = ['python', '-c', 'print("wrong result for testing")', '-']
             with self.assertRaises(ImproperlyConfigured):
                 check_mjml_command()
 
