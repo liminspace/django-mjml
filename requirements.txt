@@ -3,7 +3,7 @@ setuptools
 wheel
 twine
 
-django>=1.9,<1.12
+django>=1.9,<2.1
 coverage==4.3.4
 
 
