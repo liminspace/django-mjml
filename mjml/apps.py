@@ -8,7 +8,7 @@ def check_mjml_command():
     test_mjml = '<mjml><mj-body><mj-container></mj-container></mj-body></mjml>'
     test_result_fragment = '<html '
     try:
-        html = mjml_render(test_mjml).decode('utf8')
+        html = mjml_render(test_mjml)
     except RuntimeError as e:
         raise ImproperlyConfigured(e)
     if test_result_fragment not in html:

@@ -17,7 +17,7 @@ setup(
     include_package_data=True,
     zip_safe=False,  # because include static
     install_requires=[
-        'django>=1.8,<1.12',
+        'django>=1.8,<2.1',
     ],
     keywords=[
         'django', 'mjml', 'django-mjml', 'email', 'layout', 'template', 'templatetag',
@@ -29,6 +29,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Libraries',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
