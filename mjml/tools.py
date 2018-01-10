@@ -13,7 +13,7 @@ def _mjml_render_by_cmd(mjml_code):
 
     try:
         p = subprocess.Popen(cmd_args, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-        html = p.communicate(mjml_code.encode('utf8'))[0]
+        html = force_str(p.communicate(mjml_code.encode('utf8'))[0])
     except (IOError, OSError) as e:
         raise RuntimeError(
             'Problem to run command "{}"\n'.format(' '.join(cmd_args)) +

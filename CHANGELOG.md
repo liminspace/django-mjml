@@ -1,3 +1,9 @@
+0.4.0 (2018-01-10)
+==================
+  * Add support Django 2.0
+  * Update support new versions of MJML (up to 3.3.5)
+
+
 0.3.2 (2017-04-06)
 ==================
   * Add support Django 1.11
