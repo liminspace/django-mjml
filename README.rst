@@ -1,10 +1,21 @@
 .. image:: https://travis-ci.org/liminspace/django-mjml.svg?branch=develop
  :target: https://travis-ci.org/liminspace/django-mjml
- :alt: CI
+ :alt: build
 
-.. image:: https://img.shields.io/pypi/dm/django-mjml.svg
- :target: https://pypi.python.org/pypi/django-mjml/
- :alt: Downloads
+.. image:: https://img.shields.io/pypi/l/django-mjml.svg
+ :alt: license
+
+.. image:: https://img.shields.io/pypi/wheel/django-mjml.svg
+ :alt: wheel
+
+.. image:: https://img.shields.io/pypi/format/django-mjml.svg
+ :alt: format
+
+.. image:: https://img.shields.io/pypi/pyversions/django-mjml.svg
+ :alt: python
+
+.. image:: https://img.shields.io/pypi/status/django-mjml.svg
+ :alt: implementation
 
 |
 

@@ -23,6 +23,8 @@ setup(
         'django', 'mjml', 'django-mjml', 'email', 'layout', 'template', 'templatetag',
     ],
     classifiers=[
+        'Development Status :: 5 - Production/Stable',
+        'Environment :: Web Environment',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
@@ -32,6 +34,7 @@ setup(
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Libraries',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
+        'Topic :: Software Development :: Libraries :: Python Modules',
         'Framework :: Django',
         'License :: OSI Approved :: MIT License',
     ],
