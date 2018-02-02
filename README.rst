@@ -3,19 +3,28 @@
  :alt: build
 
 .. image:: https://img.shields.io/pypi/l/django-mjml.svg
+ :target: https://pypi.python.org/pypi/django-mjml/
  :alt: license
 
 .. image:: https://img.shields.io/pypi/wheel/django-mjml.svg
+ :target: https://pypi.python.org/pypi/django-mjml/
  :alt: wheel
 
 .. image:: https://img.shields.io/pypi/format/django-mjml.svg
+ :target: https://pypi.python.org/pypi/django-mjml/
  :alt: format
 
 .. image:: https://img.shields.io/pypi/pyversions/django-mjml.svg
+ :target: https://pypi.python.org/pypi/django-mjml/
  :alt: python
 
 .. image:: https://img.shields.io/pypi/status/django-mjml.svg
+ :target: https://pypi.python.org/pypi/django-mjml/
  :alt: implementation
+
+.. image:: https://img.shields.io/pypi/v/django-mjml.svg
+ :target: https://pypi.python.org/pypi/django-mjml/
+ :alt: pypi
 
 |
 
