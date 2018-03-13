@@ -24,6 +24,17 @@ def _mjml_render_by_cmd(mjml_code):
     return html
 
 
+def recvall(sock, n):
+    # Helper function to recv n bytes or return None if EOF is hit
+    data = b''
+    while len(data) < n:
+        packet = sock.recv(n - len(data))
+        if not packet:
+            return None
+        data += packet
+    return data
+
+
 def _mjml_render_by_tcpserver(mjml_code):
     if len(mjml_settings.MJML_TCPSERVERS) > 1:
         servers = list(mjml_settings.MJML_TCPSERVERS)[:]
@@ -39,10 +50,14 @@ def _mjml_render_by_tcpserver(mjml_code):
         except socket.error:
             continue
         try:
-            s.send(mjml_code)
+            s.sendall(("%09d" % len(mjml_code)).encode('utf-8'))
+            s.sendall(mjml_code)
             ok = force_str(s.recv(1)) == '0'
-            result_len = int(force_str(s.recv(9)))
-            result = force_str(s.recv(result_len))
+
+            result_len = int(force_str(recvall(s, 9)))
+
+            result = force_str(recvall(s, result_len))
+
             if ok:
                 return result
             else:
