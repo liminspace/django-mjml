@@ -34,19 +34,53 @@ var mjml = require('mjml'),
 
 
 function handleConnection(conn) {
-    conn.setEncoding('utf8');
+    var packetHeaderLen = 9;
+    var accumulatingBuffer = new Buffer(0);
+    var totalPacketLen   = -1;
+    var accumulatingLen  =  0;
+    var recvedThisTimeLen=  0;
+
     conn.on('data', function(d) {
         var result;
-        try {
-            result = mjml.mjml2html(d.toString());
-            if (typeof result === 'object') result = result.html;
-            conn.write('0');
-        } catch (err) {
-            result = err.message;
-            conn.write('1');
+
+        recvedThisTimeLen = d.length;
+
+        var tmpBuffer = new Buffer( accumulatingLen + recvedThisTimeLen );
+        accumulatingBuffer.copy(tmpBuffer);
+        d.copy(tmpBuffer, accumulatingLen); // offset for accumulating
+
+        accumulatingBuffer = tmpBuffer;
+        tmpBuffer = null;
+        accumulatingLen += recvedThisTimeLen;
+
+        if( recvedThisTimeLen < packetHeaderLen ) {
+            return;
+        } else if( recvedThisTimeLen == packetHeaderLen ) {
+            return;
+        } else {
+            if( totalPacketLen < 0 ) {
+                totalPacketLen = parseInt(accumulatingBuffer, 10);
+            }
         }
-        conn.write(('000000000' + Buffer.byteLength(result).toString()).slice(-9));
-        conn.write(result);
+
+        if (accumulatingLen >= totalPacketLen + packetHeaderLen){
+            var aPacketBufExceptHeader = new Buffer( totalPacketLen  );
+            accumulatingBuffer.copy( aPacketBufExceptHeader, 0, packetHeaderLen, accumulatingBuffer.length);
+
+            try {
+                result = mjml.mjml2html(aPacketBufExceptHeader.toString());
+                if (typeof result === 'object') result = result.html;
+                conn.write('0');
+            } catch (err) {
+                result = err.message;
+                conn.write('1');
+            }
+            conn.write(('000000000' + Buffer.byteLength(result).toString()).slice(-9));
+            conn.write(result);
+
+            accumulatingLen = 0 ;
+            totalPacketLen = -1;
+        }
     });
     conn.once('close', function() {});
     conn.on('error', function(err) {});
