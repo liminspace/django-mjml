@@ -1,8 +1,9 @@
-0.5.0 (2018-04-24)
+0.5.0 (2018-04-25)
 ==================
   * Add support MJML v4
   * Tcpserver doesn't skip mjml errors now
   * Refactor arguments in tcpserver
+  * Fix incomplete sending data via socket (thanks @cavanierc)
 
 0.4.0 (2018-01-10)
 ==================
