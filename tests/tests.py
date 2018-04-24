@@ -10,6 +10,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
 from mjml.apps import check_mjml_command
 from mjml import settings as mjml_settings
+from mjml import tools
 
 
 @contextmanager
@@ -25,11 +26,13 @@ def safe_change_mjml_settings():
     for k, v in mjml_settings.__dict__.items():
         if k[:5] == 'MJML_':
             settings_bak[k] = copy.deepcopy(v)
+    tools._cache.clear()
     try:
         yield
     finally:
         for k, v in settings_bak.items():
             setattr(mjml_settings, k, v)
+        tools._cache.clear()
 
 
 class TestMJMLApps(TestCase):
@@ -192,7 +195,7 @@ class TestMJMLTCPServer(TestCase):
         env = os.environ.copy()
         env['NODE_PATH'] = root_dir
         for host, port in mjml_settings.MJML_TCPSERVERS:
-            p = subprocess.Popen(['node', tcpserver_path, str(port), host],
+            p = subprocess.Popen(['node', tcpserver_path, '--port={}'.format(port), '--host={}'.format(host)],
                                  stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env)
             cls.processes.append(p)
         time.sleep(5)

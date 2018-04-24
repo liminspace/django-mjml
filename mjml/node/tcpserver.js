@@ -1,45 +1,76 @@
 'use strict';
 
-
-var host = '127.0.0.1',
-    port = '28101',
-    touchstop_fn = null,
-    argv = process.argv.slice(2);
-
-
-switch (argv.length) {
-    case 0:
-        break;
-    case 1:
-        port = argv[0];
-        break;
-    case 2:
-        port = argv[0];
-        host = argv[1];
-        break;
-    case 3:
-        port = argv[0];
-        host = argv[1];
-        touchstop_fn = argv[2];
-        break;
-    default:
-        console.log('Run command: NODE_PATH=node_modules node tcpserver.js 28101 127.0.0.1 /tmp/mjmltcpserver.stop');
-}
-
-
 var mjml = require('mjml'),
+    mjml_maj_ver = parseInt(require('mjml/package.json').version.split('.')[0]),
     net = require('net'),
     fs = require('fs'),
-    server = net.createServer();
+    argv = process.argv.slice(2),
+    conf = {
+        host: '127.0.0.1',
+        port: '28101',
+        touchstop: null,
+        mjml: {}
+    };
 
+for (var i = 0; i < argv.length; i++) {
+    var kv, key, val,
+        arg = argv[i];
+    try {
+        if (!arg.startsWith('--')) {
+            throw {message: 'unknown arg'};
+        } else {
+            arg = arg.slice(2);
+        }
+        if (arg === 'help') {
+            if (mjml_maj_ver >= 4) {
+                // more options: https://github.com/mjmlio/mjml/blob/master/packages/mjml-core/src/index.js#L34
+                console.log('Run command: NODE_PATH=node_modules node tcpserver.js ' +
+                            '--port=28101 --host=127.0.0.1 --touchstop=/tmp/mjmltcpserver.stop ' +
+                            '--mjml.minify=false --mjml.validationLevel=soft');
+            } else {
+                // more options: https://github.com/mjmlio/mjml/blob/3.3.x/packages/mjml-core/src/MJMLRenderer.js#L78
+                console.log('Run command: NODE_PATH=node_modules node tcpserver.js ' +
+                            '--port=28101 --host=127.0.0.1 --touchstop=/tmp/mjmltcpserver.stop ' +
+                            '--mjml.disableMinify=false --mjml.level=soft');
+            }
+            process.exit();
+        }
+        kv = arg.split('=', 2);
+        key = kv[0];
+        val = kv[1];
+        if (!key || !val) throw {message: 'wrong syntax'};
+        if (conf.hasOwnProperty(key) && key !== 'mjml') {
+            conf[key] = val;
+        } else if (key.startsWith('mjml.')) {
+            if (val === 'true') {
+                val = true;
+            } else if (val === 'false') {
+                val = false;
+            }
+            conf.mjml[key.slice(5)] = val;
+        } else {
+            throw {message: 'unknown arg'};
+        }
+    } catch (err) {
+        console.log('Invalid parsing arg "%s": %s', argv[i], err.message);
+        process.exit(1);
+    }
+}
 
 function handleConnection(conn) {
     conn.setEncoding('utf8');
     conn.on('data', function(d) {
         var result;
         try {
-            result = mjml.mjml2html(d.toString());
-            if (typeof result === 'object') result = result.html;
+            if (mjml_maj_ver >= 4) {
+                result = mjml(d.toString(), conf.mjml);
+            } else {
+                result = mjml.mjml2html(d.toString(), conf.mjml);
+            }
+            if (typeof result === 'object') {
+                if (result.errors.length) throw {message: JSON.stringify(result.errors, null, 2)};
+                result = result.html;
+            }
             conn.write('0');
         } catch (err) {
             result = err.message;
@@ -48,25 +79,25 @@ function handleConnection(conn) {
         conn.write(('000000000' + Buffer.byteLength(result).toString()).slice(-9));
         conn.write(result);
     });
-    conn.once('close', function() {});
+    conn.on('close', function() {});
     conn.on('error', function(err) {});
 }
 
-
+var server = net.createServer();
 server.on('connection', handleConnection);
-server.listen(port, host, function () {
-    console.log('RUN SERVER %s:%s', host, port);
+server.listen(conf.port, conf.host, function () {
+    console.log('RUN SERVER %s:%s', conf.host, conf.port);
 });
 
-
-if (touchstop_fn) {
+if (conf.touchstop) {
     try {
-        fs.statSync(touchstop_fn);
+        fs.statSync(conf.touchstop);
     } catch (e) {
-        fs.closeSync(fs.openSync(touchstop_fn, 'w'));
+        fs.closeSync(fs.openSync(conf.touchstop, 'w'));
     }
 
-    fs.watchFile(touchstop_fn, function() {
+    fs.watchFile(conf.touchstop, function() {
+        console.log('STOP SERVER (cause touchstop)');
         server.close();
         process.exit();
     });

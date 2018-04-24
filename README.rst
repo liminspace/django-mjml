@@ -37,7 +37,7 @@ Installation
 **Requirements:**
 
 * Django v1.8+
-* mjml v2.0+
+* mjml v2.3+
 
 **\1\. Install** ``mjml``.
 
@@ -104,7 +104,9 @@ You can change ``MJML_EXEC_CMD`` and set path to executable ``mjml`` file, for e
 
   MJML_EXEC_CMD = '/home/user/node_modules/.bin/mjml'
 
+Also you can pass addition cmd arguments, for example::
 
+  MJML_EXEC_CMD = ['node_modules/.bin/mjml', '--config.minify', 'true', '--config.validationLevel', 'strict']
 
 **tcpserver mode**
 

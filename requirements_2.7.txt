@@ -4,8 +4,6 @@ wheel
 twine
 
 django>=1.8,<1.12
-coverage==4.3.4
-
-
-# for Py2
-# pip install -U ndg-httpsclient
+coverage==4.5.1
+six==1.11.0
+ndg-httpsclient==0.4.4
