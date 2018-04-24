@@ -37,6 +37,16 @@ def _mjml_render_by_cmd(mjml_code):
     return force_str(stdout)
 
 
+def socket_recvall(sock, n):
+    data = b''
+    while len(data) < n:
+        packet = sock.recv(n - len(data))
+        if not packet:
+            return
+        data += packet
+    return data
+
+
 def _mjml_render_by_tcpserver(mjml_code):
     if len(mjml_settings.MJML_TCPSERVERS) > 1:
         servers = list(mjml_settings.MJML_TCPSERVERS)[:]
@@ -46,23 +56,37 @@ def _mjml_render_by_tcpserver(mjml_code):
 
     mjml_code = mjml_code.encode('utf8') or ' '
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+    s.settimeout(25)
+    timeouts = 0
     for host, port in servers:
         try:
             s.connect((host, port))
+        except socket.timeout:
+            timeouts += 1
+            continue
         except socket.error:
             continue
         try:
-            s.send(mjml_code)
-            ok = force_str(s.recv(1)) == '0'
-            result_len = int(force_str(s.recv(9)))
-            result = force_str(s.recv(result_len))
+            s.sendall('{:09d}'.format(len(mjml_code)).encode('utf8'))
+            s.sendall(mjml_code)
+            ok = force_str(socket_recvall(s, 1)) == '0'
+            a = force_str(socket_recvall(s, 9))
+            result_len = int(a)
+            result = force_str(socket_recvall(s, result_len))
             if ok:
                 return result
             else:
                 raise RuntimeError('MJML compile error (via MJML TCP server): {}'.format(result))
+        except socket.timeout:
+            timeouts += 1
         finally:
             s.close()
-    raise RuntimeError('MJML compile error (via MJML TCP server): no working server')
+    raise RuntimeError(
+        ('MJML compile error (via MJML TCP server): no working server\n'
+         'Number of servers: {total}\n'
+         'Timeouts: {timeouts}').format(total=len(servers), timeouts=timeouts)
+    )
 
 
 def mjml_render(mjml_code):

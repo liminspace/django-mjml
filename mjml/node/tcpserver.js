@@ -58,29 +58,46 @@ for (var i = 0; i < argv.length; i++) {
 }
 
 function handleConnection(conn) {
+    var total_data = '',
+        header_size = 9,
+        data_size, result;
     conn.setEncoding('utf8');
     conn.on('data', function(d) {
-        var result;
-        try {
-            if (mjml_maj_ver >= 4) {
-                result = mjml(d.toString(), conf.mjml);
-            } else {
-                result = mjml.mjml2html(d.toString(), conf.mjml);
-            }
-            if (typeof result === 'object') {
-                if (result.errors.length) throw {message: JSON.stringify(result.errors, null, 2)};
-                result = result.html;
-            }
-            conn.write('0');
-        } catch (err) {
-            result = err.message;
+        total_data += d;
+        if (total_data.length < header_size) return;
+        if (data_size === undefined) data_size = parseInt(total_data.slice(0, header_size)) + header_size;
+        if (total_data.length < data_size) {
+            return;
+        } else if (total_data.length > data_size) {
+            result = 'MJML server received too many data';
             conn.write('1');
+        } else {
+            try {
+                total_data = total_data.slice(header_size).toString();
+                if (mjml_maj_ver >= 4) {
+                    result = mjml(total_data, conf.mjml);
+                } else {
+                    result = mjml.mjml2html(total_data, conf.mjml);
+                }
+                if (typeof result === 'object') {
+                    if (result.errors.length) throw {message: JSON.stringify(result.errors, null, 2)};
+                    result = result.html;
+                }
+                conn.write('0');
+            } catch (err) {
+                result = err.message;
+                conn.write('1');
+            }
         }
-        conn.write(('000000000' + Buffer.byteLength(result).toString()).slice(-9));
+        conn.write((Array(header_size + 1).join('0') + Buffer.byteLength(result).toString()).slice(-9));
         conn.write(result);
+        total_data = '';
+        data_size = undefined;
+        result = undefined;
     });
     conn.on('close', function() {});
     conn.on('error', function(err) {});
+    conn.on('end', function() {});
 }
 
 var server = net.createServer();

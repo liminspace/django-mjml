@@ -247,3 +247,26 @@ class TestMJMLTCPServer(TestCase):
                         123
                     {% endmjml %}
                 """)
+
+    def test_large_tpl(self):
+        with safe_change_mjml_settings():
+            mjml_settings.MJML_BACKEND_MODE = 'tcpserver'
+            large_text = '1 2 3 4 5 6 7 8 9 0 ' * 50 * 1000 * 33
+            html = self.render_tpl("""
+                {% mjml %}
+                    <mjml>
+                    <mj-body>
+                    <mj-container>
+                        <mj-section>
+                            <mj-column>
+                                <mj-text>{{ text }}</mj-text>
+                            </mj-column>
+                        </mj-section>
+                    </mj-container>
+                    </mj-body>
+                    </mjml>
+                {% endmjml %}
+            """, {'text': large_text})
+            self.assertIn('<html ', html)
+            self.assertIn('<body', html)
+            self.assertIn(large_text, html.replace('\n', ''))
