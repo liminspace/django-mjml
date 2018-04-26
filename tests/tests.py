@@ -248,6 +248,29 @@ class TestMJMLTCPServer(TestCase):
                     {% endmjml %}
                 """)
 
+    def test_unicode(self):
+        with safe_change_mjml_settings():
+            mjml_settings.MJML_BACKEND_MODE = 'tcpserver'
+
+            html = self.render_tpl("""
+                {% mjml %}
+                    <mjml>
+                    <mj-body>
+                    <mj-container>
+                        <mj-section>
+                            <mj-column>
+                                <mj-text>©</mj-text>
+                            </mj-column>
+                        </mj-section>
+                    </mj-container>
+                    </mj-body>
+                    </mjml>
+                {% endmjml %}
+            """)
+            self.assertIn('<html ', html)
+            self.assertIn('<body', html)
+            self.assertIn(u'©', html)
+
     def test_large_tpl(self):
         with safe_change_mjml_settings():
             mjml_settings.MJML_BACKEND_MODE = 'tcpserver'

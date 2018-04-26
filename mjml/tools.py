@@ -68,7 +68,7 @@ def _mjml_render_by_tcpserver(mjml_code):
         except socket.error:
             continue
         try:
-            s.sendall('{:09d}'.format(len(mjml_code)).encode('utf8'))
+            s.sendall('{:09d}'.format(len(mjml_code.decode('utf8'))).encode('utf8'))
             s.sendall(mjml_code)
             ok = force_str(socket_recvall(s, 1)) == '0'
             a = force_str(socket_recvall(s, 9))
