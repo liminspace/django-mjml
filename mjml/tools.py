@@ -2,8 +2,7 @@ import copy
 import socket
 import random
 import subprocess
-from six import text_type
-from django.utils.encoding import force_str, force_text
+from django.utils.encoding import force_str, force_bytes
 from . import settings as mjml_settings
 
 
@@ -24,7 +23,7 @@ def _mjml_render_by_cmd(mjml_code):
 
     try:
         p = subprocess.Popen(cmd_args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout, stderr = p.communicate(force_str(mjml_code))
+        stdout, stderr = p.communicate(force_bytes(mjml_code))
     except (IOError, OSError) as e:
         raise RuntimeError(
             'Problem to run command "{}"\n'.format(' '.join(cmd_args)) +
@@ -54,14 +53,7 @@ def _mjml_render_by_tcpserver(mjml_code):
         random.shuffle(servers)
     else:
         servers = mjml_settings.MJML_TCPSERVERS
-
-    if isinstance(mjml_code, text_type):
-        mjml_code_len = len(mjml_code)
-        mjml_code_data = '{:09d}{}'.format(mjml_code_len, force_str(mjml_code))
-    else:
-        mjml_code_len = len(force_text(mjml_code))
-        mjml_code_data = '{:09d}{}'.format(mjml_code_len, mjml_code)
-
+    mjml_code_data = force_bytes(u'{:09d}{}'.format(len(mjml_code), mjml_code))
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
     s.settimeout(25)

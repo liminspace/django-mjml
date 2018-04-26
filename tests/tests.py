@@ -8,7 +8,7 @@ from django.test import TestCase
 from django.template import Template, Context, TemplateSyntaxError
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
-from django.utils.encoding import force_text, force_str
+from django.utils.encoding import force_text, force_str, force_bytes
 from mjml.apps import check_mjml_command
 from mjml import settings as mjml_settings
 from mjml import tools
@@ -298,56 +298,6 @@ class TestMJMLTCPServer(TestCase):
                     </mjml>
                 {% endmjml %}
             """, {'text': unicode_text})
-            self.assertIn('<html ', html)
-            self.assertIn('<body', html)
-            self.assertIn(unicode_text, html)
-            self.assertIn(u'©', html)
-
-    def test_unicode_bypass(self):
-        with safe_change_mjml_settings():
-            mjml_settings.MJML_BACKEND_MODE = 'tcpserver'
-            smile = u'\u263a'
-            checkmark = u'\u2713'
-            unicode_text = smile + checkmark
-            html = tools.mjml_render(u"""
-                <mjml>
-                <mj-body>
-                <mj-container>
-                    <mj-section>
-                        <mj-column>
-                            <mj-text>{text}©</mj-text>
-                        </mj-column>
-                    </mj-section>
-                </mj-container>
-                </mj-body>
-                </mjml>
-            """.format(text=unicode_text))
-            html = force_text(html)
-            self.assertIn('<html ', html)
-            self.assertIn('<body', html)
-            self.assertIn(unicode_text, html)
-            self.assertIn(u'©', html)
-
-    def test_bytes_bypass(self):
-        with safe_change_mjml_settings():
-            mjml_settings.MJML_BACKEND_MODE = 'tcpserver'
-            smile = u'\u263a'
-            checkmark = u'\u2713'
-            unicode_text = smile + checkmark
-            html = tools.mjml_render(force_str(u"""
-                <mjml>
-                <mj-body>
-                <mj-container>
-                    <mj-section>
-                        <mj-column>
-                            <mj-text>{text}©</mj-text>
-                        </mj-column>
-                    </mj-section>
-                </mj-container>
-                </mj-body>
-                </mjml>
-            """.format(text=unicode_text)))
-            html = force_text(html)
             self.assertIn('<html ', html)
             self.assertIn('<body', html)
             self.assertIn(unicode_text, html)
