@@ -5,10 +5,10 @@ import subprocess
 import time
 from contextlib import contextmanager
 from django.test import TestCase
-from django.template import Template, Context, TemplateSyntaxError
+from django.template import Template, Context
+from django.template.exceptions import TemplateSyntaxError
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
-from django.utils.encoding import force_text, force_str, force_bytes
 from mjml.apps import check_mjml_command
 from mjml import settings as mjml_settings
 from mjml import tools
