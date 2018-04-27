@@ -2,18 +2,6 @@
  :target: https://travis-ci.org/liminspace/django-mjml
  :alt: build
 
-.. image:: https://img.shields.io/pypi/l/django-mjml.svg
- :target: https://pypi.org/project/django-mjml/
- :alt: license
-
-.. image:: https://img.shields.io/pypi/wheel/django-mjml.svg
- :target: https://pypi.org/project/django-mjml/
- :alt: wheel
-
-.. image:: https://img.shields.io/pypi/pyversions/django-mjml.svg
- :target: https://pypi.org/project/django-mjml/
- :alt: python
-
 .. image:: https://img.shields.io/pypi/v/django-mjml.svg
  :target: https://pypi.org/project/django-mjml/
  :alt: pypi
