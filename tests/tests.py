@@ -10,6 +10,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
 from mjml.apps import check_mjml_command
 from mjml import settings as mjml_settings
+from mjml import tools
 
 
 @contextmanager
@@ -25,11 +26,13 @@ def safe_change_mjml_settings():
     for k, v in mjml_settings.__dict__.items():
         if k[:5] == 'MJML_':
             settings_bak[k] = copy.deepcopy(v)
+    tools._cache.clear()
     try:
         yield
     finally:
         for k, v in settings_bak.items():
             setattr(mjml_settings, k, v)
+        tools._cache.clear()
 
 
 class TestMJMLApps(TestCase):
@@ -161,6 +164,9 @@ class TestMJMLTemplatetag(TestCase):
             """, {'var': 'test'})
 
     def test_unicode(self):
+        smile = u'\u263a'
+        checkmark = u'\u2713'
+        unicode_text = smile + checkmark
         html = self.render_tpl(u"""
             {% mjml %}
                 <mjml>
@@ -168,17 +174,19 @@ class TestMJMLTemplatetag(TestCase):
                 <mj-container>
                     <mj-section>
                         <mj-column>
-                            <mj-text>Український текст</mj-text>
+                            <mj-text>Український текст {{ text }}©</mj-text>
                         </mj-column>
                     </mj-section>
                 </mj-container>
                 </mj-body>
                 </mjml>
             {% endmjml %}
-        """)
+        """, {'text': unicode_text})
         self.assertIn('<html ', html)
         self.assertIn('<body', html)
         self.assertIn(u'Український текст', html)
+        self.assertIn(unicode_text, html)
+        self.assertIn(u'©', html)
 
 
 class TestMJMLTCPServer(TestCase):
@@ -192,7 +200,7 @@ class TestMJMLTCPServer(TestCase):
         env = os.environ.copy()
         env['NODE_PATH'] = root_dir
         for host, port in mjml_settings.MJML_TCPSERVERS:
-            p = subprocess.Popen(['node', tcpserver_path, str(port), host],
+            p = subprocess.Popen(['node', tcpserver_path, '--port={}'.format(port), '--host={}'.format(host)],
                                  stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env)
             cls.processes.append(p)
         time.sleep(5)
@@ -244,3 +252,52 @@ class TestMJMLTCPServer(TestCase):
                         123
                     {% endmjml %}
                 """)
+
+    def test_large_tpl(self):
+        with safe_change_mjml_settings():
+            mjml_settings.MJML_BACKEND_MODE = 'tcpserver'
+            html = self.render_tpl("""
+                {% mjml %}
+                    <mjml>
+                    <mj-body>
+                    <mj-container>
+                        <mj-section>
+                            <mj-column>
+                                <mj-text>{{ text }}</mj-text>
+                            </mj-column>
+                        </mj-section>
+                    </mj-container>
+                    </mj-body>
+                    </mjml>
+                {% endmjml %}
+            """, {'text': '[START]' + ('1 2 3 4 5 6 7 8 9 0 ' * 50 * 1000 * 22) + '[END]'})
+            self.assertIn('<html ', html)
+            self.assertIn('<body', html)
+            self.assertIn('[START]', html)
+            self.assertIn('[END]', html)
+
+    def test_unicode(self):
+        with safe_change_mjml_settings():
+            mjml_settings.MJML_BACKEND_MODE = 'tcpserver'
+            smile = u'\u263a'
+            checkmark = u'\u2713'
+            unicode_text = smile + checkmark
+            html = self.render_tpl("""
+                {% mjml %}
+                    <mjml>
+                    <mj-body>
+                    <mj-container>
+                        <mj-section>
+                            <mj-column>
+                                <mj-text>{{ text }}©</mj-text>
+                            </mj-column>
+                        </mj-section>
+                    </mj-container>
+                    </mj-body>
+                    </mjml>
+                {% endmjml %}
+            """, {'text': unicode_text})
+            self.assertIn('<html ', html)
+            self.assertIn('<body', html)
+            self.assertIn(unicode_text, html)
+            self.assertIn(u'©', html)

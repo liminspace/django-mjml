@@ -2,20 +2,8 @@
  :target: https://travis-ci.org/liminspace/django-mjml
  :alt: build
 
-.. image:: https://img.shields.io/pypi/l/django-mjml.svg
- :target: https://pypi.python.org/pypi/django-mjml/
- :alt: license
-
-.. image:: https://img.shields.io/pypi/wheel/django-mjml.svg
- :target: https://pypi.python.org/pypi/django-mjml/
- :alt: wheel
-
-.. image:: https://img.shields.io/pypi/pyversions/django-mjml.svg
- :target: https://pypi.python.org/pypi/django-mjml/
- :alt: python
-
 .. image:: https://img.shields.io/pypi/v/django-mjml.svg
- :target: https://pypi.python.org/pypi/django-mjml/
+ :target: https://pypi.org/project/django-mjml/
  :alt: pypi
 
 |
@@ -37,7 +25,7 @@ Installation
 **Requirements:**
 
 * Django v1.8+
-* mjml v2.0+
+* mjml v2.3+
 
 **\1\. Install** ``mjml``.
 
@@ -104,7 +92,9 @@ You can change ``MJML_EXEC_CMD`` and set path to executable ``mjml`` file, for e
 
   MJML_EXEC_CMD = '/home/user/node_modules/.bin/mjml'
 
+Also you can pass addition cmd arguments, for example::
 
+  MJML_EXEC_CMD = ['node_modules/.bin/mjml', '--config.minify', 'true', '--config.validationLevel', 'strict']
 
 **tcpserver mode**
 
@@ -138,7 +128,7 @@ For daemonize server process you can use, for example, supervisor::
   environment=NODE_PATH=/home/user/node_modules
   command=node
       /home/user/.virtualenv/default/lib/python2.7/site-packages/mjml/node/tcpserver.js
-      28101 127.0.0.1 /tmp/mjmltcpserver.stop
+      28101 127.0.0.1 /tmp/mjmltcpserver.stop --mjml.minify=true --mjml.validationLevel=strict
   stdout_logfile=/home/user/project/var/log/supervisor/mjml.log
   autostart=true
   autorestart=true

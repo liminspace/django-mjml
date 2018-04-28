@@ -5,16 +5,19 @@ from . import settings as mjml_settings
 
 
 def check_mjml_command():
-    test_mjml = '<mjml><mj-body><mj-container></mj-container></mj-body></mjml>'
-    test_result_fragment = '<html '
     try:
-        html = mjml_render(test_mjml)
-    except RuntimeError as e:
-        raise ImproperlyConfigured(e)
-    if test_result_fragment not in html:
+        html = mjml_render('<mjml><mj-body><mj-container><mj-text>MJMLv3'
+                           '</mj-text></mj-container></mj-body></mjml>')
+    except RuntimeError:
+        try:
+            html = mjml_render('<mjml><mj-body><mj-section><mj-column><mj-text>MJMLv4'
+                               '</mj-text></mj-column></mj-section></mj-body></mjml>')
+        except RuntimeError as e:
+            raise ImproperlyConfigured(e)
+    if '<html ' not in html:
         raise ImproperlyConfigured(
             'mjml command returns wrong result.\n'
-            'Check installation mjml. See https://github.com/mjmlio/mjml#installation'
+            'Check MJML is installed correctly. See https://github.com/mjmlio/mjml#installation'
         )
 
 
