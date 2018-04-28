@@ -1,6 +1,5 @@
 import os
-from distutils.core import setup
-from setuptools import find_packages
+from setuptools import setup, find_packages
 import mjml
 
 
@@ -16,6 +15,7 @@ setup(
     packages=find_packages(exclude=('tests', 'tests.*')),
     include_package_data=True,
     zip_safe=False,  # because include static
+    platforms=['OS Independent'],
     install_requires=[
         'django>=1.8,<2.1',
     ],
