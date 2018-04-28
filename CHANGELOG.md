@@ -1,4 +1,4 @@
-0.5.0 (2018-04-25)
+0.5.0 (2018-04-28)
 ==================
   * Add support MJML v4
   * Tcpserver doesn't skip mjml errors now (thanks @yourcelf)
