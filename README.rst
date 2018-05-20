@@ -115,7 +115,7 @@ You can set several servers and it will be used random one::
 
 You can run servers by commands::
 
-  # NODE_PATH=/home/user/node_modules node /home/user/.virtualenv/default/lib/python2.7/site-packages/mjml/node/tcpserver.js 28101 127.0.0.1 /tmp/mjmltcpserver.stop
+  # NODE_PATH=/home/user/node_modules node /home/user/.virtualenv/default/lib/python2.7/site-packages/mjml/node/tcpserver.js --port=28101 --host=127.0.0.1 --touchstop=/tmp/mjmltcpserver.stop
 
 ``28101`` - port, ``127.0.0.1`` - host, ``/tmp/mjmltcpserver.stop`` - file that will stop server after touch.
 
@@ -128,7 +128,7 @@ For daemonize server process you can use, for example, supervisor::
   environment=NODE_PATH=/home/user/node_modules
   command=node
       /home/user/.virtualenv/default/lib/python2.7/site-packages/mjml/node/tcpserver.js
-      28101 127.0.0.1 /tmp/mjmltcpserver.stop --mjml.minify=true --mjml.validationLevel=strict
+      --port=28101 --host=127.0.0.1 --touchstop=/tmp/mjmltcpserver.stop --mjml.minify=true --mjml.validationLevel=strict
   stdout_logfile=/home/user/project/var/log/supervisor/mjml.log
   autostart=true
   autorestart=true
