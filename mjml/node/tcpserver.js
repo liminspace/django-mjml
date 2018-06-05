@@ -1,5 +1,9 @@
 'use strict';
 
+process.on('SIGINT', function() {
+    process.exit();
+});
+
 var mjml = require('mjml'),
     mjml_maj_ver = parseInt(require('mjml/package.json').version.split('.')[0]),
     net = require('net'),
