@@ -1,9 +1,15 @@
+0.5.1 (2018-06-05)
+==================
+  * Add stopping tcpserver on SIGINT
+
+
 0.5.0 (2018-04-28)
 ==================
   * Add support MJML v4
   * Tcpserver doesn't skip mjml errors now (thanks @yourcelf)
   * Refactor arguments in tcpserver
   * Fix incomplete sending data via socket (thanks @cavanierc)
+
 
 0.4.0 (2018-01-10)
 ==================
