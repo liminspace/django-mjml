@@ -3,7 +3,7 @@ setuptools==39.2.0
 wheel==0.31.1
 twine==1.11.0
 
-django>=1.8,<1.12
+django==2.0.6
 coverage==4.5.1
 six==1.11.0
 ndg-httpsclient==0.4.4
