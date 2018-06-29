@@ -52,8 +52,8 @@ matrix:
 
 before_install:
   - . $HOME/.nvm/nvm.sh
-  - nvm install stable
-  - nvm use stable
+  - nvm install 8
+  - nvm use 8
 
 install:
   - npm install mjml@$MJML_VERSION
