@@ -3,6 +3,7 @@
   * Added supporting MJML v4.1.0
   * Added .pyup.yaml
   * Updated tests
+  * Added dockerfile
 
 
 0.5.1 (2018-06-05)
