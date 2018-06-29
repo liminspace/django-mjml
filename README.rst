@@ -136,3 +136,23 @@ For daemonize server process you can use, for example, supervisor::
   stopwaitsecs=10
   stopsignal=INT
 
+Or you can use docker-compose::
+
+  services:
+    mjml-1:
+      image: liminspace/liminspace/mjml-tcpserver:latest
+      restart: always
+      ports:
+      - "28101:28101"
+
+    mjml-2:
+      image: liminspace/liminspace/mjml-tcpserver:latest
+      restart: always
+      environment:
+        HOST: "0.0.0.0"
+        PORT: "28102"
+        MJML_ARGS: "--mjml.minify=true --mjml.validationLevel=strict"
+      expose:
+        - "28102"
+      ports:
+        - "28101:28101"
