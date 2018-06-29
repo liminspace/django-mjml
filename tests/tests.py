@@ -59,6 +59,8 @@ class TestMJMLApps(TestCase):
 
 class TestMJMLTemplatetag(TestCase):
     def render_tpl(self, tpl, context=None):
+        if get_mjml_version() >= 4:
+            tpl = tpl.replace('<mj-container>', '').replace('</mj-container>', '')
         return Template('{% load mjml %}' + tpl).render(Context(context))
 
     def test_simple(self):
