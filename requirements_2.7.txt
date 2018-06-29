@@ -1,7 +1,7 @@
 pip
 setuptools
 wheel
-twine
+twine==1.11.0
 
 django>=1.8,<1.12
 coverage==4.5.1
