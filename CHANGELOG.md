@@ -1,3 +1,10 @@
+0.5.2 (2018-06-29)
+==================
+  * Added supporting MJML v4.1.0
+  * Added .pyup.yaml
+  * Updated tests
+
+
 0.5.1 (2018-06-05)
 ==================
   * Add stopping tcpserver on SIGINT
