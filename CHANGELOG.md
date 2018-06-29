@@ -3,7 +3,8 @@
   * Added supporting MJML v4.1.0
   * Added .pyup.yaml
   * Updated tests
-  * Added dockerfile
+  * Added dockerfile for tcpserver
+  * Remove mjml 3.0.2, 3.1.1 and 3.2.2 from tests
 
 
 0.5.1 (2018-06-05)
