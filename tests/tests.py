@@ -35,6 +35,16 @@ def safe_change_mjml_settings():
         tools._cache.clear()
 
 
+def get_mjml_version():
+    env_ver = os.environ.get('MJML_VERSION', None)
+    if env_ver:
+        try:
+            return int(env_ver.split('.')[0])
+        except (ValueError, TypeError, IndexError):
+            pass
+    return settings.DEFAULT_MJML_VERSION
+
+
 class TestMJMLApps(TestCase):
     def test_check_mjml_command(self):
         with safe_change_mjml_settings():
@@ -213,6 +223,8 @@ class TestMJMLTCPServer(TestCase):
             p.terminate()
 
     def render_tpl(self, tpl, context=None):
+        if get_mjml_version() >= 4:
+            tpl = tpl.replace('<mj-container>', '').replace('</mj-container>', '')
         return Template('{% load mjml %}' + tpl).render(Context(context))
 
     def test_simple(self):
