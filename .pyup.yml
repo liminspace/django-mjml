@@ -1,0 +1,11 @@
+branch: develop
+schedule: "every day"
+search: False
+
+requirements:
+  - requirements.txt:
+      update: all
+      pin: True
+  - requirements_2.7.txt:
+      update: insecure
+      pin: True
