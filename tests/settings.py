@@ -56,3 +56,5 @@ MJML_TCPSERVERS = (
     ('127.0.0.1', 28102),
     ('127.0.0.1', 28103),
 )
+
+DEFAULT_MJML_VERSION = 4
