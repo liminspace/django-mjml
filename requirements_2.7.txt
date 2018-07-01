@@ -1,5 +1,5 @@
 pip
-setuptools
+setuptools==39.2.0
 wheel
 twine
 
