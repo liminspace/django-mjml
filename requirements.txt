@@ -1,6 +1,6 @@
 pip==10.0.1
 setuptools==39.2.0
-wheel
+wheel==0.31.1
 twine
 
 django>=1.8,<2.1
