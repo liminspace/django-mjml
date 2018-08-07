@@ -1,8 +1,8 @@
-pip==10.0.1
-setuptools
+pip==18.0
+setuptools==40.0.0
 wheel==0.31.1
-twine
+twine==1.11.0
 
-django>=1.8,<2.1
+django>=1.8,<2.2
 coverage==4.5.1
 six==1.11.0

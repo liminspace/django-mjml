@@ -1,5 +1,5 @@
 branch: develop
-schedule: "every day"
+schedule: "every week on wednesday"
 search: False
 
 requirements:

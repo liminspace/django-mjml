@@ -1,3 +1,9 @@
+0.5.3 (2018-08-07)
+==================
+  * Added supporting MJML v4.1.2
+  * Added supporting Django v2.1
+  
+
 0.5.2 (2018-06-29)
 ==================
   * Added supporting MJML v4.1.0
