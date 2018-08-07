@@ -3,6 +3,6 @@ setuptools==40.0.0
 wheel==0.31.1
 twine==1.11.0
 
-django>=1.8,<2.1
+django>=1.8,<2.2
 coverage==4.5.1
 six==1.11.0

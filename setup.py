@@ -17,7 +17,7 @@ setup(
     zip_safe=False,  # because include static
     platforms=['OS Independent'],
     install_requires=[
-        'django>=1.8,<2.1',
+        'django>=1.8,<2.2',
     ],
     keywords=[
         'django', 'mjml', 'django-mjml', 'email', 'layout', 'template', 'templatetag',
