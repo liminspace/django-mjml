@@ -2,6 +2,8 @@ import copy
 import socket
 import random
 import subprocess
+import tempfile
+
 from django.utils.encoding import force_str, force_bytes
 from . import settings as mjml_settings
 
@@ -21,8 +23,10 @@ def _mjml_render_by_cmd(mjml_code):
     else:
         cmd_args = _cache['cmd_args']
 
+    temp = tempfile.TemporaryFile()
+
     try:
-        p = subprocess.Popen(cmd_args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.Popen(cmd_args, stdin=subprocess.PIPE, stdout=temp, stderr=subprocess.PIPE)
         stdout, stderr = p.communicate(force_bytes(mjml_code))
     except (IOError, OSError) as e:
         raise RuntimeError(
@@ -34,7 +38,11 @@ def _mjml_render_by_cmd(mjml_code):
     if stderr:
         raise RuntimeError('MJML stderr is not empty: {}.'.format(force_str(stderr)))
 
-    return force_str(stdout)
+    temp.seek(0)
+    output = temp.read()
+    temp.close()
+
+    return force_str(output)
 
 
 def socket_recvall(sock, n):
