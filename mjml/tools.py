@@ -2,6 +2,7 @@ import copy
 import socket
 import random
 import subprocess
+import tempfile
 from django.utils.encoding import force_str, force_bytes
 from . import settings as mjml_settings
 
@@ -21,16 +22,20 @@ def _mjml_render_by_cmd(mjml_code):
     else:
         cmd_args = _cache['cmd_args']
 
-    try:
-        p = subprocess.Popen(cmd_args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout, stderr = p.communicate(force_bytes(mjml_code))
-    except (IOError, OSError) as e:
-        raise RuntimeError(
-            'Problem to run command "{}"\n'.format(' '.join(cmd_args)) +
-            '{}\n'.format(e) +
-            'Check that mjml is installed and allow permissions for execute.\n' +
-            'See https://github.com/mjmlio/mjml#installation'
-        )
+    with tempfile.SpooledTemporaryFile(max_size=(5 * 1024 * 1024)) as stdout_tmp_f:
+        try:
+            p = subprocess.Popen(cmd_args, stdin=subprocess.PIPE, stdout=stdout_tmp_f, stderr=subprocess.PIPE)
+            stderr = p.communicate(force_bytes(mjml_code))[1]
+        except (IOError, OSError) as e:
+            raise RuntimeError(
+                'Problem to run command "{}"\n'.format(' '.join(cmd_args)) +
+                '{}\n'.format(e) +
+                'Check that mjml is installed and allow permissions for execute.\n' +
+                'See https://github.com/mjmlio/mjml#installation'
+            )
+        stdout_tmp_f.seek(0)
+        stdout = stdout_tmp_f.read()
+
     if stderr:
         raise RuntimeError('MJML stderr is not empty: {}.'.format(force_str(stderr)))
 
