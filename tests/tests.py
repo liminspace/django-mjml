@@ -201,6 +201,36 @@ class TestMJMLTemplatetag(TestCase):
         self.assertIn(u'©', html)
 
 
+class TestMJMLCMDMode(TestCase):
+    def render_tpl(self, tpl, context=None):
+        if get_mjml_version() >= 4:
+            tpl = tpl.replace('<mj-container>', '').replace('</mj-container>', '')
+        return Template('{% load mjml %}' + tpl).render(Context(context))
+
+    def test_big_email(self):
+        big_text = u'Big text. ' * 500 * 1024  # 5 120 000 symbols
+        html = self.render_tpl(u"""
+            {% mjml %}
+                <mjml>
+                <mj-body>
+                <mj-container>
+                    <mj-section>
+                        <mj-column>
+                            <mj-text>{{ big_text }}</mj-text>
+                        </mj-column>
+                    </mj-section>
+                </mj-container>
+                </mj-body>
+                </mjml>
+            {% endmjml %}
+        """, {'big_text': big_text})
+        self.assertIn('<html ', html)
+        self.assertIn('<body', html)
+        self.assertIn('Big text. ', html)
+        self.assertIn('</body>', html)
+        self.assertIn('</html>', html)
+
+
 class TestMJMLTCPServer(TestCase):
     processes = []
 
