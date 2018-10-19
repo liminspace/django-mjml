@@ -1,3 +1,8 @@
+0.5.4 (2018-10-19)
+==================
+  * Fixed Popen PIPE subprocess deadlock by using TemporaryFile for stdout
+
+
 0.5.3 (2018-08-07)
 ==================
   * Added supporting MJML v4.1.2
