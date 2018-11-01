@@ -1,7 +1,15 @@
 'use strict';
 
 process.on('SIGINT', function() {
-    process.exit();
+    server.close(function () {
+        process.exit(0);
+    });
+});
+
+process.on('SIGTERM', function() {
+    server.close(function () {
+        process.exit(0);
+    });
 });
 
 var mjml = require('mjml'),
