@@ -1,9 +1,0 @@
-pip==18.1
-setuptools==40.4.3
-wheel==0.32.1
-twine==1.12.1
-
-django<1.12
-coverage==4.5.1
-six==1.11.0
-ndg-httpsclient==0.5.1
