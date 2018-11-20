@@ -3,6 +3,8 @@ from django.conf import settings
 MJML_BACKEND_MODE = getattr(settings, 'MJML_BACKEND_MODE', 'cmd')
 assert MJML_BACKEND_MODE in ('cmd', 'tcpserver')
 
+MJML_SKIP_CMD_CHECK = False
+
 # cmd backend mode configs
 MJML_EXEC_CMD = getattr(settings, 'MJML_EXEC_CMD', 'mjml')
 

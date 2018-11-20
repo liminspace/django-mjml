@@ -26,5 +26,5 @@ class MJMLConfig(AppConfig):
     verbose_name = 'Use MJML in Django templates'
 
     def ready(self):
-        if mjml_settings.MJML_BACKEND_MODE == 'cmd':
+        if mjml_settings.MJML_BACKEND_MODE == 'cmd' and not mjml_settings.MJML_SKIP_CMD_CHECK:
             check_mjml_command()
