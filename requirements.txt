@@ -3,7 +3,7 @@ setuptools==40.6.2
 wheel==0.32.3
 twine==1.12.1
 
-django<1.12; python_version < "3"
+django==2.1.4; python_version < "3"
 django>=1.8,<2.2; python_version >= "3"
 coverage==4.5.2
 six==1.11.0
