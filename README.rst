@@ -40,7 +40,7 @@ See https://github.com/mjmlio/mjml#installation and https://mjml.io/documentatio
 * Via setuptools::
 
   $ easy_install django-mjml
-  
+
 
  For install development version use ``git+https://github.com/liminspace/django-mjml.git@develop`` instead ``django-mjml``.
 
@@ -59,7 +59,7 @@ Usage
 Load ``mjml`` in your django template and use ``mjml`` tag that will compile mjml to html::
 
   {% load mjml %}
-  
+
   {% mjml %}
       <mjml>
       <mj-body>
@@ -95,6 +95,10 @@ You can change ``MJML_EXEC_CMD`` and set path to executable ``mjml`` file, for e
 Also you can pass addition cmd arguments, for example::
 
   MJML_EXEC_CMD = ['node_modules/.bin/mjml', '--config.minify', 'true', '--config.validationLevel', 'strict']
+
+Once you have a working installation, you can skip the sanity check on startup to speed things up::
+
+  MJML_CHECK_CMD_ON_STARTUP = False
 
 **tcpserver mode**
 

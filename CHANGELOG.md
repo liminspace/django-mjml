@@ -1,3 +1,9 @@
+0.5.5 (2018-12-)
+==================
+  * Added `MJML_CHECK_CMD_ON_STARTUP` setting (thanks to Marcel Chastain)
+  * Added Python 3.7 in tests
+  * Added MJML v.4.2.1 in tests
+
 0.5.4 (2018-10-19)
 ==================
   * Fixed Popen PIPE subprocess deadlock by using TemporaryFile for stdout
