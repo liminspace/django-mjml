@@ -5,6 +5,7 @@ assert MJML_BACKEND_MODE in ('cmd', 'tcpserver')
 
 # cmd backend mode configs
 MJML_EXEC_CMD = getattr(settings, 'MJML_EXEC_CMD', 'mjml')
+MJML_CHECK_CMD_ON_STARTUP = getattr(settings, 'MJML_CHECK_CMD_ON_STARTUP', True)
 
 # tcpserver backend mode configs
 MJML_TCPSERVERS = getattr(settings, 'MJML_TCPSERVERS', [('127.0.0.1', 28101)])
