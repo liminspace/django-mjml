@@ -1,4 +1,4 @@
-0.6.0 (2018-12-)
+0.6.0 (2018-12-06)
 ==================
   * Added `MJML_CHECK_CMD_ON_STARTUP` setting (thanks to Marcel Chastain)
   * Added Python 3.7 in tests
