@@ -1,5 +1,5 @@
 pip==18.1
-setuptools==40.6.2
+setuptools==40.6.3
 wheel==0.32.3
 twine==1.12.1
 
