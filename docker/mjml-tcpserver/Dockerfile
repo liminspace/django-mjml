@@ -15,4 +15,4 @@ ENV MJML_ARGS="--mjml.minify=true --mjml.validationLevel=strict"
 
 EXPOSE 28101
 
-ENTRYPOINT ["/bin/sh", "-c", "node tcpserver.js $MJML_ARGS --host=$HOST --port=$PORT"]
+ENTRYPOINT ["/bin/sh", "-c", "exec node tcpserver.js $MJML_ARGS --host=$HOST --port=$PORT"]
