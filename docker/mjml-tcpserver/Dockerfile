@@ -1,6 +1,6 @@
 FROM node:8-stretch
 
-ARG MJML_VERSION=4.3.0
+ARG MJML_VERSION=4.3.1
 ARG APP_DIR=/app
 
 RUN npm install mjml@${MJML_VERSION}

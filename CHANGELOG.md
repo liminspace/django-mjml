@@ -1,9 +1,9 @@
 0.7.0 (2019-01-XX)
 ==================
   * Removed MJML 4.0.5, 4.1.2 and 4.2.1 from tests
-  * Added MJML 4.3.0 in tests
+  * Added MJML 4.3.1 in tests
   * Updated tcp-server adding cleanly termination
-  * Upgraded MJML to 4.3.0 in dockerfile
+  * Upgraded MJML to 4.3.1 in dockerfile
   * Updated dockerfile by using `exec`
 
 
