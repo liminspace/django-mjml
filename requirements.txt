@@ -4,7 +4,7 @@ wheel==0.33.1
 twine==1.13.0
 
 django==2.2; python_version < "3"
-django>=1.8,<2.2; python_version >= "3"
+django==2.2; python_version >= "3"
 coverage==4.5.2
 six==1.11.0
 ndg-httpsclient==0.5.1; python_version < "3"
