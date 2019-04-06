@@ -1,20 +1,35 @@
 'use strict';
 
-process.on('SIGINT', function() {
-    process.exit();
-});
-
 var mjml = require('mjml'),
     mjml_maj_ver = parseInt(require('mjml/package.json').version.split('.')[0]),
     net = require('net'),
     fs = require('fs'),
     argv = process.argv.slice(2),
+    server = null,
     conf = {
         host: '127.0.0.1',
         port: '28101',
         touchstop: null,
         mjml: {}
     };
+
+function terminate(exit_code) {
+    if (server && server.listening) {
+        server.close(function () {
+            process.exit(exit_code);
+        });
+    } else {
+        process.exit(exit_code);
+    }
+}
+
+process.on('SIGINT', function() {
+    terminate(0);
+});
+
+process.on('SIGTERM', function() {
+    terminate(0);
+});
 
 for (var i = 0; i < argv.length; i++) {
     var kv, key, val,
@@ -37,7 +52,7 @@ for (var i = 0; i < argv.length; i++) {
                             '--port=28101 --host=127.0.0.1 --touchstop=/tmp/mjmltcpserver.stop ' +
                             '--mjml.disableMinify=false --mjml.level=soft');
             }
-            process.exit();
+            terminate(0);
         }
         kv = arg.split('=', 2);
         key = kv[0];
@@ -57,7 +72,7 @@ for (var i = 0; i < argv.length; i++) {
         }
     } catch (err) {
         console.log('Invalid parsing arg "%s": %s', argv[i], err.message);
-        process.exit(1);
+        terminate(1);
     }
 }
 
@@ -104,7 +119,7 @@ function handleConnection(conn) {
     conn.on('end', function() {});
 }
 
-var server = net.createServer();
+server = net.createServer();
 server.on('connection', handleConnection);
 server.listen(conf.port, conf.host, function () {
     console.log('RUN SERVER %s:%s', conf.host, conf.port);
@@ -119,7 +134,6 @@ if (conf.touchstop) {
 
     fs.watchFile(conf.touchstop, function() {
         console.log('STOP SERVER (cause touchstop)');
-        server.close();
-        process.exit();
+        terminate(0);
     });
 }

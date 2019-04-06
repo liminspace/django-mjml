@@ -1,3 +1,13 @@
+0.7.0 (2019-04-06)
+==================
+  * Removed MJML 4.0.5, 4.1.2 and 4.2.1 from tests
+  * Added MJML 4.3.1 in tests
+  * Updated tcp-server adding cleanly termination
+  * Upgraded MJML to 4.3.1 in dockerfile
+  * Updated dockerfile by using `exec`
+  * Added supporting Django v2.2
+
+
 0.6.0 (2018-12-06)
 ==================
   * Added `MJML_CHECK_CMD_ON_STARTUP` setting (thanks to Marcel Chastain)
@@ -5,6 +15,7 @@
   * Added MJML v.4.2.1 in tests
   * Removed MJML v.2.3.3 from tests
   * Updated MJML to 4.2.1 in docker
+
 
 0.5.4 (2018-10-19)
 ==================
