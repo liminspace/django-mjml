@@ -325,7 +325,8 @@ class TestMJMLTCPServer(TestCase):
             mjml_settings.MJML_BACKEND_MODE = 'tcpserver'
             smile = u'\u263a'
             checkmark = u'\u2713'
-            unicode_text = smile + checkmark
+            candy = u'\U0001f36d'  # b'\xf0\x9f\x8d\xad'.decode('utf-8')
+            unicode_text = smile + checkmark + candy
             html = self.render_tpl("""
                 {% mjml %}
                     <mjml>
