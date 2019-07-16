@@ -106,7 +106,7 @@ def _mjml_render_by_http(mjml_code):
             mjml_settings.MJML_HTTP_BASIC_AUTH_PASSWORD,
         )
 
-    res = requests.post(url, auth=auth, data=mjml_code)
+    res = requests.post(url, auth=auth, data=mjml_code.encode('utf-8'))
     data = res.json()
     if res.status_code != 200:
         msg = (
@@ -117,7 +117,7 @@ def _mjml_render_by_http(mjml_code):
 
     if data['errors']:
         msg = 'MJML HTTP server returned errors after compilation data={}'.format(data)
-        raise RuntimeError('MJML  (via MJML HTTP server): {}'.format(data))
+        raise RuntimeError('MJML  (via MJML HTTP server): {}'.format(data['errors']))
 
     return force_str(data['html'])
 

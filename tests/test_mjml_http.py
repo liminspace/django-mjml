@@ -77,6 +77,28 @@ class TestMJMLHTTPServer(TestCase):
         expected_auth = HTTPBasicAuth('foo', 'bar')
         self.assertEqual(kwargs["auth"], expected_auth)
 
+    @patch.object(requests, "post", wraps=requests.post)
+    def test_unicode(self, post):
+        tpl = '''
+        {% mjml %}
+          <mjml>
+            <mj-body>
+                <mj-container>
+                    <mj-section>
+                        <mj-column>
+                            <mj-text>
+                                🇪🇺EU-only
+                            </mj-text>
+                        </mj-column>
+                    </mj-section>
+                </mj-container>
+            </mj-body>
+          </mjml>
+        {% endmjml %}
+        '''
+        html = render_tpl(tpl)
+        self.assertIn("🇪🇺EU-only", html)
+
 
 def valid_tpl():
     return """
@@ -89,7 +111,6 @@ def valid_tpl():
                             <mj-button>Test button</mj-button>
                         </mj-column>
                     </mj-section>
-
                 </mj-container>
             </mj-body>
           </mjml>
