@@ -57,7 +57,7 @@ before_install:
   - nvm use 8
 
 install:
-  - npm install mjml@$MJML_VERSION
+  - npm install mjml@$MJML_VERSION mjml-http-server
   - node_modules/.bin/mjml --version
   - pip install "Django$DJANGO_VERSION"
 

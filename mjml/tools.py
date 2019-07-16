@@ -3,6 +3,9 @@ import socket
 import random
 import subprocess
 import tempfile
+import requests
+
+from requests.auth import HTTPBasicAuth
 from django.utils.encoding import force_str, force_bytes
 from . import settings as mjml_settings
 
@@ -93,9 +96,37 @@ def _mjml_render_by_tcpserver(mjml_code):
     )
 
 
+def _mjml_render_by_http(mjml_code):
+    url = "{}/v1/render".format(mjml_settings.MJML_HTTP_SERVER)
+
+    auth = None
+    if mjml_settings.MJML_HTTP_BASIC_AUTH_USERNAME:
+        auth = HTTPBasicAuth(
+            mjml_settings.MJML_HTTP_BASIC_AUTH_USERNAME,
+            mjml_settings.MJML_HTTP_BASIC_AUTH_PASSWORD,
+        )
+
+    res = requests.post(url, auth=auth, data=mjml_code)
+    data = res.json()
+    if res.status_code != 200:
+        msg = (
+            'MJML HTTP server returned an unexpected status code={status_code} '
+            'data={data}'
+        ).format(status_code=res.status_code, data=data)
+        raise RuntimeError(msg)
+
+    if data['errors']:
+        msg = 'MJML HTTP server returned errors after compilation data={}'.format(data)
+        raise RuntimeError('MJML  (via MJML HTTP server): {}'.format(data))
+
+    return force_str(data['html'])
+
+
 def mjml_render(mjml_code):
     if mjml_settings.MJML_BACKEND_MODE == 'cmd':
         return _mjml_render_by_cmd(mjml_code)
     elif mjml_settings.MJML_BACKEND_MODE == 'tcpserver':
         return _mjml_render_by_tcpserver(mjml_code)
+    elif mjml_settings.MJML_BACKEND_MODE == 'httpserver':
+        return _mjml_render_by_http(mjml_code)
     raise RuntimeError('Invalid settings.MJML_BACKEND_MODE "{}"'.format(mjml_settings.MJML_BACKEND_MODE))
