@@ -58,7 +58,8 @@ def _mjml_render_by_tcpserver(mjml_code):
         random.shuffle(servers)
     else:
         servers = mjml_settings.MJML_TCPSERVERS
-    mjml_code_data = force_bytes(u'{:09d}{}'.format(len(mjml_code), mjml_code))
+    mjml_code_data = force_bytes(mjml_code)
+    mjml_code_data = force_bytes('{:09d}'.format(len(mjml_code_data))) + mjml_code_data
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
     s.settimeout(25)

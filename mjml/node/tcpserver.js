@@ -79,15 +79,16 @@ for (var i = 0; i < argv.length; i++) {
 function handleConnection(conn) {
     var total_data = '',
         header_size = 9,
-        data_size, result;
+        total_data_size, data_size, result;
     conn.setEncoding('utf8');
     conn.on('data', function(d) {
         total_data += d;
+        total_data_size = Buffer.byteLength(total_data);
         if (total_data.length < header_size) return;
         if (data_size === undefined) data_size = parseInt(total_data.slice(0, header_size)) + header_size;
-        if (total_data.length < data_size) {
+        if (total_data_size < data_size) {
             return;
-        } else if (total_data.length > data_size) {
+        } else if (total_data_size > data_size) {
             result = 'MJML server received too many data';
             conn.write('1');
         } else {
