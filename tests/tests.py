@@ -230,6 +230,31 @@ class TestMJMLCMDMode(TestCase):
         self.assertIn('</body>', html)
         self.assertIn('</html>', html)
 
+    def test_unicode(self):
+        smile = u'\u263a'
+        checkmark = u'\u2713'
+        candy = u'\U0001f36d'  # b'\xf0\x9f\x8d\xad'.decode('utf-8')
+        unicode_text = smile + checkmark + candy
+        html = self.render_tpl("""
+            {% mjml %}
+                <mjml>
+                <mj-body>
+                <mj-container>
+                    <mj-section>
+                        <mj-column>
+                            <mj-text>{{ text }}©</mj-text>
+                        </mj-column>
+                    </mj-section>
+                </mj-container>
+                </mj-body>
+                </mjml>
+            {% endmjml %}
+        """, {'text': unicode_text})
+        self.assertIn('<html ', html)
+        self.assertIn('<body', html)
+        self.assertIn(unicode_text, html)
+        self.assertIn(u'©', html)
+
 
 class TestMJMLTCPServer(TestCase):
     processes = []
