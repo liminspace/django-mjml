@@ -1,3 +1,10 @@
+0.8.0 (2019-07-29)
+==================
+  * Fixed a trouble with unicode
+  * Added MJML 4.4.0 in tests
+  * Upgraded MJML to 4.4.0 in dockerfile
+
+
 0.7.0 (2019-04-06)
 ==================
   * Removed MJML 4.0.5, 4.1.2 and 4.2.1 from tests
@@ -14,7 +21,7 @@
   * Added Python 3.7 in tests
   * Added MJML v.4.2.1 in tests
   * Removed MJML v.2.3.3 from tests
-  * Updated MJML to 4.2.1 in docker
+  * Updated MJML to 4.2.1 in dockerfile
 
 
 0.5.4 (2018-10-19)
