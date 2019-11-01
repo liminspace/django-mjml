@@ -1,4 +1,4 @@
-wheel==0.33.4
+wheel==0.33.6
 twine==1.13.0
 
 django<1.12; python_version < "3"
