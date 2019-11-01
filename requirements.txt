@@ -1,5 +1,5 @@
 wheel==0.33.6
-twine==1.13.0
+twine==2.0.0
 
 django<1.12; python_version < "3"
 django>=1.8,<2.3; python_version >= "3"
