@@ -146,12 +146,8 @@ Or you can use docker-compose::
     mjml-1:
       image: liminspace/mjml-tcpserver:latest
       restart: always
-      ports:
-        - "28101:28101"
 
     mjml-2:
       image: liminspace/mjml-tcpserver:latest
       restart: always
-      ports:
-        - "28102:28101"
 
