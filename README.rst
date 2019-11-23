@@ -152,12 +152,6 @@ Or you can use docker-compose::
     mjml-2:
       image: liminspace/mjml-tcpserver:latest
       restart: always
-      environment:
-        HOST: "0.0.0.0"
-        PORT: "28102"
-        MJML_ARGS: "--mjml.minify=true --mjml.validationLevel=strict"
-      expose:
-        - "28102"
       ports:
-        - "28102:28102"
+        - "28102:28101"
 
