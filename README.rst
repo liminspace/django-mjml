@@ -25,6 +25,7 @@ Installation
 **Requirements:**
 
 * Django v1.8+
+* requests v2.19.0+
 * mjml v2.3+ (under node v8)
 
 **\1\. Install** ``mjml``.

@@ -1,3 +1,4 @@
+# coding=utf-8
 import os
 import sys
 import subprocess
@@ -13,9 +14,9 @@ COMMANDS_INFO = {
 
 
 def testmanage(*args):
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tests.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "testprj.settings")
     sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-    sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tests'))
+    sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'testprj'))
     from django.core.management import execute_from_command_line
     execute_from_command_line(['manage.py'] + list(args))
 
