@@ -1,5 +1,6 @@
+from __future__ import absolute_import
 from django import template
-from ..tools import mjml_render
+from mjml.tools import mjml_render
 
 
 register = template.Library()
