@@ -1,3 +1,15 @@
+0.9.0 (2019-12-24)
+==================
+  * Added supporting Django v3.0
+  * Added supporting render http-server (including official MJML API https://mjml.io/api)
+  * Added Python 3.8 in tests
+  * Added MJML 4.5.1 in tests
+  * Upgraded MJML to 4.5.1 in dockerfile
+  * Upgraded Node to v12 for tcp-server
+  * Reorganized tests
+  * Updated docs
+
+
 0.8.0 (2019-07-29)
 ==================
   * Fixed a trouble with unicode

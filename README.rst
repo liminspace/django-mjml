@@ -24,25 +24,23 @@ Installation
 
 **Requirements:**
 
-* Django v1.8+
-* mjml v2.3+ (under node v8)
+* Django from 1.8 to 3.0
+* requests from 2.19.0 (only if you are going to use API HTTP-server for rendering)
+* mjml from 2.3 to 4.5.1
 
 **\1\. Install** ``mjml``.
 
 See https://github.com/mjmlio/mjml#installation and https://mjml.io/documentation/#installation
 
-**\2\. Install** ``django-mjml``.
-
-* Via pip::
+**\2\. Install** ``django-mjml``. ::
 
   $ pip install django-mjml
 
-* Via setuptools::
+To install development version use ``git+https://github.com/liminspace/django-mjml.git@develop`` instead ``django-mjml``.
 
-  $ easy_install django-mjml
+If you want to use API HTTP-server, install ``requests``::
 
-
- For install development version use ``git+https://github.com/liminspace/django-mjml.git@develop`` instead ``django-mjml``.
+  $ pip install requests
 
 **\3\. Set up** ``settings.py`` **in your django project.** ::
 
@@ -56,7 +54,7 @@ See https://github.com/mjmlio/mjml#installation and https://mjml.io/documentatio
 Usage
 -----
 
-Load ``mjml`` in your django template and use ``mjml`` tag that will compile mjml to html::
+Load ``mjml`` in your django template and use ``mjml`` tag that will compile MJML to HTML::
 
   {% load mjml %}
 
@@ -79,7 +77,7 @@ Load ``mjml`` in your django template and use ``mjml`` tag that will compile mjm
 Advanced settings
 -----------------
 
-There are two backend modes for compiling: ``cmd`` and ``tcpserver``.
+There are two backend modes for compiling: ``cmd``, ``tcpserver`` and ``httpserver``.
 
 **cmd mode**
 
@@ -102,14 +100,14 @@ Once you have a working installation, you can skip the sanity check on startup t
 
 **tcpserver mode**
 
-This mode is faster than ``cmd`` but it needs run a server process in background. ::
+This mode is faster than ``cmd`` but it needs run a separated server process which will render templates. ::
 
   MJML_BACKEND_MODE = 'tcpserver'
   MJML_TCPSERVERS = [
       ('127.0.0.1', 28101),  # host and port
   ]
 
-You can set several servers and it will be used random one::
+You can set several servers and a random one will be used::
 
   MJML_TCPSERVERS = [
       ('127.0.0.1', 28101),
@@ -161,3 +159,23 @@ Or you can use docker-compose::
       ports:
         - "28102:28102"
 
+
+**httpserver mode**
+
+  don't forget to install ``requests`` to use this mode.
+
+This mode is faster than ``cmd`` and similar to ``tcpserver`` but you can use official MJML API https://mjml.io/api
+or run your own HTTP-server (for example https://github.com/danihodovic/mjml-server) to render templates. ::
+
+  MJML_BACKEND_MODE = 'httpserver'
+  MJML_HTTPSERVERS = [
+      {
+          'URL': 'https://api.mjml.io/v1/render',  # official MJML API
+          'HTTP_AUTH': ('<Application ID>', '<Secret Key>'),
+      },
+      {
+          'URL': 'http://127.0.0.1:38101/v1/render',  # your own HTTP-server
+      },
+  ]
+
+You can set one or more servers and a random one will be used.
