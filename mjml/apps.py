@@ -1,7 +1,8 @@
+from __future__ import absolute_import
 from django.apps import AppConfig
 from django.core.exceptions import ImproperlyConfigured
-from .tools import mjml_render
-from . import settings as mjml_settings
+from mjml.tools import mjml_render
+from mjml import settings as mjml_settings
 
 
 def check_mjml_command():

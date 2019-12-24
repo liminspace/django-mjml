@@ -9,14 +9,14 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = (
     'mjml',
-    'tests',
+    'testprj',
 )
 
 MIDDLEWARE_CLASSES = ()
 
-ROOT_URLCONF = 'tests.urls'
+ROOT_URLCONF = 'testprj.urls'
 
-WSGI_APPLICATION = 'tests.wsgi.application'
+WSGI_APPLICATION = 'testprj.wsgi.application'
 
 DATABASES = {
     'default': {
@@ -55,6 +55,14 @@ MJML_TCPSERVERS = (
     ('127.0.0.1', 28101),
     ('127.0.0.1', 28102),
     ('127.0.0.1', 28103),
+)
+MJML_HTTPSERVERS = (
+    {
+        'URL': 'http://127.0.0.1:38101/v1/render',
+    },
+    {
+        'URL': 'http://127.0.0.1:38102/v1/render',
+    },
 )
 
 DEFAULT_MJML_VERSION = 4
