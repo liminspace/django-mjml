@@ -77,7 +77,7 @@ Load ``mjml`` in your django template and use ``mjml`` tag that will compile MJM
 Advanced settings
 -----------------
 
-There are two backend modes for compiling: ``cmd``, ``tcpserver`` and ``httpserver``.
+There are three backend modes for compiling: ``cmd``, ``tcpserver`` and ``httpserver``.
 
 **cmd mode**
 
