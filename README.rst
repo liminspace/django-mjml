@@ -36,7 +36,7 @@ See https://github.com/mjmlio/mjml#installation and https://mjml.io/documentatio
 
   $ pip install django-mjml
 
-To install development version use ``git+https://github.com/liminspace/django-mjml.git@develop`` instead ``django-mjml``.
+To install development version use ``git+https://github.com/liminspace/django-mjml.git@master`` instead ``django-mjml``.
 
 If you want to use API HTTP-server, install ``requests``::
 
