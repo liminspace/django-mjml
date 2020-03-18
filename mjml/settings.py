@@ -27,4 +27,4 @@ for t in MJML_HTTPSERVERS:
         http_auth = t['HTTP_AUTH']
         assert isinstance(http_auth, (type(None), list, tuple))
         if http_auth is not None:
-            assert len(http_auth) == 2 and isinstance(http_auth[0], str) and isinstance(http_auth[1], str)
+            assert len(http_auth) == 2
