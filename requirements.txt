@@ -1,7 +1,7 @@
 wheel==0.34.2
 twine==3.1.1; python_version < "3"
 twine==3.1.1; python_version >= "3"
-coverage==5.0.3
+coverage==5.1
 django<1.12; python_version < "3"
 django>=1.8,<3.1; python_version >= "3"
 six==1.14.0; python_version < "3"
