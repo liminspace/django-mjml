@@ -1,3 +1,11 @@
+0.10.0 (2020-06-29)
+===================
+  * Added `requests` in extras require in `setup.py`
+  * Added MJML 4.6.3 in tests
+  * Upgraded MJML to 4.6.3 in dockerfile
+  * Updated docs
+
+
 0.9.0 (2019-12-24)
 ==================
   * Added supporting Django v3.0
