@@ -22,11 +22,12 @@ The simplest way to use `MJML <https://mjml.io/>`_ in `Django <https://www.djang
 Installation
 ------------
 
-**Requirements:**
+Requirements:
+^^^^^^^^^^^^^
 
 * Django from 1.8 to 3.0
-* requests from 2.19.0 (only if you are going to use API HTTP-server for rendering)
-* mjml from 2.3 to 4.5.1
+* requests from 2.20.0 (only if you are going to use API HTTP-server for rendering)
+* mjml from 2.3 to 4.6.3
 
 **\1\. Install** ``mjml``.
 
@@ -36,11 +37,11 @@ See https://github.com/mjmlio/mjml#installation and https://mjml.io/documentatio
 
   $ pip install django-mjml
 
+If you want to use API HTTP-server you also need ``requests`` (at least version 2.20)::
+
+    $ pip install django-mjml[requests]
+
 To install development version use ``git+https://github.com/liminspace/django-mjml.git@master`` instead ``django-mjml``.
-
-If you want to use API HTTP-server, install ``requests``::
-
-  $ pip install requests
 
 **\3\. Set up** ``settings.py`` **in your django project.** ::
 
@@ -79,7 +80,8 @@ Advanced settings
 
 There are three backend modes for compiling: ``cmd``, ``tcpserver`` and ``httpserver``.
 
-**cmd mode**
+cmd mode
+^^^^^^^^
 
 This mode is very simple, slow and used by default. ::
 
@@ -98,7 +100,8 @@ Once you have a working installation, you can skip the sanity check on startup t
 
   MJML_CHECK_CMD_ON_STARTUP = False
 
-**tcpserver mode**
+tcpserver mode
+^^^^^^^^^^^^^^
 
 This mode is faster than ``cmd`` but it needs run a separated server process which will render templates. ::
 
@@ -159,8 +162,11 @@ Or you can use docker-compose::
       ports:
         - "28102:28102"
 
+You also can build your own tcpserver with other versions of ``MJML`` by using
+``docker/mjml-tcpserver`` file and editing arguments.
 
-**httpserver mode**
+httpserver mode
+^^^^^^^^^^^^^^^
 
   don't forget to install ``requests`` to use this mode.
 
