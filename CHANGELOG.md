@@ -1,3 +1,8 @@
+0.10.1 (2020-08-16)
+===================
+  *  Added supporting Django v3.1
+
+
 0.10.0 (2020-06-29)
 ===================
   * Added `requests` in extras require in `setup.py`
