@@ -1,5 +1,5 @@
-.. image:: https://travis-ci.org/liminspace/django-mjml.svg?branch=master
- :target: https://travis-ci.org/liminspace/django-mjml
+.. image:: https://travis-ci.com/liminspace/django-mjml.svg?branch=master
+ :target: https://travis-ci.com/liminspace/django-mjml
  :alt: build
 
 .. image:: https://img.shields.io/pypi/v/django-mjml.svg
