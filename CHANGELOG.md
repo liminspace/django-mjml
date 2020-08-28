@@ -1,3 +1,8 @@
+0.10.2 (2020-08-28)
+===================
+ * Import `requests` only if it's really needed
+
+
 0.10.1 (2020-08-16)
 ===================
   *  Added supporting Django v3.1

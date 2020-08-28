@@ -10,7 +10,6 @@ except ImportError:
 from django.test import TestCase
 from django.utils.encoding import force_bytes
 from mjml import settings as mjml_settings
-from mjml.tools import requests
 from testprj.tools import safe_change_mjml_settings, MJMLServers, MJMLFixtures, render_tpl
 
 
