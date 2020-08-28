@@ -10,8 +10,6 @@ import socket
 import random
 import subprocess
 import tempfile
-import requests
-import requests.auth
 from django.utils.encoding import force_str, force_bytes
 from mjml import settings as mjml_settings
 
@@ -103,6 +101,8 @@ def _mjml_render_by_tcpserver(mjml_code):
 
 
 def _mjml_render_by_httpserver(mjml_code):
+    import requests.auth
+
     if len(mjml_settings.MJML_HTTPSERVERS) > 1:
         servers = list(mjml_settings.MJML_HTTPSERVERS)[:]
         random.shuffle(servers)
