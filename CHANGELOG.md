@@ -1,3 +1,13 @@
+0.11.0 (2021-04-13)
+===================
+ * Added supporting Django v3.2
+ * Added Python 3.9 in tests
+ * Removed Python 3.5 from tests
+ * Removed MJML older than 4.4.0 from tests
+ * Upgraded Node to v14 for tcp-server
+ * Upgraded MJML to 4.9.0 in dockerfile
+
+
 0.10.2 (2020-08-28)
 ===================
  * Import `requests` only if it's really needed
