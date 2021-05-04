@@ -8,6 +8,7 @@ python:
   - "3.6"
   - "3.7"
   - "3.8"
+  - "3.9"
 
 env:
   - DJANGO_VERSION="<1.9" MJML_VERSION=3.3.5
@@ -64,6 +65,13 @@ env:
   - DJANGO_VERSION="<3.2" MJML_VERSION=4.5.1
   - DJANGO_VERSION="<3.2" MJML_VERSION=4.6.3
 
+  - DJANGO_VERSION="<3.3" MJML_VERSION=3.3.5
+  - DJANGO_VERSION="<3.3" MJML_VERSION=4.3.1
+  - DJANGO_VERSION="<3.3" MJML_VERSION=4.4.0
+  - DJANGO_VERSION="<3.3" MJML_VERSION=4.5.1
+  - DJANGO_VERSION="<3.3" MJML_VERSION=4.6.3
+
+
 matrix:
   exclude:
     - { python: "2.7", env: DJANGO_VERSION="<2.1" MJML_VERSION=3.3.5 }
@@ -107,6 +115,19 @@ matrix:
     - { python: "3.5", env: DJANGO_VERSION="<3.2" MJML_VERSION=4.4.0 }
     - { python: "3.5", env: DJANGO_VERSION="<3.2" MJML_VERSION=4.5.1 }
     - { python: "3.5", env: DJANGO_VERSION="<3.2" MJML_VERSION=4.6.3 }
+
+    - { python: "2.7", env: DJANGO_VERSION="<3.3" MJML_VERSION=3.3.5 }
+    - { python: "2.7", env: DJANGO_VERSION="<3.3" MJML_VERSION=4.3.1 }
+    - { python: "2.7", env: DJANGO_VERSION="<3.3" MJML_VERSION=4.4.0 }
+    - { python: "2.7", env: DJANGO_VERSION="<3.3" MJML_VERSION=4.5.1 }
+    - { python: "2.7", env: DJANGO_VERSION="<3.3" MJML_VERSION=4.6.3 }
+
+    - { python: "3.5", env: DJANGO_VERSION="<3.2" MJML_VERSION=3.3.5 }
+    - { python: "3.5", env: DJANGO_VERSION="<3.2" MJML_VERSION=4.3.1 }
+    - { python: "3.5", env: DJANGO_VERSION="<3.2" MJML_VERSION=4.4.0 }
+    - { python: "3.5", env: DJANGO_VERSION="<3.2" MJML_VERSION=4.5.1 }
+    - { python: "3.5", env: DJANGO_VERSION="<3.2" MJML_VERSION=4.6.3 }
+
 
     - { python: "3.6", env: DJANGO_VERSION="<1.9" MJML_VERSION=3.3.5 }
     - { python: "3.6", env: DJANGO_VERSION="<1.9" MJML_VERSION=4.3.1 }
@@ -179,6 +200,49 @@ matrix:
     - { python: "3.8", env: DJANGO_VERSION="<2.2" MJML_VERSION=4.4.0 }
     - { python: "3.8", env: DJANGO_VERSION="<2.2" MJML_VERSION=4.5.1 }
     - { python: "3.8", env: DJANGO_VERSION="<2.2" MJML_VERSION=4.6.3 }
+
+    - { python: "3.9", env: DJANGO_VERSION="<1.9" MJML_VERSION=3.3.5 }
+    - { python: "3.9", env: DJANGO_VERSION="<1.9" MJML_VERSION=4.3.1 }
+    - { python: "3.9", env: DJANGO_VERSION="<1.9" MJML_VERSION=4.4.0 }
+    - { python: "3.9", env: DJANGO_VERSION="<1.9" MJML_VERSION=4.5.1 }
+    - { python: "3.9", env: DJANGO_VERSION="<1.9" MJML_VERSION=4.6.3 }
+
+    - { python: "3.9", env: DJANGO_VERSION="<1.10" MJML_VERSION=3.3.5 }
+    - { python: "3.9", env: DJANGO_VERSION="<1.10" MJML_VERSION=4.3.1 }
+    - { python: "3.9", env: DJANGO_VERSION="<1.10" MJML_VERSION=4.4.0 }
+    - { python: "3.9", env: DJANGO_VERSION="<1.10" MJML_VERSION=4.5.1 }
+    - { python: "3.9", env: DJANGO_VERSION="<1.10" MJML_VERSION=4.6.3 }
+
+    - { python: "3.9", env: DJANGO_VERSION="<1.11" MJML_VERSION=3.3.5 }
+    - { python: "3.9", env: DJANGO_VERSION="<1.11" MJML_VERSION=4.3.1 }
+    - { python: "3.9", env: DJANGO_VERSION="<1.11" MJML_VERSION=4.4.0 }
+    - { python: "3.9", env: DJANGO_VERSION="<1.11" MJML_VERSION=4.5.1 }
+    - { python: "3.9", env: DJANGO_VERSION="<1.11" MJML_VERSION=4.6.3 }
+
+    - { python: "3.9", env: DJANGO_VERSION="<1.12" MJML_VERSION=3.3.5 }
+    - { python: "3.9", env: DJANGO_VERSION="<1.12" MJML_VERSION=4.3.1 }
+    - { python: "3.9", env: DJANGO_VERSION="<1.12" MJML_VERSION=4.4.0 }
+    - { python: "3.9", env: DJANGO_VERSION="<1.12" MJML_VERSION=4.5.1 }
+    - { python: "3.9", env: DJANGO_VERSION="<1.12" MJML_VERSION=4.6.3 }
+
+    - { python: "3.9", env: DJANGO_VERSION="<2.1" MJML_VERSION=3.3.5 }
+    - { python: "3.9", env: DJANGO_VERSION="<2.1" MJML_VERSION=4.3.1 }
+    - { python: "3.9", env: DJANGO_VERSION="<2.1" MJML_VERSION=4.4.0 }
+    - { python: "3.9", env: DJANGO_VERSION="<2.1" MJML_VERSION=4.5.1 }
+    - { python: "3.9", env: DJANGO_VERSION="<2.1" MJML_VERSION=4.6.3 }
+
+    - { python: "3.9", env: DJANGO_VERSION="<2.2" MJML_VERSION=3.3.5 }
+    - { python: "3.9", env: DJANGO_VERSION="<2.2" MJML_VERSION=4.3.1 }
+    - { python: "3.9", env: DJANGO_VERSION="<2.2" MJML_VERSION=4.4.0 }
+    - { python: "3.9", env: DJANGO_VERSION="<2.2" MJML_VERSION=4.5.1 }
+    - { python: "3.9", env: DJANGO_VERSION="<2.2" MJML_VERSION=4.6.3 }
+
+    - { python: "3.9", env: DJANGO_VERSION="<3.1" MJML_VERSION=3.3.5 }
+    - { python: "3.9", env: DJANGO_VERSION="<3.1" MJML_VERSION=4.3.1 }
+    - { python: "3.9", env: DJANGO_VERSION="<3.1" MJML_VERSION=4.4.0 }
+    - { python: "3.9", env: DJANGO_VERSION="<3.1" MJML_VERSION=4.5.1 }
+    - { python: "3.9", env: DJANGO_VERSION="<3.1" MJML_VERSION=4.6.3 }
+
 
 before_install:
   - . $HOME/.nvm/nvm.sh
