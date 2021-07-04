@@ -1,6 +1,6 @@
-.. image:: https://travis-ci.com/liminspace/django-mjml.svg?branch=master
- :target: https://travis-ci.com/liminspace/django-mjml
- :alt: build
+.. image:: https://github.com/liminspace/django-mjml/actions/workflows/test.yml/badge.svg?branch=master
+ :target: https://github.com/liminspace/django-mjml/actions/workflows/test.yml
+ :alt: test
 
 .. image:: https://img.shields.io/pypi/v/django-mjml.svg
  :target: https://pypi.org/project/django-mjml/
@@ -25,9 +25,9 @@ Installation
 Requirements:
 ^^^^^^^^^^^^^
 
-* Django from 1.8 to 3.1
-* requests from 2.20.0 (only if you are going to use API HTTP-server for rendering)
-* mjml from 2.3 to 4.6.3
+* ``Django`` from 1.8 to 3.2
+* ``requests`` from 2.20.0 (only if you are going to use API HTTP-server for rendering)
+* ``mjml`` from 2.3 to 4.10.1
 
 **\1\. Install** ``mjml``.
 
