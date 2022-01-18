@@ -1,3 +1,12 @@
+0.12.0 (2022-01-19)
+===================
+ * Added supporting Django 4.0
+ * Upgraded MJML to 4.11.0 in dockerfile
+ * Added Python 3.10 in tests
+ * Added MJML 4.11.0 in tests
+ * Removed MJML 4.4.0 from tests
+
+
 0.11.0 (2021-07-04)
 ===================
  * Added supporting Django v3.2
