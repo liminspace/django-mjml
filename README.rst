@@ -61,15 +61,13 @@ Load ``mjml`` in your django template and use ``mjml`` tag that will compile MJM
 
   {% mjml %}
       <mjml>
-      <mj-body>
-      <mj-container>
-          <mj-section>
-              <mj-column>
-                  <mj-text>Hello world!</mj-text>
-              </mj-column>
-          </mj-section>
-      </mj-container>
-      </mj-body>
+          <mj-body>
+              <mj-section>
+                  <mj-column>
+                      <mj-text>Hello world!</mj-text>
+                  </mj-column>
+              </mj-section>
+          </mj-body>
       </mjml>
   {% endmjml %}
 
