@@ -27,7 +27,7 @@ Requirements:
 
 * ``Django`` from 1.8 to 4.1
 * ``requests`` from 2.20.0 (only if you are going to use API HTTP-server for rendering)
-* ``mjml`` from 2.3 to 4.11.0
+* ``mjml`` from 2.3 to 4.13.0
 
 **\1\. Install** ``mjml``.
 
