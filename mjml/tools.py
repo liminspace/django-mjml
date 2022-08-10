@@ -1,23 +1,19 @@
-# coding=utf-8
-from __future__ import absolute_import
 import copy
 import json
-try:
-    from json import JSONDecodeError
-except ImportError:
-    JSONDecodeError = ValueError
-import socket
 import random
+import socket
 import subprocess
 import tempfile
-from django.utils.encoding import force_str, force_bytes
-from mjml import settings as mjml_settings
+from typing import Optional, Dict, List
 
+from django.utils.encoding import force_str, force_bytes
+
+from mjml import settings as mjml_settings
 
 _cache = {}
 
 
-def _mjml_render_by_cmd(mjml_code):
+def _mjml_render_by_cmd(mjml_code: str) -> str:
     if 'cmd_args' not in _cache:
         cmd_args = copy.copy(mjml_settings.MJML_EXEC_CMD)
         if not isinstance(cmd_args, list):
@@ -34,22 +30,23 @@ def _mjml_render_by_cmd(mjml_code):
             p = subprocess.Popen(cmd_args, stdin=subprocess.PIPE, stdout=stdout_tmp_f, stderr=subprocess.PIPE)
             stderr = p.communicate(force_bytes(mjml_code))[1]
         except (IOError, OSError) as e:
+            cmd_str = ' '.join(cmd_args)
             raise RuntimeError(
-                'Problem to run command "{}"\n'.format(' '.join(cmd_args)) +
-                '{}\n'.format(e) +
-                'Check that mjml is installed and allow permissions for execute.\n' +
+                f'Problem to run command "{cmd_str}"\n'
+                f'{e}\n'
+                'Check that mjml is installed and allow permissions to execute.\n'
                 'See https://github.com/mjmlio/mjml#installation'
-            )
+            ) from e
         stdout_tmp_f.seek(0)
         stdout = stdout_tmp_f.read()
 
     if stderr:
-        raise RuntimeError('MJML stderr is not empty: {}.'.format(force_str(stderr)))
+        raise RuntimeError(f'MJML stderr is not empty: {force_str(stderr)}.')
 
     return force_str(stdout)
 
 
-def socket_recvall(sock, n):
+def socket_recvall(sock: socket.socket, n: int) -> Optional[bytes]:
     data = b''
     while len(data) < n:
         packet = sock.recv(n - len(data))
@@ -59,7 +56,7 @@ def socket_recvall(sock, n):
     return data
 
 
-def _mjml_render_by_tcpserver(mjml_code):
+def _mjml_render_by_tcpserver(mjml_code: str) -> str:
     if len(mjml_settings.MJML_TCPSERVERS) > 1:
         servers = list(mjml_settings.MJML_TCPSERVERS)[:]
         random.shuffle(servers)
@@ -88,19 +85,19 @@ def _mjml_render_by_tcpserver(mjml_code):
             if ok:
                 return result
             else:
-                raise RuntimeError('MJML compile error (via MJML TCP server): {}'.format(result))
+                raise RuntimeError(f'MJML compile error (via MJML TCP server): {result}')
         except socket.timeout:
             timeouts += 1
         finally:
             s.close()
     raise RuntimeError(
-        ('MJML compile error (via MJML TCP server): no working server\n'
-         'Number of servers: {total}\n'
-         'Timeouts: {timeouts}').format(total=len(servers), timeouts=timeouts)
+        'MJML compile error (via MJML TCP server): no working server\n'
+        f'Number of servers: {len(servers)}\n'
+        f'Timeouts: {timeouts}'
     )
 
 
-def _mjml_render_by_httpserver(mjml_code):
+def _mjml_render_by_httpserver(mjml_code: str) -> str:
     import requests.auth
 
     if len(mjml_settings.MJML_HTTPSERVERS) > 1:
@@ -128,36 +125,39 @@ def _mjml_render_by_httpserver(mjml_code):
 
         try:
             data = response.json()
-        except (TypeError, JSONDecodeError):
+        except (TypeError, json.JSONDecodeError):
             data = {}
 
         if response.status_code == 200:
-            errors = data.get('errors')
+            errors: Optional[List[Dict]] = data.get('errors')
             if errors:
-                msgs = ['Line: {e[line]} Tag: {e[tagName]} Message: {e[message]}'.format(e=e) for e in errors]
-                raise RuntimeError('MJML compile error (via MJML HTTP server): {}'.format('\n'.join(msgs)))
+                msg_lines = [
+                    f'Line: {e.get("line")} Tag: {e.get("tagName")} Message: {e.get("message")}'
+                    for e in errors
+                ]
+                msg_str = '\n'.join(msg_lines)
+                raise RuntimeError(f'MJML compile error (via MJML HTTP server): {msg_str}')
 
             return force_str(data['html'])
         else:
-            msg = '[code={}, request_id={}] {}'.format(
-                response.status_code,
-                data.get('request_id', ''),
-                data.get('message', 'Unknown error.'),
+            msg = (
+                f"[code={response.status_code}, request_id={data.get('request_id', '')}] "
+                f"{data.get('message', 'Unknown error.')}"
             )
-            raise RuntimeError('MJML compile error (via MJML HTTP server): {}'.format(msg))
+            raise RuntimeError(f'MJML compile error (via MJML HTTP server): {msg}')
 
     raise RuntimeError(
-        ('MJML compile error (via MJML HTTP server): no working server\n'
-         'Number of servers: {total}\n'
-         'Timeouts: {timeouts}').format(total=len(servers), timeouts=timeouts)
+        'MJML compile error (via MJML HTTP server): no working server\n'
+        f'Number of servers: {len(servers)}\n'
+        f'Timeouts: {timeouts}'
     )
 
 
-def mjml_render(mjml_code):
+def mjml_render(mjml_source: str) -> str:
     if mjml_settings.MJML_BACKEND_MODE == 'cmd':
-        return _mjml_render_by_cmd(mjml_code)
+        return _mjml_render_by_cmd(mjml_source)
     elif mjml_settings.MJML_BACKEND_MODE == 'tcpserver':
-        return _mjml_render_by_tcpserver(mjml_code)
+        return _mjml_render_by_tcpserver(mjml_source)
     elif mjml_settings.MJML_BACKEND_MODE == 'httpserver':
-        return _mjml_render_by_httpserver(mjml_code)
-    raise RuntimeError('Invalid settings.MJML_BACKEND_MODE "{}"'.format(mjml_settings.MJML_BACKEND_MODE))
+        return _mjml_render_by_httpserver(mjml_source)
+    raise RuntimeError(f'Invalid settings.MJML_BACKEND_MODE "{mjml_settings.MJML_BACKEND_MODE}"')

@@ -1,8 +1,7 @@
-from __future__ import absolute_import
 from django.conf import settings
 
 MJML_BACKEND_MODE = getattr(settings, 'MJML_BACKEND_MODE', 'cmd')
-assert MJML_BACKEND_MODE in ('cmd', 'tcpserver', 'httpserver')
+assert MJML_BACKEND_MODE in {'cmd', 'tcpserver', 'httpserver'}
 
 # cmd backend mode configs
 MJML_EXEC_CMD = getattr(settings, 'MJML_EXEC_CMD', 'mjml')

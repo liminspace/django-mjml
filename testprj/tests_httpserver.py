@@ -1,14 +1,11 @@
-# coding=utf-8
-from __future__ import absolute_import
-import unittest
 import json
+import unittest
+from unittest import mock
+
 import requests.auth
-try:
-    from unittest import mock
-except ImportError:
-    import mock
 from django.test import TestCase
 from django.utils.encoding import force_bytes
+
 from mjml import settings as mjml_settings
 from testprj.tools import safe_change_mjml_settings, MJMLServers, MJMLFixtures, render_tpl
 
@@ -18,18 +15,18 @@ class TestMJMLHTTPServer(MJMLFixtures, MJMLServers, TestCase):
     _settings_manager = None
 
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         cls._settings_manager = safe_change_mjml_settings()
         cls._settings_manager.__enter__()
         mjml_settings.MJML_BACKEND_MODE = cls.SERVER_TYPE
-        super(TestMJMLHTTPServer, cls).setUpClass()
+        super().setUpClass()
 
     @classmethod
-    def tearDownClass(cls):
-        super(TestMJMLHTTPServer, cls).tearDownClass()
+    def tearDownClass(cls) -> None:
+        super().tearDownClass()
         cls._settings_manager.__exit__(None, None, None)
 
-    def test_simple(self):
+    def test_simple(self) -> None:
         html = render_tpl(self.TPLS['simple'])
         self.assertIn('<html ', html)
         self.assertIn('<body', html)
@@ -37,7 +34,7 @@ class TestMJMLHTTPServer(MJMLFixtures, MJMLServers, TestCase):
         self.assertIn('Test title', html)
         self.assertIn('Test button', html)
 
-    def test_large_tpl(self):
+    def test_large_tpl(self) -> None:
         html = render_tpl(self.TPLS['with_text_context'], {
             'text': '[START]' + ('1 2 3 4 5 6 7 8 9 0 ' * 410 * 1024) + '[END]',
         })
@@ -46,15 +43,17 @@ class TestMJMLHTTPServer(MJMLFixtures, MJMLServers, TestCase):
         self.assertIn('[START]', html)
         self.assertIn('[END]', html)
 
-    def test_unicode(self):
-        html = render_tpl(self.TPLS['with_text_context_and_unicode'], {'text': self.TEXTS['unicode']})
+    def test_unicode(self) -> None:
+        html = render_tpl(self.TPLS['with_text_context_and_unicode'], {
+            'text': self.TEXTS['unicode'],
+        })
         self.assertIn('<html ', html)
         self.assertIn('<body', html)
-        self.assertIn(u'Український текст', html)
+        self.assertIn('Український текст', html)
         self.assertIn(self.TEXTS['unicode'], html)
-        self.assertIn(u'©', html)
+        self.assertIn('©', html)
 
-    def test_http_server_error(self):
+    def test_http_server_error(self) -> None:
         with self.assertRaises(RuntimeError) as cm:
             render_tpl("""
                 {% mjml %}
@@ -68,7 +67,7 @@ class TestMJMLHTTPServer(MJMLFixtures, MJMLServers, TestCase):
         self.assertIn(' Tag: mj-button Message: mj-button ', str(cm.exception))
 
     @mock.patch('requests.post')
-    def test_http_auth(self, post_mock):
+    def test_http_auth(self, post_mock) -> None:
         with safe_change_mjml_settings():
             for server_conf in mjml_settings.MJML_HTTPSERVERS:
                 server_conf['HTTP_AUTH'] = ('testuser', 'testpassword')
@@ -95,7 +94,7 @@ class TestMJMLHTTPServer(MJMLFixtures, MJMLServers, TestCase):
             self.assertEqual(post_mock.call_args[1]['auth'].password, 'testpassword')
 
     @unittest.skip('to run locally')
-    def test_public_api(self):
+    def test_public_api(self) -> None:
         with safe_change_mjml_settings():
             mjml_settings.MJML_HTTPSERVERS = (
                 {
@@ -108,9 +107,9 @@ class TestMJMLHTTPServer(MJMLFixtures, MJMLServers, TestCase):
             })
             self.assertIn('<html ', html)
             self.assertIn('<body', html)
-            self.assertIn(u'Український текст', html)
+            self.assertIn('Український текст', html)
             self.assertIn(self.TEXTS['unicode'], html)
-            self.assertIn(u'©', html)
+            self.assertIn('©', html)
             self.assertIn('[START]', html)
             self.assertIn('[END]', html)
 

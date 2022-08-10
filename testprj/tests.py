@@ -1,15 +1,14 @@
-# coding=utf-8
-from __future__ import absolute_import
-from django.test import TestCase
-from django.template import TemplateSyntaxError
 from django.core.exceptions import ImproperlyConfigured
-from mjml.apps import check_mjml_command
+from django.template import TemplateSyntaxError
+from django.test import TestCase
+
 from mjml import settings as mjml_settings
+from mjml.apps import check_mjml_command
 from testprj.tools import safe_change_mjml_settings, render_tpl, MJMLFixtures
 
 
 class TestMJMLApps(TestCase):
-    def test_check_mjml_command(self):
+    def test_check_mjml_command(self) -> None:
         with safe_change_mjml_settings():
             mjml_settings.MJML_EXEC_CMD = '/no_mjml_exec_test'
             with self.assertRaises(ImproperlyConfigured):
@@ -21,7 +20,7 @@ class TestMJMLApps(TestCase):
 
 
 class TestMJMLTemplatetag(MJMLFixtures, TestCase):
-    def test_simple(self):
+    def test_simple(self) -> None:
         html = render_tpl(self.TPLS['simple'])
         self.assertIn('<html ', html)
         self.assertIn('<body', html)
@@ -29,7 +28,7 @@ class TestMJMLTemplatetag(MJMLFixtures, TestCase):
         self.assertIn('Test title', html)
         self.assertIn('Test button', html)
 
-    def test_with_vars(self):
+    def test_with_vars(self) -> None:
         context = {
             'title': 'Test title',
             'title_size': '20px',
@@ -62,7 +61,7 @@ class TestMJMLTemplatetag(MJMLFixtures, TestCase):
         for val in context.values():
             self.assertIn(val, html)
 
-    def test_with_tags(self):
+    def test_with_tags(self) -> None:
         items = ['test one', 'test two', 'test three']
         context = {
             'items': items,
@@ -98,7 +97,7 @@ class TestMJMLTemplatetag(MJMLFixtures, TestCase):
             self.assertIn(item, html)
         self.assertNotIn('test_comment', html)
 
-    def test_error(self):
+    def test_error(self) -> None:
         with self.assertRaises(TemplateSyntaxError):
             render_tpl("""
                 {% mjml "var"%}
@@ -113,10 +112,12 @@ class TestMJMLTemplatetag(MJMLFixtures, TestCase):
                 {% endmjml %}
             """, {'var': 'test'})
 
-    def test_unicode(self):
-        html = render_tpl(self.TPLS['with_text_context_and_unicode'], {'text':  self.TEXTS['unicode']})
+    def test_unicode(self) -> None:
+        html = render_tpl(self.TPLS['with_text_context_and_unicode'], {
+            'text': self.TEXTS['unicode'],
+        })
         self.assertIn('<html ', html)
         self.assertIn('<body', html)
-        self.assertIn(u'Український текст', html)
+        self.assertIn('Український текст', html)
         self.assertIn(self.TEXTS['unicode'], html)
-        self.assertIn(u'©', html)
+        self.assertIn('©', html)
