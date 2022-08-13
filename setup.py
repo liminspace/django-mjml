@@ -17,7 +17,7 @@ setup(
     zip_safe=False,  # because include static
     platforms=['OS Independent'],
     install_requires=[
-        'django >=1.8,<4.1',
+        'django >=1.8',
     ],
     extras_require={
         'requests': [
