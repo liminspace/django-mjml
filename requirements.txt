@@ -1,11 +1,5 @@
 wheel==0.37.1
-twine==1.15.0; python_version < "3"
-twine==3.7.1; python_version >= "3"
-coverage==5.5; python_version < "3"
-coverage==6.2; python_version >= "3"
-django<1.12; python_version < "3"
-django>=1.8,<4.1; python_version >= "3"
-six==1.15.0; python_version < "3"
-ndg-httpsclient>=0.5.1; python_version < "3"
-mock<4.1; python_version < "3"
-requests>=2.19.0
+twine==3.8.0
+coverage==6.2
+django>=2.2,<4.2
+requests>=2.24.0,<2.29.0

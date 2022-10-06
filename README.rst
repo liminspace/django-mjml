@@ -1,4 +1,4 @@
-.. image:: https://github.com/liminspace/django-mjml/actions/workflows/test.yml/badge.svg?branch=master
+.. image:: https://github.com/liminspace/django-mjml/actions/workflows/test.yml/badge.svg?branch=main
  :target: https://github.com/liminspace/django-mjml/actions/workflows/test.yml
  :alt: test
 
@@ -25,9 +25,9 @@ Installation
 Requirements:
 ^^^^^^^^^^^^^
 
-* ``Django`` from 1.8 to 4.0
-* ``requests`` from 2.20.0 (only if you are going to use API HTTP-server for rendering)
-* ``mjml`` from 2.3 to 4.11.0
+* ``Django`` from 2.2 to 4.1
+* ``requests`` from 2.24.0 (only if you are going to use API HTTP-server for rendering)
+* ``mjml`` from 3.6.3 to 4.13.0
 
 **\1\. Install** ``mjml``.
 
@@ -37,11 +37,11 @@ See https://github.com/mjmlio/mjml#installation and https://mjml.io/documentatio
 
   $ pip install django-mjml
 
-If you want to use API HTTP-server you also need ``requests`` (at least version 2.20)::
+If you want to use API HTTP-server you also need ``requests`` (at least version 2.24)::
 
     $ pip install django-mjml[requests]
 
-To install development version use ``git+https://github.com/liminspace/django-mjml.git@master`` instead ``django-mjml``.
+To install development version use ``git+https://github.com/liminspace/django-mjml.git@main`` instead ``django-mjml``.
 
 **\3\. Set up** ``settings.py`` **in your django project.** ::
 
@@ -61,15 +61,13 @@ Load ``mjml`` in your django template and use ``mjml`` tag that will compile MJM
 
   {% mjml %}
       <mjml>
-      <mj-body>
-      <mj-container>
-          <mj-section>
-              <mj-column>
-                  <mj-text>Hello world!</mj-text>
-              </mj-column>
-          </mj-section>
-      </mj-container>
-      </mj-body>
+          <mj-body>
+              <mj-section>
+                  <mj-column>
+                      <mj-text>Hello world!</mj-text>
+                  </mj-column>
+              </mj-section>
+          </mj-body>
       </mjml>
   {% endmjml %}
 

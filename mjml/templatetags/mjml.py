@@ -1,7 +1,6 @@
-from __future__ import absolute_import
 from django import template
-from mjml.tools import mjml_render
 
+from mjml.tools import mjml_render
 
 register = template.Library()
 
@@ -10,13 +9,13 @@ class MJMLRenderNode(template.Node):
     def __init__(self, nodelist):
         self.nodelist = nodelist
 
-    def render(self, context):
-        mjml = self.nodelist.render(context)
-        return mjml_render(mjml)
+    def render(self, context) -> str:
+        mjml_source = self.nodelist.render(context)
+        return mjml_render(mjml_source)
 
 
 @register.tag
-def mjml(parser, token):
+def mjml(parser, token) -> MJMLRenderNode:
     """
     Compile MJML template after render django template.
 

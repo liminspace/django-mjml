@@ -1,27 +1,24 @@
-# coding=utf-8
-from __future__ import absolute_import
-import os
 import copy
+import os
 import subprocess
 import time
-try:
-    from urllib.parse import urlparse
-except ImportError:
-    from urlparse import urlparse
-from contextlib import contextmanager
+from contextlib import contextmanager, suppress
+from typing import Optional, Dict, Any
+from urllib.parse import urlparse
+
 from django.conf import settings
 from django.template import Template, Context
+
 from mjml import settings as mjml_settings
 from mjml import tools
 
 
-def get_mjml_version():
+def get_mjml_version() -> int:
     env_ver = os.environ.get('MJML_VERSION', None)
     if env_ver:
-        try:
+        with suppress(ValueError, TypeError, IndexError):
             return int(env_ver.split('.')[0])
-        except (ValueError, TypeError, IndexError):
-            pass
+
     return settings.DEFAULT_MJML_VERSION
 
 
@@ -47,64 +44,64 @@ def safe_change_mjml_settings():
         tools._cache.clear()
 
 
-def render_tpl(tpl, context=None):
+def render_tpl(tpl: str, context: Optional[Dict[str, Any]] = None) -> str:
     if get_mjml_version() >= 4:
         tpl = tpl.replace('<mj-container>', '').replace('</mj-container>', '')
     return Template('{% load mjml %}' + tpl).render(Context(context))
 
 
-class MJMLServers(object):
+class MJMLServers:
     SERVER_TYPE = NotImplemented  # tcpserver, httpserver
     _processes = []
 
     @classmethod
-    def _terminate_processes(cls):
+    def _terminate_processes(cls) -> None:
         while cls._processes:
             p = cls._processes.pop()
             p.terminate()
 
     @classmethod
-    def _start_tcp_servers(cls):
+    def _start_tcp_servers(cls) -> None:
         root_dir = os.path.dirname(settings.BASE_DIR)
-        tcpserver_path = os.path.join(root_dir, 'mjml', 'node', 'tcpserver.js')
+        tcpserver_path = os.path.join(root_dir, 'mjml-tcpserver', 'tcpserver.js')
         env = os.environ.copy()
         env['NODE_PATH'] = root_dir
         for host, port in mjml_settings.MJML_TCPSERVERS:
             p = subprocess.Popen([
                 'node',
                 tcpserver_path,
-                '--port={}'.format(port),
-                '--host={}'.format(host),
+                f'--port={port}',
+                f'--host={host}',
             ], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env)
             cls._processes.append(p)
         time.sleep(5)
 
     @classmethod
-    def _stop_tcp_servers(cls):
+    def _stop_tcp_servers(cls) -> None:
         cls._terminate_processes()
 
     @classmethod
-    def _start_http_servers(cls):
+    def _start_http_servers(cls) -> None:
         env = os.environ.copy()
         for server_conf in mjml_settings.MJML_HTTPSERVERS:
             parsed = urlparse(server_conf['URL'])
             host, port = parsed.netloc.split(':')
             p = subprocess.Popen([
                 'mjml-http-server',
-                '--host={}'.format(host),
-                '--port={}'.format(port),
+                f'--host={host}',
+                f'--port={port}',
                 '--max-body=8500kb',
             ], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env)
             cls._processes.append(p)
         time.sleep(5)
 
     @classmethod
-    def _stop_http_servers(cls):
+    def _stop_http_servers(cls) -> None:
         cls._terminate_processes()
 
     @classmethod
-    def setUpClass(cls):
-        super(MJMLServers, cls).setUpClass()
+    def setUpClass(cls) -> None:
+        super().setUpClass()
         if cls.SERVER_TYPE == 'tcpserver':
             cls._start_tcp_servers()
         elif cls.SERVER_TYPE == 'httpserver':
@@ -113,14 +110,14 @@ class MJMLServers(object):
             raise RuntimeError('Invalid SERVER_TYPE: {}', cls.SERVER_TYPE)
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDownClass(cls) -> None:
         if cls.SERVER_TYPE == 'tcpserver':
             cls._stop_tcp_servers()
         elif cls.SERVER_TYPE == 'httpserver':
             cls._stop_http_servers()
         else:
             raise RuntimeError('Invalid SERVER_TYPE: {}', cls.SERVER_TYPE)
-        super(MJMLServers, cls).tearDownClass()
+        super().tearDownClass()
 
 
 class MJMLFixtures:
@@ -178,9 +175,9 @@ class MJMLFixtures:
         """,
     }
     SYMBOLS = {
-        'smile': u'\u263a',
-        'checkmark': u'\u2713',
-        'candy': u'\U0001f36d',  # b'\xf0\x9f\x8d\xad'.decode('utf-8')
+        'smile': '\u263a',
+        'checkmark': '\u2713',
+        'candy': '\U0001f36d',  # b'\xf0\x9f\x8d\xad'.decode('utf-8')
     }
     TEXTS = {
         'unicode': SYMBOLS['smile'] + SYMBOLS['checkmark'] + SYMBOLS['candy'],
