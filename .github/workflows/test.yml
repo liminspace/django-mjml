@@ -257,7 +257,7 @@ jobs:
       NODE_VER: 14
     strategy:
       matrix:
-        django-ltver: [ 3.3, 4.1, 4.2 ]
+        django-ltver: [ '<3.3', '<4.1', '<4.2', '==4.2rc1', '<4.3' ]
         mjml-ver: [ 4.6.3, 4.7.1, 4.8.2, 4.9.3, 4.10.4, '4.11.0', '4.12.0', '4.13.0' ]
         tcp-server-ver: [ 'v1.1' ]
       fail-fast: false
@@ -285,7 +285,7 @@ jobs:
             ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-
       - name: Install Python dependencies
         run: |
-          pip install "Django<${{ matrix.django-ltver }}"
+          pip install "Django${{ matrix.django-ltver }}"
           pip install "requests>=2.24.0,<=2.29.0"
       - name: Set up Node.js ${{ env.NODE_VER }}
         uses: actions/setup-node@v2
