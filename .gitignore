@@ -23,6 +23,7 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+.python-version
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -63,6 +64,7 @@ target/
 
 # IDE
 .idea
+.vscode
 
 # db
 tests/db.sqlite3
