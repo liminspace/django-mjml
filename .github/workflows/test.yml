@@ -7,48 +7,48 @@ on:
 
 jobs:
   test-py-3-6:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       PYTHON_VER: 3.6
       NODE_VER: 14
     strategy:
       matrix:
-        django-ltver: [ 2.3, 3.1, 3.2, 3.3 ]
-        mjml-ver: [ 4.6.3, 4.7.1, 4.8.2, 4.9.3, 4.10.4, '4.11.0', '4.12.0', '4.13.0' ]
+        django-ver: [ '<2.3', '<3.1', '<3.2', '<3.3' ]
+        mjml-ver: [ '4.6.3', '4.7.1', '4.8.2', '4.9.3', '4.10.4', '4.11.0', '4.12.0', '4.13.0', '4.14.0' ]
         tcp-server-ver: [ 'v1.1' ]
       fail-fast: false
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Checkout tcp server
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: 'liminspace/mjml-tcpserver'
           ref: ${{ matrix.tcp-server-ver }}
           path: './mjml-tcpserver'
       - name: Set up Python ${{ env.PYTHON_VER }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VER }}
       - name: Cache pip
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-pip
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-${{ matrix.django-ltver }}
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-${{ matrix.django-ver }}
           restore-keys: |
             ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-
       - name: Install Python dependencies
         run: |
-          pip install "Django<${{ matrix.django-ltver }}"
+          pip install "Django${{ matrix.django-ver }}"
           pip install "requests>=2.24.0,<2.28.0"
       - name: Set up Node.js ${{ env.NODE_VER }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VER }}
       - name: Cache npm
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-npm
         with:
@@ -74,42 +74,42 @@ jobs:
       NODE_VER: 14
     strategy:
       matrix:
-        django-ltver: [ 2.3, 3.1, 3.2, 3.3 ]
-        mjml-ver: [ 4.6.3, 4.7.1, 4.8.2, 4.9.3, 4.10.4, '4.11.0', '4.12.0', '4.13.0' ]
+        django-ver: [ '<2.3', '<3.1', '<3.2', '<3.3' ]
+        mjml-ver: [ '4.6.3', '4.7.1', '4.8.2', '4.9.3', '4.10.4', '4.11.0', '4.12.0', '4.13.0', '4.14.0' ]
         tcp-server-ver: [ 'v1.1' ]
       fail-fast: false
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Checkout tcp server
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: 'liminspace/mjml-tcpserver'
           ref: ${{ matrix.tcp-server-ver }}
           path: './mjml-tcpserver'
       - name: Set up Python ${{ env.PYTHON_VER }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VER }}
       - name: Cache pip
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-pip
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-${{ matrix.django-ltver }}
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-${{ matrix.django-ver }}
           restore-keys: |
             ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-
       - name: Install Python dependencies
         run: |
-          pip install "Django<${{ matrix.django-ltver }}"
+          pip install "Django${{ matrix.django-ver }}"
           pip install "requests>=2.24.0,<=2.29.0"
       - name: Set up Node.js ${{ env.NODE_VER }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VER }}
       - name: Cache npm
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-npm
         with:
@@ -135,42 +135,42 @@ jobs:
       NODE_VER: 14
     strategy:
       matrix:
-        django-ltver: [ 2.3, 3.1, 3.2, 3.3, 4.1, 4.2 ]
-        mjml-ver: [ 4.6.3, 4.7.1, 4.8.2, 4.9.3, 4.10.4, '4.11.0', '4.12.0', '4.13.0' ]
+        django-ver: [ '<2.3', '<3.1', '<3.2', '<3.3', '<4.1', '<4.2' ]
+        mjml-ver: [ '4.6.3', '4.7.1', '4.8.2', '4.9.3', '4.10.4', '4.11.0', '4.12.0', '4.13.0', '4.14.0' ]
         tcp-server-ver: [ 'v1.1' ]
       fail-fast: false
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Checkout tcp server
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: 'liminspace/mjml-tcpserver'
           ref: ${{ matrix.tcp-server-ver }}
           path: './mjml-tcpserver'
       - name: Set up Python ${{ env.PYTHON_VER }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VER }}
       - name: Cache pip
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-pip
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-${{ matrix.django-ltver }}
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-${{ matrix.django-ver }}
           restore-keys: |
             ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-
       - name: Install Python dependencies
         run: |
-          pip install "Django<${{ matrix.django-ltver }}"
+          pip install "Django${{ matrix.django-ver }}"
           pip install "requests>=2.24.0,<=2.29.0"
       - name: Set up Node.js ${{ env.NODE_VER }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VER }}
       - name: Cache npm
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-npm
         with:
@@ -196,42 +196,42 @@ jobs:
       NODE_VER: 14
     strategy:
       matrix:
-        django-ltver: [ 2.3, 3.1, 3.2, 3.3, 4.1, 4.2 ]
-        mjml-ver: [ 4.6.3, 4.7.1, 4.8.2, 4.9.3, 4.10.4, '4.11.0', '4.12.0', '4.13.0' ]
+        django-ver: [ '<2.3', '<3.1', '<3.2', '<3.3', '<4.1', '<4.2' ]
+        mjml-ver: [ '4.6.3', '4.7.1', '4.8.2', '4.9.3', '4.10.4', '4.11.0', '4.12.0', '4.13.0', '4.14.0' ]
         tcp-server-ver: [ 'v1.1' ]
       fail-fast: false
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Checkout tcp server
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: 'liminspace/mjml-tcpserver'
           ref: ${{ matrix.tcp-server-ver }}
           path: './mjml-tcpserver'
       - name: Set up Python ${{ env.PYTHON_VER }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VER }}
       - name: Cache pip
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-pip
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-${{ matrix.django-ltver }}
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-${{ matrix.django-ver }}
           restore-keys: |
             ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-
       - name: Install Python dependencies
         run: |
-          pip install "Django<${{ matrix.django-ltver }}"
+          pip install "Django${{ matrix.django-ver }}"
           pip install "requests>=2.24.0,<=2.29.0"
       - name: Set up Node.js ${{ env.NODE_VER }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VER }}
       - name: Cache npm
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-npm
         with:
@@ -257,42 +257,103 @@ jobs:
       NODE_VER: 14
     strategy:
       matrix:
-        django-ltver: [ 3.3, 4.1, 4.2 ]
-        mjml-ver: [ 4.6.3, 4.7.1, 4.8.2, 4.9.3, 4.10.4, '4.11.0', '4.12.0', '4.13.0' ]
+        django-ver: [ '<3.3', '<4.1', '<4.2', '<4.3' ]
+        mjml-ver: [ '4.6.3', '4.7.1', '4.8.2', '4.9.3', '4.10.4', '4.11.0', '4.12.0', '4.13.0', '4.14.0' ]
         tcp-server-ver: [ 'v1.1' ]
       fail-fast: false
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Checkout tcp server
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: 'liminspace/mjml-tcpserver'
           ref: ${{ matrix.tcp-server-ver }}
           path: './mjml-tcpserver'
       - name: Set up Python ${{ env.PYTHON_VER }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VER }}
       - name: Cache pip
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-pip
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-${{ matrix.django-ltver }}
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-${{ matrix.django-ver }}
           restore-keys: |
             ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-
       - name: Install Python dependencies
         run: |
-          pip install "Django<${{ matrix.django-ltver }}"
+          pip install "Django${{ matrix.django-ver }}"
           pip install "requests>=2.24.0,<=2.29.0"
       - name: Set up Node.js ${{ env.NODE_VER }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VER }}
       - name: Cache npm
-        uses: actions/cache@v2
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-npm
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ env.NODE_VER }}-${{ matrix.mjml-ver }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.cache-name }}-${{ env.NODE_VER }}-
+      - name: Install Node dependencies
+        run: |
+          npm cache verify
+          npm install -g mjml-http-server@0.1.0
+          npm install mjml@${{ matrix.mjml-ver }}
+      - name: Show info
+        run: |
+          node_modules/.bin/mjml --version
+      - name: Test
+        run: |
+          python tools.py test
+  test-py-3-11:
+    runs-on: ubuntu-latest
+    env:
+      PYTHON_VER: '3.11'
+      NODE_VER: 14
+    strategy:
+      matrix:
+        django-ver: [ '<4.2', '<4.3' ]
+        mjml-ver: [ '4.6.3', '4.7.1', '4.8.2', '4.9.3', '4.10.4', '4.11.0', '4.12.0', '4.13.0', '4.14.0' ]
+        tcp-server-ver: [ 'v1.1' ]
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Checkout tcp server
+        uses: actions/checkout@v3
+        with:
+          repository: 'liminspace/mjml-tcpserver'
+          ref: ${{ matrix.tcp-server-ver }}
+          path: './mjml-tcpserver'
+      - name: Set up Python ${{ env.PYTHON_VER }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VER }}
+      - name: Cache pip
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-pip
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-${{ matrix.django-ver }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-
+      - name: Install Python dependencies
+        run: |
+          pip install "Django${{ matrix.django-ver }}"
+          pip install "requests>=2.24.0,<=2.29.0"
+      - name: Set up Node.js ${{ env.NODE_VER }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VER }}
+      - name: Cache npm
+        uses: actions/cache@v3
         env:
           cache-name: cache-npm
         with:

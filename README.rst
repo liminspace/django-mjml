@@ -25,13 +25,13 @@ Installation
 Requirements:
 ^^^^^^^^^^^^^
 
-* ``Django`` from 2.2 to 4.1
+* ``Django`` from 2.2 to 4.2
 * ``requests`` from 2.24.0 (only if you are going to use API HTTP-server for rendering)
-* ``mjml`` from 3.6.3 to 4.13.0
+* ``mjml`` from 3.6.3 to 4.14.0
 
 **\1\. Install** ``mjml``.
 
-See https://github.com/mjmlio/mjml#installation and https://mjml.io/documentation/#installation
+Follow https://github.com/mjmlio/mjml#installation and https://documentation.mjml.io/#installation to get more info.
 
 **\2\. Install** ``django-mjml``. ::
 
@@ -81,7 +81,9 @@ There are three backend modes for compiling: ``cmd``, ``tcpserver`` and ``httpse
 cmd mode
 ^^^^^^^^
 
-This mode is very simple, slow and used by default. ::
+This mode is very simple, slow and used by default.
+
+Configure your Django::
 
   MJML_BACKEND_MODE = 'cmd'
   MJML_EXEC_CMD = 'mjml'
@@ -101,11 +103,13 @@ Once you have a working installation, you can skip the sanity check on startup t
 tcpserver mode
 ^^^^^^^^^^^^^^
 
-This mode is faster than ``cmd`` but it needs run a separated server process which will render templates. ::
+This mode is faster than ``cmd`` but it needs the `MJML TCP-Server <https://github.com/liminspace/mjml-tcpserver>`_.
+
+Configure your Django::
 
   MJML_BACKEND_MODE = 'tcpserver'
   MJML_TCPSERVERS = [
-      ('127.0.0.1', 28101),  # host and port
+      ('127.0.0.1', 28101),  # the host and port of MJML TCP-Server
   ]
 
 You can set several servers and a random one will be used::
@@ -116,60 +120,15 @@ You can set several servers and a random one will be used::
       ('127.0.0.1', 28103),
   ]
 
-You can run servers by commands::
-
-  # NODE_PATH=/home/user/node_modules node /home/user/.virtualenv/default/lib/python2.7/site-packages/mjml/node/tcpserver.js --port=28101 --host=127.0.0.1 --touchstop=/tmp/mjmltcpserver.stop
-
-``28101`` - port, ``127.0.0.1`` - host, ``/tmp/mjmltcpserver.stop`` - file that will stop server after touch.
-
-For daemonize server process you can use, for example, supervisor::
-
-  /etc/supervisor/conf.d/mjml.conf
-
-  [program:mjmltcpserver]
-  user=user
-  environment=NODE_PATH=/home/user/node_modules
-  command=node
-      /home/user/.virtualenv/default/lib/python2.7/site-packages/mjml/node/tcpserver.js
-      --port=28101 --host=127.0.0.1 --touchstop=/tmp/mjmltcpserver.stop --mjml.minify=true --mjml.validationLevel=strict
-  stdout_logfile=/home/user/project/var/log/supervisor/mjml.log
-  autostart=true
-  autorestart=true
-  redirect_stderr=true
-  stopwaitsecs=10
-  stopsignal=INT
-
-Or you can use docker-compose::
-
-  services:
-    mjml-1:
-      image: liminspace/mjml-tcpserver:0.11
-      restart: always
-      ports:
-        - "28101:28101"
-
-    mjml-2:
-      image: liminspace/mjml-tcpserver:0.11
-      restart: always
-      environment:
-        HOST: "0.0.0.0"
-        PORT: "28102"
-        MJML_ARGS: "--mjml.minify=true --mjml.validationLevel=strict"
-      expose:
-        - "28102"
-      ports:
-        - "28102:28102"
-
-You also can build your own tcpserver with other versions of ``MJML`` by using
-``docker/mjml-tcpserver`` file and editing arguments.
-
 httpserver mode
 ^^^^^^^^^^^^^^^
 
   don't forget to install ``requests`` to use this mode.
 
-This mode is faster than ``cmd`` and similar to ``tcpserver`` but you can use official MJML API https://mjml.io/api
-or run your own HTTP-server (for example https://github.com/danihodovic/mjml-server) to render templates. ::
+This mode is faster than ``cmd`` and a bit slower than ``tcpserver``, but you can use official MJML API https://mjml.io/api
+or run your own HTTP-server (for example https://github.com/danihodovic/mjml-server) to render templates.
+
+Configure your Django::
 
   MJML_BACKEND_MODE = 'httpserver'
   MJML_HTTPSERVERS = [

@@ -1,3 +1,11 @@
+1.1 (2023-04-11)
+================
+ * Added Python 3.11 in tests
+ * Added supporting Django 4.2
+ * Added MJML 4.14 in tests
+ * Updated README
+
+
 1.0 (2022-10-07)
 ================
  * Stopped supporting Python 2.7
