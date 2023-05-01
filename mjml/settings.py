@@ -1,4 +1,8 @@
 from django.conf import settings
+try:
+    from requests.auth import AuthBase
+except ImportError:
+    AuthBase = None
 
 MJML_BACKEND_MODE = getattr(settings, 'MJML_BACKEND_MODE', 'cmd')
 assert MJML_BACKEND_MODE in {'cmd', 'tcpserver', 'httpserver'}
@@ -24,6 +28,10 @@ for t in MJML_HTTPSERVERS:
     assert 'URL' in t and isinstance(t['URL'], str)
     if 'HTTP_AUTH' in t:
         http_auth = t['HTTP_AUTH']
-        assert isinstance(http_auth, (type(None), list, tuple))
-        if http_auth is not None:
+        if AuthBase:
+            assert isinstance(http_auth, (type(None), list, tuple, AuthBase))
+        else:  
+            assert isinstance(http_auth, (type(None), list, tuple))
+
+        if isinstance(http_auth, (list, tuple)):
             assert len(http_auth) == 2 and isinstance(http_auth[0], str) and isinstance(http_auth[1], str)
