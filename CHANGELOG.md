@@ -1,3 +1,8 @@
+1.2 (XXXX-XX-XX)
+================
+ * Added support for Django 5.0
+ * Updated README
+
 1.1 (2023-04-11)
 ================
  * Added Python 3.11 in tests

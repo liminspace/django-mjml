@@ -25,7 +25,7 @@ Installation
 Requirements:
 ^^^^^^^^^^^^^
 
-* ``Django`` from 2.2 to 4.2
+* ``Django`` from 2.2 to 5.0
 * ``requests`` from 2.24.0 (only if you are going to use API HTTP-server for rendering)
 * ``mjml`` from 3.6.3 to 4.14.0
 
