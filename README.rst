@@ -128,6 +128,9 @@ httpserver mode
 This mode is faster than ``cmd`` and a bit slower than ``tcpserver``, but you can use official MJML API https://mjml.io/api
 or run your own HTTP-server (for example https://github.com/danihodovic/mjml-server) to render templates.
 
+You can use any Authentication backend supported by requests (or provide your own). 
+See https://requests.readthedocs.io/en/latest/user/authentication/ for details.
+
 Configure your Django::
 
   MJML_BACKEND_MODE = 'httpserver'
