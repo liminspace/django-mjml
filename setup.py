@@ -18,7 +18,7 @@ setup(
     platforms=['OS Independent'],
     python_requires='>=3.6',
     install_requires=[
-        'django >=2.2,<5.0',
+        'django >=2.2,<5.1',
     ],
     extras_require={
         'requests': [
@@ -39,6 +39,7 @@ setup(
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Libraries',
         'Topic :: Software Development :: Libraries :: Application Frameworks',

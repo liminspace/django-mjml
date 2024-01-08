@@ -1,3 +1,6 @@
-__version__ = '1.1'
+import django
 
-default_app_config = 'mjml.apps.MJMLConfig'
+__version__ = '1.2'
+
+if django.VERSION < (3, 2):
+    default_app_config = 'mjml.apps.MJMLConfig'
