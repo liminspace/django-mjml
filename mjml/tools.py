@@ -40,7 +40,12 @@ def _mjml_render_by_cmd(mjml_code: str) -> str:
         stdout_tmp_f.seek(0)
         stdout = stdout_tmp_f.read()
 
-    if stderr:
+    if stderr and any(
+            l for l in force_str(stderr).split('\n')
+            if l and
+               'DeprecationWarning:' not in l and
+               '--trace-deprecation' not in l
+    ):
         raise RuntimeError(f'MJML stderr is not empty: {force_str(stderr)}.')
 
     return force_str(stdout)
