@@ -18,7 +18,7 @@ setup(
     platforms=['OS Independent'],
     python_requires='>=3.6',
     install_requires=[
-        'django >=2.2,<5.1',
+        'django >=2.2,<5.2',
     ],
     extras_require={
         'requests': [
