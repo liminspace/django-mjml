@@ -1,6 +1,9 @@
 1.3 (2024-08-21)
 ================
  * Added supporting Django 5.1
+ * Added MJML 4.15.2 in tests
+ * Removed MJML 4.6.3 from tests
+ * Updated github-actions
 
 
 1.2 (2024-01-08)
