@@ -1,3 +1,9 @@
+.. image:: https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct-single.svg
+ :target: https://stand-with-ukraine.pp.ua
+ :alt: Stand With Ukraine
+
+|
+
 .. image:: https://github.com/liminspace/django-mjml/actions/workflows/test.yml/badge.svg?branch=main
  :target: https://github.com/liminspace/django-mjml/actions/workflows/test.yml
  :alt: test
@@ -25,9 +31,9 @@ Installation
 Requirements:
 ^^^^^^^^^^^^^
 
-* ``Django`` from 2.2 to 5.0
+* ``Django`` from 2.2 to 5.1
 * ``requests`` from 2.24.0 (only if you are going to use API HTTP-server for rendering)
-* ``mjml`` from 3.6.3 to 4.14.1
+* ``mjml`` from 4.7.1 to 4.15.2 (older version may work, but not tested anymore)
 
 **\1\. Install** ``mjml``.
 
