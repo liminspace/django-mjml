@@ -1,0 +1,95 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "django-mjml"
+dynamic = ["version"]
+description = "Use MJML in Django templates"
+readme = "README.rst"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = [
+  "django",
+  "mjml",
+  "django-mjml",
+  "email",
+  "layout",
+  "template",
+  "templatetag",
+]
+authors = [
+  { name = "Igor Melnyk" },
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Web Environment",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Software Development :: Libraries :: Application Frameworks",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Framework :: Django",
+  "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+  "django >=4.2.8,<5.2",
+]
+
+[project.optional-dependencies]
+requests = [ "requests >=2.30" ]
+
+[project.urls]
+Documentation = "https://github.com/liminspace/django-mjml#readme"
+Issues = "https://github.com/liminspace/django-mjml/issues"
+Source = "https://github.com/liminspace/django-mjml"
+
+[tool.hatch.version]
+path = "mjml/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mjml"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "mjml/**/*.py",
+  "CHANGELOG.md",
+  "LICENSE",
+  "README.rst",
+]
+
+[tool.coverage.run]
+source = ["mjml/", "tests/"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
+
+[tool.bandit]
+skips = ["B105", "B404", "B603", "B607"]
+
+[tool.ruff]
+target-version = "py38"
+line-length = 118
+
+[tool.ruff.lint]
+select = [
+  "E",  # pycodestyle errors
+  "F",  # Pyflakes
+  "UP",  # pyupgrade
+  "B",  # flake8-bugbear
+  "SIM",  # flake8-simplify
+  "T20",  # flake8-print
+  "BLE",  # flake8-blind-except
+  "C4",  # flake8-comprehensions
+  "I",  # isort
+]
