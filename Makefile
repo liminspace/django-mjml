@@ -2,7 +2,7 @@
 
 install:
 	pip install -U pip \
- && pip install -U -r requirements.dev.txt
+ && pip install -U -r requirements.txt
 
 lint:
 	pre-commit run -a

@@ -80,20 +80,18 @@ class CMDBackend(BaseRendererBackend):
 
         try:
             html = self.render_mjml_to_html(
-                "<mjml><mj-body><mj-container><mj-text>MJMLv3</mj-text></mj-container></mj-body></mjml>",
+                "<mjml><mj-body><mj-section><mj-column><mj-text>"
+                "MJMLv4"
+                "</mj-text></mj-column></mj-section></mj-body></mjml>",
             )
-        except RuntimeError:
-            try:
-                html = self.render_mjml_to_html(
-                    "<mjml><mj-body><mj-section><mj-column><mj-text>"
-                    "MJMLv4"
-                    "</mj-text></mj-column></mj-section></mj-body></mjml>",
-                )
-            except RuntimeError as e:
-                raise RendererBackendCheckFailedError(e) from e
+        except RuntimeError as e:  # TODO: use custom exception for render issue
+            raise RendererBackendCheckFailedError(e) from e
+
         if "<html " not in html:
             err_msg = (
                 "mjml command returns wrong result.\n"
                 "Check MJML is installed correctly. See https://github.com/mjmlio/mjml#installation"
             )
             raise RendererBackendCheckFailedError(err_msg)
+
+        return

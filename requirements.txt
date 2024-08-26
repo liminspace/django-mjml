@@ -1,0 +1,6 @@
+-e .
+-r requirements-tests.txt
+
+pre-commit==3.8.0
+hatch==1.12.0
+Django==5.1
