@@ -30,6 +30,7 @@ def mjml(parser, token) -> MJMLRenderNode:
     parser.delete_first_token()
     tokens = token.split_contents()
     if len(tokens) != 1:
-        raise template.TemplateSyntaxError(f"'{tokens[0]!r}' tag doesn't receive any arguments.")
+        err_msg = f"'{tokens[0]!r}' tag doesn't receive any arguments."
+        raise template.TemplateSyntaxError(err_msg)
     renderer = apps.get_app_config(MJMLConfig.name).get_renderer()
     return MJMLRenderNode(nodelist, renderer=renderer)

@@ -79,7 +79,7 @@ class TestMJMLHTTPServer(MJMLFixtures, MJMLServers, TestCase):
     @mock.patch("requests.post")
     def test_http_auth(self, post_mock) -> None:
         with safe_change_mjml_settings() as mjml_app_config:
-            for server_conf in mjml_settings.MJML_HTTPSERVERS:  # todo fix
+            for server_conf in mjml_settings.MJML_HTTPSERVERS:  # type: ignore  # TODO: fix
                 server_conf["HTTP_AUTH"] = ("testuser", "testpassword")
             mjml_app_config.ready()
 
@@ -92,8 +92,8 @@ class TestMJMLHTTPServer(MJMLFixtures, MJMLServers, TestCase):
                         "html": "html_string",
                         "mjml": "mjml_string",
                         "mjml_version": "4.5.1",
-                    }
-                )
+                    },
+                ),
             )
             response._content = content
             response.encoding = "utf-8"

@@ -56,17 +56,18 @@ class TCPServerBackend(BaseRendererBackend):
                 result = force_str(self._socket_recvall(s, result_len))
                 if ok:
                     return result
-                else:
-                    raise RuntimeError(f"MJML compile error (via MJML TCP server): {result}")
+                err_msg = f"MJML compile error (via MJML TCP server): {result}"
+                raise RuntimeError(err_msg)
             except socket.timeout:
                 timeouts += 1
             finally:
                 s.close()
-        raise RuntimeError(
+        err_msg = (
             "MJML compile error (via MJML TCP server): no working server\n"
             f"Number of servers: {len(self._servers_params)}\n"
             f"Timeouts: {timeouts}"
         )
+        raise RuntimeError(err_msg)
 
     @classmethod
     def _socket_recvall(cls, sock: socket.socket, n: int) -> Optional[bytes]:

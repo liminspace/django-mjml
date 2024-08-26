@@ -1,6 +1,6 @@
 from pathlib import Path
 
-BASE_DIR = Path(__file__).absolute().parent
+BASE_DIR = Path(__file__).resolve().parent
 
 SECRET_KEY = "test"
 

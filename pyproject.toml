@@ -84,12 +84,49 @@ line-length = 118
 [tool.ruff.lint]
 select = [
   "E",  # pycodestyle errors
+  "W",  # pycodestyle warnings
   "F",  # Pyflakes
-  "UP",  # pyupgrade
+  "I",  # isort
   "B",  # flake8-bugbear
   "SIM",  # flake8-simplify
   "T20",  # flake8-print
   "BLE",  # flake8-blind-except
   "C4",  # flake8-comprehensions
-  "I",  # isort
+  "A",  # flake8-builtins
+  "COM",  # flake8-commas
+  "DJ",  # flake8-django
+  "S",  # flake8-bandit
+  "EM",  # flake8-errmsg
+  "FA",  # flake8-future-annotations
+  "ISC",  # flake8-implicit-str-concat
+  "LOG",  # flake8-logging
+  "G",  # flake8-logging-format
+  "PIE",  # flake8-pie
+  "PYI",  # flake8-pyi
+  "Q",  # flake8-quotes
+  "RSE",  # flake8-raise
+  "RET",  # flake8-return
+  "TID",  # flake8-tidy-imports
+  "TCH",  # flake8-type-checking
+  "ARG",  # flake8-unused-arguments
+  "PTH",  # flake8-use-pathlib
+  "TD",  # flake8-todos
+  "FLY",  # flynt
+  "PERF",  # Perflint
+  "UP",  # pyupgrade
+  "C90",  # mccabe
 ]
+ignore = [
+  "S105",
+  "S603",
+  "S607",
+  "TD003",
+  "TD002",
+]
+
+[tool.ruff.lint.pyupgrade]
+# Preserve types, even if a file imports `from __future__ import annotations`.
+keep-runtime-typing = true
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10

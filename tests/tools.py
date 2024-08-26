@@ -64,11 +64,11 @@ class MJMLServers:
 
     @classmethod
     def _start_tcp_servers(cls) -> None:
-        root_dir = os.path.dirname(settings.BASE_DIR)
-        tcpserver_path = os.path.join(root_dir, "mjml-tcpserver", "tcpserver.js")
+        root_dir = settings.BASE_DIR.parent
+        tcpserver_path = root_dir / "mjml-tcpserver/tcpserver.js"
         env = os.environ.copy()
         env["NODE_PATH"] = root_dir
-        for host, port in mjml_settings.MJML_TCPSERVERS:  # todo fix
+        for host, port in mjml_settings.MJML_TCPSERVERS:  # type: ignore  # TODO: fix
             p = subprocess.Popen(
                 [
                     "node",
@@ -90,7 +90,7 @@ class MJMLServers:
     @classmethod
     def _start_http_servers(cls) -> None:
         env = os.environ.copy()
-        for server_conf in mjml_settings.MJML_HTTPSERVERS:  # todo fix
+        for server_conf in mjml_settings.MJML_HTTPSERVERS:  # type: ignore  # TODO: fix
             parsed = urlparse(server_conf["URL"])
             host, port = parsed.netloc.split(":")
             p = subprocess.Popen(
@@ -119,7 +119,8 @@ class MJMLServers:
         elif cls.SERVER_TYPE == "httpserver":
             cls._start_http_servers()
         else:
-            raise RuntimeError("Invalid SERVER_TYPE: {}", cls.SERVER_TYPE)
+            err_msg = f"Invalid SERVER_TYPE: {cls.SERVER_TYPE}"
+            raise RuntimeError(err_msg)
 
     @classmethod
     def tearDownClass(cls) -> None:
@@ -128,7 +129,8 @@ class MJMLServers:
         elif cls.SERVER_TYPE == "httpserver":
             cls._stop_http_servers()
         else:
-            raise RuntimeError("Invalid SERVER_TYPE: {}", cls.SERVER_TYPE)
+            err_msg = f"Invalid SERVER_TYPE: {cls.SERVER_TYPE}"
+            raise RuntimeError(err_msg)
         super().tearDownClass()  # type: ignore
 
 

@@ -3,7 +3,7 @@ from django.test import TestCase
 
 from .tools import MJMLFixtures, render_tpl
 
-# class TestMJMLApps(TestCase):  # todo rewrite
+# class TestMJMLApps(TestCase):  # TODO rewrite  # noqa
 #     def test_check_mjml_command(self) -> None:
 #         with safe_change_mjml_settings() as mjml_app_config:
 #             mjml_settings.MJML_EXEC_CMD = '/no_mjml_exec_test'

@@ -58,39 +58,42 @@ class CMDBackend(BaseRendererBackend):
                 stderr = p.communicate(force_bytes(mjml_source))[1]
             except OSError as e:
                 cmd_str = " ".join(self._cmd_args)
-                raise RuntimeError(
+                err_msg = (
                     f'Problem to run command "{cmd_str}"\n'
                     f"{e}\n"
                     "Check that mjml is installed and allow permissions to execute.\n"
                     "See https://github.com/mjmlio/mjml#installation"
-                ) from e
+                )
+                raise RuntimeError(err_msg) from e
             stdout_tmp_f.seek(0)
             stdout = stdout_tmp_f.read()
 
         if stderr:
-            raise RuntimeError(f"MJML stderr is not empty: {force_str(stderr)}.")
+            err_msg = f"MJML stderr is not empty: {force_str(stderr)}."
+            raise RuntimeError(err_msg)
 
         return force_str(stdout)
 
     def check(self) -> None:
         if not self._check_on_startup:
-            return None
+            return
 
         try:
             html = self.render_mjml_to_html(
-                "<mjml><mj-body><mj-container><mj-text>" "MJMLv3" "</mj-text></mj-container></mj-body></mjml>"
+                "<mjml><mj-body><mj-container><mj-text>MJMLv3</mj-text></mj-container></mj-body></mjml>",
             )
         except RuntimeError:
             try:
                 html = self.render_mjml_to_html(
                     "<mjml><mj-body><mj-section><mj-column><mj-text>"
                     "MJMLv4"
-                    "</mj-text></mj-column></mj-section></mj-body></mjml>"
+                    "</mj-text></mj-column></mj-section></mj-body></mjml>",
                 )
             except RuntimeError as e:
                 raise RendererBackendCheckFailedError(e) from e
         if "<html " not in html:
-            raise RendererBackendCheckFailedError(
+            err_msg = (
                 "mjml command returns wrong result.\n"
                 "Check MJML is installed correctly. See https://github.com/mjmlio/mjml#installation"
             )
+            raise RendererBackendCheckFailedError(err_msg)

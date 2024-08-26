@@ -1,0 +1,21 @@
+name: pre-commit
+
+on:
+  push:
+  pull_request:
+    types: [ opened, synchronize ]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    env:
+      PYTHON_VER: 3.12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python ${{ env.PYTHON_VER }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VER }}
+      - name: Run pre-commit tasks
+        uses: pre-commit/action@v3.0.1

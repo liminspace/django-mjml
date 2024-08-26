@@ -50,12 +50,12 @@ class MJMLConfig(AppConfig):
                         else mjml_settings.MJML_CHECK_CMD_ON_STARTUP
                     ),
                 }
-            elif mjml_settings.MJML_BACKEND_MODE == "tcpserver":
+            if mjml_settings.MJML_BACKEND_MODE == "tcpserver":
                 return {
                     "BACKEND": "mjml.backends.TCPServerBackend",
                     "SERVERS": mjml_settings.MJML_TCPSERVERS or [("127.0.0.1", 28101)],
                 }
-            elif mjml_settings.MJML_BACKEND_MODE == "httpserver":
+            if mjml_settings.MJML_BACKEND_MODE == "httpserver":
                 return {
                     "BACKEND": "mjml.backends.RequestsHTTPServerBackend",
                     "SERVERS": [
@@ -68,12 +68,11 @@ class MJMLConfig(AppConfig):
                             {
                                 "URL": "https://api.mjml.io/v1/render",
                                 "HTTP_AUTH": None,  # None (default) or ('login', 'password')
-                            }
+                            },
                         ]
                     ],
                 }
-            else:
-                RuntimeError("Invalid MJML settings")
+            RuntimeError("Invalid MJML settings")
 
         # default settings
         return {

@@ -37,7 +37,8 @@ class RequestsHTTPServerBackend(BaseRendererBackend):
                 else:
                     auth_type, auth_params = "BASIC", auth_raw
             else:
-                raise ValueError("Invalid AUTH value")
+                err_msg = "Invalid AUTH value"
+                raise ValueError(err_msg)
 
             server_params["auth"] = cls._get_auth_instance(
                 auth_type=auth_type,
@@ -59,7 +60,8 @@ class RequestsHTTPServerBackend(BaseRendererBackend):
         elif isinstance(auth_params, (list, tuple)):
             instance = auth_cls(*auth_params)
         else:
-            raise ValueError("Invalid type of auth_params")
+            err_msg = "Invalid type of auth_params"
+            raise ValueError(err_msg)
         return instance
 
     def render_mjml_to_html(self, mjml_source: str) -> str:
@@ -91,18 +93,20 @@ class RequestsHTTPServerBackend(BaseRendererBackend):
                         f'Line: {e.get("line")} Tag: {e.get("tagName")} Message: {e.get("message")}' for e in errors
                     ]
                     msg_str = "\n".join(msg_lines)
-                    raise RuntimeError(f"MJML compile error (via MJML HTTP server): {msg_str}")
+                    err_msg = f"MJML compile error (via MJML HTTP server): {msg_str}"
+                    raise RuntimeError(err_msg)
 
                 return force_str(data["html"])
-            else:
-                msg = (
-                    f"[code={response.status_code}, request_id={data.get('request_id', '')}] "
-                    f"{data.get('message', 'Unknown error.')}"
-                )
-                raise RuntimeError(f"MJML compile error (via MJML HTTP server): {msg}")
+            msg = (
+                f"[code={response.status_code}, request_id={data.get('request_id', '')}] "
+                f"{data.get('message', 'Unknown error.')}"
+            )
+            err_msg = f"MJML compile error (via MJML HTTP server): {msg}"
+            raise RuntimeError(err_msg)
 
-        raise RuntimeError(
+        err_msg = (
             "MJML compile error (via MJML HTTP server): no working server\n"
             f"Number of servers: {len(self._servers_params)}\n"
             f"Timeouts: {timeouts}"
         )
+        raise RuntimeError(err_msg)
