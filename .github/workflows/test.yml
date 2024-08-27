@@ -18,6 +18,15 @@ jobs:
         tcp-server-ver: [ 'v1.2' ]
       fail-fast: false
     steps:
+      - name: Get OS info
+        id: os-info
+        run: |
+          info_file="/etc/os-release"
+          name=$(grep "^NAME=" $info_file | sed 's/NAME="\([^"]*\)"/\1/')
+          ver=$(grep "^VERSION=" $info_file | sed 's/VERSION="\([0-9.]*\).*/\1/')
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+          echo "ver=$ver" >> "$GITHUB_OUTPUT"
+          echo "full=$name$ver" >> "$GITHUB_OUTPUT"
       - name: Checkout
         uses: actions/checkout@v4
       - name: Checkout tcp server
@@ -34,9 +43,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ matrix.python-ver }}-${{ hashFiles('requirements-tests.txt') }}
+          key: ${{ steps.os-info.outputs.full }}-pip-${{ matrix.python-ver }}-${{ hashFiles('requirements-tests.txt') }}
           restore-keys:
-            ${{ runner.os }}-pip-${{ matrix.python-ver }}-
+            ${{ steps.os-info.outputs.full }}-pip-${{ matrix.python-ver }}-
       - name: Install Python dependencies
         run: |
           pip install -U -r requirements-tests.txt
@@ -49,9 +58,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ env.NODE_VER }}-${{ matrix.mjml-ver }}
+          key: ${{ steps.os-info.outputs.full }}-npm-${{ env.NODE_VER }}-${{ matrix.mjml-ver }}
           restore-keys:
-            ${{ runner.os }}-npm-${{ env.NODE_VER }}-
+            ${{ steps.os-info.outputs.full }}-npm-${{ env.NODE_VER }}-
       - name: Install Node dependencies
         run: |
           npm cache verify
@@ -79,6 +88,15 @@ jobs:
         tcp-server-ver: [ 'v1.2' ]
       fail-fast: false
     steps:
+      - name: Get OS info
+        id: os-info
+        run: |
+          info_file="/etc/os-release"
+          name=$(grep "^NAME=" $info_file | sed 's/NAME="\([^"]*\)"/\1/')
+          ver=$(grep "^VERSION=" $info_file | sed 's/VERSION="\([0-9.]*\).*/\1/')
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+          echo "ver=$ver" >> "$GITHUB_OUTPUT"
+          echo "full=$name$ver" >> "$GITHUB_OUTPUT"
       - name: Checkout
         uses: actions/checkout@v4
       - name: Checkout tcp server
@@ -95,9 +113,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ matrix.python-ver }}-${{ hashFiles('requirements-tests.txt') }}
+          key: ${{ steps.os-info.outputs.full }}-pip-${{ matrix.python-ver }}-${{ hashFiles('requirements-tests.txt') }}
           restore-keys:
-            ${{ runner.os }}-pip-${{ matrix.python-ver }}-
+            ${{ steps.os-info.outputs.full }}-pip-${{ matrix.python-ver }}-
       - name: Install Python dependencies
         run: |
           pip install -U -r requirements-tests.txt
@@ -110,9 +128,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ env.NODE_VER }}-${{ matrix.mjml-ver }}
+          key: ${{ steps.os-info.outputs.full }}-npm-${{ env.NODE_VER }}-${{ matrix.mjml-ver }}
           restore-keys:
-            ${{ runner.os }}-npm-${{ env.NODE_VER }}-
+            ${{ steps.os-info.outputs.full }}-npm-${{ env.NODE_VER }}-
       - name: Install Node dependencies
         run: |
           npm cache verify
