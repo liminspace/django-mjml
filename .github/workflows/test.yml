@@ -9,7 +9,7 @@ jobs:
   test-py-38-39:
     runs-on: ubuntu-latest
     env:
-      NODE_VER: 20.x
+      NODE_VER: 20.17.0
     strategy:
       matrix:
         python-ver: [ '3.8', '3.9' ]
@@ -43,9 +43,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ steps.os-info.outputs.full }}-pip-${{ matrix.python-ver }}-${{ hashFiles('requirements-tests.txt') }}
+          key: ${{ steps.os-info.outputs.full }}-py${{ matrix.python-ver }}-pip-${{ hashFiles('requirements-tests.txt') }}
           restore-keys:
-            ${{ steps.os-info.outputs.full }}-pip-${{ matrix.python-ver }}-
+            ${{ steps.os-info.outputs.full }}-py${{ matrix.python-ver }}-pip-
       - name: Install Python dependencies
         run: |
           pip install -U -r requirements-tests.txt
@@ -58,9 +58,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: ${{ steps.os-info.outputs.full }}-npm-${{ env.NODE_VER }}-${{ matrix.mjml-ver }}
+          key: ${{ steps.os-info.outputs.full }}-node${{ env.NODE_VER }}-npm-${{ matrix.mjml-ver }}
           restore-keys:
-            ${{ steps.os-info.outputs.full }}-npm-${{ env.NODE_VER }}-
+            ${{ steps.os-info.outputs.full }}-node${{ env.NODE_VER }}-npm-
       - name: Install Node dependencies
         run: |
           npm cache verify
@@ -79,7 +79,7 @@ jobs:
   test-py-310-312:
     runs-on: ubuntu-latest
     env:
-      NODE_VER: 20.x
+      NODE_VER: 20.17.0
     strategy:
       matrix:
         python-ver: [ '3.10', '3.11', '3.12' ]
@@ -113,9 +113,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ steps.os-info.outputs.full }}-pip-${{ matrix.python-ver }}-${{ hashFiles('requirements-tests.txt') }}
+          key: ${{ steps.os-info.outputs.full }}-py${{ matrix.python-ver }}-pip-${{ hashFiles('requirements-tests.txt') }}
           restore-keys:
-            ${{ steps.os-info.outputs.full }}-pip-${{ matrix.python-ver }}-
+            ${{ steps.os-info.outputs.full }}-py${{ matrix.python-ver }}-pip-
       - name: Install Python dependencies
         run: |
           pip install -U -r requirements-tests.txt
@@ -128,9 +128,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: ${{ steps.os-info.outputs.full }}-npm-${{ env.NODE_VER }}-${{ matrix.mjml-ver }}
+          key: ${{ steps.os-info.outputs.full }}-node${{ env.NODE_VER }}-npm-${{ matrix.mjml-ver }}
           restore-keys:
-            ${{ steps.os-info.outputs.full }}-npm-${{ env.NODE_VER }}-
+            ${{ steps.os-info.outputs.full }}-node${{ env.NODE_VER }}-npm-
       - name: Install Node dependencies
         run: |
           npm cache verify
