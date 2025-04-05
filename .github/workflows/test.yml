@@ -68,7 +68,7 @@ jobs:
         run: |
           python tools.py test
   test-py-3-7:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04  # Python 3.7 is not available in newer releases
     env:
       PYTHON_VER: 3.7
       NODE_VER: 20.x
@@ -257,7 +257,7 @@ jobs:
       NODE_VER: 20.x
     strategy:
       matrix:
-        django-ver: [ '<3.3', '<4.1', '<4.2', '<4.3', '<5.2' ]
+        django-ver: [ '<3.3', '<4.1', '<4.2', '<4.3', '<5.2', '<5.3' ]
         mjml-ver: [ '4.7.1', '4.8.2', '4.9.3', '4.10.4', '4.11.0', '4.12.0', '4.13.0', '4.14.1', '4.15.2' ]
         tcp-server-ver: [ 'v1.2' ]
       fail-fast: false
@@ -318,7 +318,7 @@ jobs:
       NODE_VER: 20.x
     strategy:
       matrix:
-        django-ver: [ '<4.2', '<4.3', '<5.2' ]
+        django-ver: [ '<4.2', '<4.3', '<5.2', '<5.3' ]
         mjml-ver: [ '4.7.1', '4.8.2', '4.9.3', '4.10.4', '4.11.0', '4.12.0', '4.13.0', '4.14.1', '4.15.2' ]
         tcp-server-ver: [ 'v1.2' ]
       fail-fast: false
@@ -379,7 +379,68 @@ jobs:
       NODE_VER: 20.x
     strategy:
       matrix:
-        django-ver: [ '<4.3', '<5.2' ]
+        django-ver: [ '<4.3', '<5.2', '<5.3' ]
+        mjml-ver: [ '4.7.1', '4.8.2', '4.9.3', '4.10.4', '4.11.0', '4.12.0', '4.13.0', '4.14.1', '4.15.2' ]
+        tcp-server-ver: [ 'v1.2' ]
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Checkout tcp server
+        uses: actions/checkout@v4
+        with:
+          repository: 'liminspace/mjml-tcpserver'
+          ref: ${{ matrix.tcp-server-ver }}
+          path: './mjml-tcpserver'
+      - name: Set up Python ${{ env.PYTHON_VER }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VER }}
+      - name: Cache pip
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-pip
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-${{ matrix.django-ver }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.cache-name }}-${{ env.PYTHON_VER }}-
+      - name: Install Python dependencies
+        run: |
+          pip install "Django${{ matrix.django-ver }}"
+          pip install "requests>=2.24.0,<=2.29.0"
+      - name: Set up Node.js ${{ env.NODE_VER }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VER }}
+      - name: Cache npm
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-npm
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ env.NODE_VER }}-${{ matrix.mjml-ver }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.cache-name }}-${{ env.NODE_VER }}-
+      - name: Install Node dependencies
+        run: |
+          npm cache verify
+          npm install -g mjml-http-server@0.1.0
+          npm install mjml@${{ matrix.mjml-ver }}
+      - name: Show info
+        run: |
+          node_modules/.bin/mjml --version
+      - name: Test
+        run: |
+          python tools.py test
+  test-py-3-13:
+    runs-on: ubuntu-latest
+    env:
+      PYTHON_VER: '3.13'
+      NODE_VER: 20.x
+    strategy:
+      matrix:
+        django-ver: [ '<5.2', '<5.3' ]
         mjml-ver: [ '4.7.1', '4.8.2', '4.9.3', '4.10.4', '4.11.0', '4.12.0', '4.13.0', '4.14.1', '4.15.2' ]
         tcp-server-ver: [ 'v1.2' ]
       fail-fast: false
