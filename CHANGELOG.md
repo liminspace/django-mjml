@@ -1,3 +1,9 @@
+1.4 (2025-04-06)
+================
+ * Added supporting Django 5.2
+ * Added Python 3.13 in tests
+
+
 1.3 (2024-08-21)
 ================
  * Added supporting Django 5.1
