@@ -109,7 +109,12 @@ def _mjml_render_by_httpserver(mjml_code: str) -> str:
     timeouts = 0
     for server_conf in servers:
         http_auth = server_conf.get('HTTP_AUTH')
-        auth = requests.auth.HTTPBasicAuth(*http_auth) if http_auth else None
+
+        auth = (
+            http_auth
+            if isinstance(http_auth, (type(None), requests.auth.AuthBase))
+            else requests.auth.HTTPBasicAuth(*http_auth)
+        )
 
         try:
             response = requests.post(
