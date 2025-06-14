@@ -59,7 +59,7 @@ def socket_recvall(sock: socket.socket, n: int) -> Optional[bytes]:
 def _mjml_render_by_tcpserver(mjml_code: str) -> str:
     if len(mjml_settings.MJML_TCPSERVERS) > 1:
         servers = list(mjml_settings.MJML_TCPSERVERS)[:]
-        if mjml_settings.MJML_TCPSERVERS_USE_RANDOM:
+        if mjml_settings.MJML_TCPSERVERS_USE_RANDOM is True:
             random.shuffle(servers)
     else:
         servers = mjml_settings.MJML_TCPSERVERS
@@ -103,7 +103,7 @@ def _mjml_render_by_httpserver(mjml_code: str) -> str:
 
     if len(mjml_settings.MJML_HTTPSERVERS) > 1:
         servers = list(mjml_settings.MJML_HTTPSERVERS)[:]
-        if mjml_settings.MJML_HTTPSERVERS_USE_RANDOM:
+        if mjml_settings.MJML_HTTPSERVERS_USE_RANDOM is True:
             random.shuffle(servers)
     else:
         servers = mjml_settings.MJML_HTTPSERVERS
