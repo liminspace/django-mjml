@@ -16,9 +16,9 @@ setup(
     include_package_data=True,
     zip_safe=False,  # because include static
     platforms=['OS Independent'],
-    python_requires='>=3.6',
+    python_requires='>=3.9',
     install_requires=[
-        'django >=2.2,<5.3',
+        'django >=2.2,<6.1',
     ],
     extras_require={
         'requests': [
@@ -33,14 +33,12 @@ setup(
         'Environment :: Web Environment',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
         'Programming Language :: Python :: 3.13',
+        'Programming Language :: Python :: 3.14',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Libraries',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
