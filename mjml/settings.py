@@ -9,6 +9,7 @@ MJML_CHECK_CMD_ON_STARTUP = getattr(settings, 'MJML_CHECK_CMD_ON_STARTUP', True)
 
 # tcpserver backend mode configs
 MJML_TCPSERVERS = getattr(settings, 'MJML_TCPSERVERS', [('127.0.0.1', 28101)])
+MJML_TCPSERVERS_USE_RANDOM = getattr(settings, 'MJML_TCPSERVERS_RANDOM', True)
 assert isinstance(MJML_TCPSERVERS, (list, tuple))
 for t in MJML_TCPSERVERS:
     assert isinstance(t, (list, tuple)) and len(t) == 2 and isinstance(t[0], str) and isinstance(t[1], int)
@@ -18,6 +19,7 @@ MJML_HTTPSERVERS = getattr(settings, 'MJML_HTTPSERVERS', [{
     'URL': 'https://api.mjml.io/v1/render',
     'HTTP_AUTH': None,  # None (default) or ('login', 'password')
 }])
+MJML_HTTPSERVERS_USE_RANDOM = getattr(settings, 'MJML_HTTPSERVERS_RANDOM', True)
 assert isinstance(MJML_HTTPSERVERS, (list, tuple))
 for t in MJML_HTTPSERVERS:
     assert isinstance(t, dict)
