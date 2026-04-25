@@ -1,0 +1,3 @@
+[submodule "testprj/mjml-tcpserver"]
+	path = testprj/mjml-tcpserver
+	url = https://github.com/liminspace/mjml-tcpserver

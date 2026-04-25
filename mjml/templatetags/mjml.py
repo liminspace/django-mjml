@@ -24,9 +24,11 @@ def mjml(parser, token) -> MJMLRenderNode:
             .. MJML template code ..
         {% endmjml %}
     """
-    nodelist = parser.parse(('endmjml',))
+    nodelist = parser.parse(("endmjml",))
     parser.delete_first_token()
     tokens = token.split_contents()
     if len(tokens) != 1:
-        raise template.TemplateSyntaxError("'%r' tag doesn't receive any arguments." % tokens[0])
+        raise template.TemplateSyntaxError(
+            "'%r' tag doesn't receive any arguments." % tokens[0]
+        )
     return MJMLRenderNode(nodelist)

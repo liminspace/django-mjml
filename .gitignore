@@ -77,3 +77,4 @@ package.json
 
 # tcpserver
 mjml-tcpserver/
+!testprj/mjml-tcpserver/

@@ -148,3 +148,67 @@ Configure your Django::
   ]
 
 You can set one or more servers and a random one will be used.
+
+Class based backends
+^^^^^^^^^^^^^^^^^^^^
+
+All of the modes above are setup as class based backends and we use the same class based backend setup as the django tasks or cache setups.
+You can create your own class based backend to handle things like adding extra http headers or authentication when working with http servers
+or adding in extra steps in your mjml processes.
+
+To use a class based backend replace your existing MJML django settings with a single MJML setting with the backends you want to setup.
+The current template tags require a backend called "default". The BACKEND key is the import path to the backend you want to use
+The OPTIONS key provides specific configuration for that backend.
+
+  MJML = {
+    "default": {
+      "BACKEND": "myapp.mjml.backends.MySpecialBackend"
+      "OPTIONS": {
+        "check_on_startup": False
+      }
+    }
+  }
+
+
+Provided Class based Backends
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each mode covered above has its own class base backend provided by django-mjml
+
+  cmd - mjml.backends.cmd.CmdBackend
+  httpserver - mjml.backends.http.HttpBackend
+  tcpserver - mjml.backends.tcp.TcpBackend
+
+
+Each on has its own options that align with the existing options available along with options available to all backends
+
+
+global options
+
+  check_on_startup: When loading the backends run a check on the backend to see if it can render.
+    This will raise an exception and stop your app starting up if it fails
+
+
+mjml.backends.cmd.CmdBackend
+
+  exec_cmd: The path to the mjml cli or an extended command provided as a list
+
+mjml.backends.http.HttpBackend
+
+  servers: The details of the servers to send the render requests to provided as a list
+    each item in the list is a dict with the following
+      urL: the url to send the render request to
+      auth: an optional tuple with the username first and password second
+
+mjml.backends.tcp.TcpBackend
+  servers: A list of tuples with the ip/hostname first and the port second (as an integer)
+
+
+Writing your own Backend
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can crete your own backend using the mjml.backends.base.BaseBackend
+Inherit this class and then add your own render method to do what you need to do.
+
+When you are ready to test it out change the MJML["default"]["BACKEND"] django setting to your new class
+and set the OPTIONS as you need to
