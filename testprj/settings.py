@@ -63,5 +63,3 @@ MJML_HTTPSERVERS = (
         'URL': 'http://127.0.0.1:38102/v1/render',
     },
 )
-
-DEFAULT_MJML_VERSION = 4

@@ -13,15 +13,6 @@ from mjml import settings as mjml_settings
 from mjml import tools
 
 
-def get_mjml_version() -> int:
-    env_ver = os.environ.get('MJML_VERSION', None)
-    if env_ver:
-        with suppress(ValueError, TypeError, IndexError):
-            return int(env_ver.split('.')[0])
-
-    return settings.DEFAULT_MJML_VERSION
-
-
 @contextmanager
 def safe_change_mjml_settings():
     """
@@ -45,8 +36,6 @@ def safe_change_mjml_settings():
 
 
 def render_tpl(tpl: str, context: Optional[Dict[str, Any]] = None) -> str:
-    if get_mjml_version() >= 4:
-        tpl = tpl.replace('<mj-container>', '').replace('</mj-container>', '')
     return Template('{% load mjml %}' + tpl).render(Context(context))
 
 
@@ -126,7 +115,6 @@ class MJMLFixtures:
             {% mjml %}
                 <mjml>
                 <mj-body>
-                <mj-container>
                     <mj-section>
                         <mj-column>
                             <mj-image src="img/test.png"></mj-image>
@@ -138,7 +126,6 @@ class MJMLFixtures:
                             <mj-button background-color="#ffcc00" font-size="15px">Test button</mj-button>
                         </mj-column>
                     </mj-section>
-                </mj-container>
                 </mj-body>
                 </mjml>
             {% endmjml %}
@@ -147,13 +134,11 @@ class MJMLFixtures:
             {% mjml %}
                 <mjml>
                 <mj-body>
-                <mj-container>
                     <mj-section>
                         <mj-column>
                             <mj-text>{{ text }}</mj-text>
                         </mj-column>
                     </mj-section>
-                </mj-container>
                 </mj-body>
                 </mjml>
             {% endmjml %}
@@ -162,13 +147,11 @@ class MJMLFixtures:
             {% mjml %}
                 <mjml>
                 <mj-body>
-                <mj-container>
                     <mj-section>
                         <mj-column>
                             <mj-text>Український текст {{ text }} ©</mj-text>
                         </mj-column>
                     </mj-section>
-                </mj-container>
                 </mj-body>
                 </mjml>
             {% endmjml %}
