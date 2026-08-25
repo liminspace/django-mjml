@@ -1,3 +1,12 @@
+1.6 (2026-08-25)
+================
+ * Added supporting Django 6.1
+ * Stopped supporting Django older than 3.2
+ * Removed Python 3.9 from tests
+ * Removed MJML older than 4.18.0 from tests
+ * Added MJML 4.18.0, 5.3.0 and 5.4.0 in tests
+
+
 1.5 (2025-12-08)
 ================
  * Added supporting Django 6.0

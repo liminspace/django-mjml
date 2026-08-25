@@ -25,7 +25,7 @@ def _mjml_render_by_cmd(mjml_code: str) -> str:
     else:
         cmd_args = _cache['cmd_args']
 
-    with tempfile.SpooledTemporaryFile(max_size=(5 * 1024 * 1024)) as stdout_tmp_f:
+    with tempfile.SpooledTemporaryFile(max_size=(6 * 1024 * 1024)) as stdout_tmp_f:
         try:
             p = subprocess.Popen(cmd_args, stdin=subprocess.PIPE, stdout=stdout_tmp_f, stderr=subprocess.PIPE)
             stderr = p.communicate(force_bytes(mjml_code))[1]
@@ -46,12 +46,12 @@ def _mjml_render_by_cmd(mjml_code: str) -> str:
     return force_str(stdout)
 
 
-def socket_recvall(sock: socket.socket, n: int) -> Optional[bytes]:
+def _socket_recvall(sock: socket.socket, n: int) -> Optional[bytes]:
     data = b''
     while len(data) < n:
         packet = sock.recv(n - len(data))
         if not packet:
-            return
+            return None
         data += packet
     return data
 
@@ -64,30 +64,33 @@ def _mjml_render_by_tcpserver(mjml_code: str) -> str:
         servers = mjml_settings.MJML_TCPSERVERS
     mjml_code_data = force_bytes(mjml_code)
     mjml_code_data = force_bytes('{:09d}'.format(len(mjml_code_data))) + mjml_code_data
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-    s.settimeout(25)
     timeouts = 0
     for host, port in servers:
+        # the socket must be created per iteration: a socket that failed to
+        # connect (or was closed) cannot be reused for the next server
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
-            s.connect((host, port))
-        except socket.timeout:
-            timeouts += 1
-            continue
-        except socket.error:
-            continue
-        try:
-            s.sendall(mjml_code_data)
-            ok = force_str(socket_recvall(s, 1)) == '0'
-            a = force_str(socket_recvall(s, 9))
-            result_len = int(a)
-            result = force_str(socket_recvall(s, result_len))
-            if ok:
-                return result
-            else:
-                raise RuntimeError(f'MJML compile error (via MJML TCP server): {result}')
-        except socket.timeout:
-            timeouts += 1
+            s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+            s.settimeout(25)
+            try:
+                s.connect((host, port))
+            except socket.timeout:
+                timeouts += 1
+                continue
+            except socket.error:
+                continue
+            try:
+                s.sendall(mjml_code_data)
+                ok = force_str(_socket_recvall(s, 1)) == '0'
+                a = force_str(_socket_recvall(s, 9))
+                result_len = int(a)
+                result = force_str(_socket_recvall(s, result_len))
+                if ok:
+                    return result
+                else:
+                    raise RuntimeError(f'MJML compile error (via MJML TCP server): {result}')
+            except socket.timeout:
+                timeouts += 1
         finally:
             s.close()
     raise RuntimeError(

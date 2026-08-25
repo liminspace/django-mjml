@@ -39,7 +39,6 @@ class TestMJMLTemplatetag(MJMLFixtures, TestCase):
             {% mjml %}
                 <mjml>
                 <mj-body>
-                <mj-container>
                     <mj-section>
                         <mj-column>
                             <mj-image src="img/test.png"></mj-image>
@@ -51,7 +50,6 @@ class TestMJMLTemplatetag(MJMLFixtures, TestCase):
                             <mj-button background-color="{{ btn_color }}" font-size="15px">{{ btn_label }}</mj-button>
                         </mj-column>
                     </mj-section>
-                </mj-container>
                 </mj-body>
                 </mjml>
             {% endmjml %}
@@ -70,7 +68,6 @@ class TestMJMLTemplatetag(MJMLFixtures, TestCase):
             {% mjml %}
                 <mjml>
                 <mj-body>
-                <mj-container>
                     <mj-section>
                         <mj-column>
                             <mj-image src="img/test.png"></mj-image>
@@ -86,7 +83,6 @@ class TestMJMLTemplatetag(MJMLFixtures, TestCase):
                             <mj-button background-color="#ffcc00" font-size="15px">Test button</mj-button>
                         </mj-column>
                     </mj-section>
-                </mj-container>
                 </mj-body>
                 </mjml>
             {% endmjml %}
@@ -101,14 +97,14 @@ class TestMJMLTemplatetag(MJMLFixtures, TestCase):
         with self.assertRaises(TemplateSyntaxError):
             render_tpl("""
                 {% mjml "var"%}
-                    <mjml><mj-body><mj-container></mj-container></mj-body></mjml>
+                    <mjml><mj-body></mj-body></mjml>
                 {% endmjml %}
             """)
 
         with self.assertRaises(TemplateSyntaxError):
             render_tpl("""
                 {% mjml var %}
-                    <mjml><mj-body><mj-container></mj-container></mj-body></mjml>
+                    <mjml><mj-body></mj-body></mjml>
                 {% endmjml %}
             """, {'var': 'test'})
 
