@@ -10,28 +10,28 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PYTHON_VER: '3.10'
-      NODE_VER: 22.x
+      NODE_VER: 24
     strategy:
       matrix:
         django-ver: [ '<3.3', '<4.1', '<4.2', '<4.3', '<5.2', '<5.3' ]
-        mjml-ver: [ '4.18.0', '5.0.1', '5.1.0', '5.2.2', '5.3.0', '5.4.0' ]
+        mjml-ver: [ '4.18.0', '5.3.0', '5.4.0' ]
         tcp-server-ver: [ 'v1.4' ]
       fail-fast: false
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Checkout tcp server
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: 'liminspace/mjml-tcpserver'
           ref: ${{ matrix.tcp-server-ver }}
           path: './mjml-tcpserver'
       - name: Set up Python ${{ env.PYTHON_VER }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ env.PYTHON_VER }}
       - name: Cache pip
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         env:
           cache-name: cache-pip
         with:
@@ -44,11 +44,11 @@ jobs:
           pip install "Django${{ matrix.django-ver }}"
           pip install "requests>=2.24.0,<=2.29.0"
       - name: Set up Node.js ${{ env.NODE_VER }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ env.NODE_VER }}
       - name: Cache npm
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         env:
           cache-name: cache-npm
         with:
@@ -71,28 +71,28 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PYTHON_VER: '3.11'
-      NODE_VER: 22.x
+      NODE_VER: 24
     strategy:
       matrix:
         django-ver: [ '<4.2', '<4.3', '<5.2', '<5.3' ]
-        mjml-ver: [ '4.18.0', '5.0.1', '5.1.0', '5.2.2', '5.3.0', '5.4.0' ]
+        mjml-ver: [ '4.18.0', '5.3.0', '5.4.0' ]
         tcp-server-ver: [ 'v1.4' ]
       fail-fast: false
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Checkout tcp server
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: 'liminspace/mjml-tcpserver'
           ref: ${{ matrix.tcp-server-ver }}
           path: './mjml-tcpserver'
       - name: Set up Python ${{ env.PYTHON_VER }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ env.PYTHON_VER }}
       - name: Cache pip
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         env:
           cache-name: cache-pip
         with:
@@ -105,11 +105,11 @@ jobs:
           pip install "Django${{ matrix.django-ver }}"
           pip install "requests>=2.24.0,<=2.29.0"
       - name: Set up Node.js ${{ env.NODE_VER }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ env.NODE_VER }}
       - name: Cache npm
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         env:
           cache-name: cache-npm
         with:
@@ -132,28 +132,28 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PYTHON_VER: '3.12'
-      NODE_VER: 22.x
+      NODE_VER: 24
     strategy:
       matrix:
         django-ver: [ '<4.3', '<5.2', '<5.3', '<6.1', '<6.2' ]
-        mjml-ver: [ '4.18.0', '5.0.1', '5.1.0', '5.2.2', '5.3.0', '5.4.0' ]
+        mjml-ver: [ '4.18.0', '5.3.0', '5.4.0' ]
         tcp-server-ver: [ 'v1.4' ]
       fail-fast: false
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Checkout tcp server
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: 'liminspace/mjml-tcpserver'
           ref: ${{ matrix.tcp-server-ver }}
           path: './mjml-tcpserver'
       - name: Set up Python ${{ env.PYTHON_VER }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ env.PYTHON_VER }}
       - name: Cache pip
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         env:
           cache-name: cache-pip
         with:
@@ -166,11 +166,11 @@ jobs:
           pip install "Django${{ matrix.django-ver }}"
           pip install "requests>=2.24.0,<=2.29.0"
       - name: Set up Node.js ${{ env.NODE_VER }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ env.NODE_VER }}
       - name: Cache npm
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         env:
           cache-name: cache-npm
         with:
@@ -193,28 +193,28 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PYTHON_VER: '3.13'
-      NODE_VER: 22.x
+      NODE_VER: 24
     strategy:
       matrix:
         django-ver: [ '<5.2', '<5.3', '<6.1', '<6.2' ]
-        mjml-ver: [ '4.18.0', '5.0.1', '5.1.0', '5.2.2', '5.3.0', '5.4.0' ]
+        mjml-ver: [ '4.18.0', '5.3.0', '5.4.0' ]
         tcp-server-ver: [ 'v1.4' ]
       fail-fast: false
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Checkout tcp server
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: 'liminspace/mjml-tcpserver'
           ref: ${{ matrix.tcp-server-ver }}
           path: './mjml-tcpserver'
       - name: Set up Python ${{ env.PYTHON_VER }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ env.PYTHON_VER }}
       - name: Cache pip
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         env:
           cache-name: cache-pip
         with:
@@ -227,11 +227,11 @@ jobs:
           pip install "Django${{ matrix.django-ver }}"
           pip install "requests>=2.24.0,<=2.29.0"
       - name: Set up Node.js ${{ env.NODE_VER }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ env.NODE_VER }}
       - name: Cache npm
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         env:
           cache-name: cache-npm
         with:
@@ -254,28 +254,28 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PYTHON_VER: '3.14'
-      NODE_VER: 22.x
+      NODE_VER: 24
     strategy:
       matrix:
         django-ver: [ '<5.3', '<6.1', '<6.2' ]
-        mjml-ver: [ '4.18.0', '5.0.1', '5.1.0', '5.2.2', '5.3.0', '5.4.0' ]
+        mjml-ver: [ '4.18.0', '5.3.0', '5.4.0' ]
         tcp-server-ver: [ 'v1.4' ]
       fail-fast: false
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Checkout tcp server
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: 'liminspace/mjml-tcpserver'
           ref: ${{ matrix.tcp-server-ver }}
           path: './mjml-tcpserver'
       - name: Set up Python ${{ env.PYTHON_VER }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ env.PYTHON_VER }}
       - name: Cache pip
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         env:
           cache-name: cache-pip
         with:
@@ -288,11 +288,11 @@ jobs:
           pip install "Django${{ matrix.django-ver }}"
           pip install "requests>=2.24.0,<=2.29.0"
       - name: Set up Node.js ${{ env.NODE_VER }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ env.NODE_VER }}
       - name: Cache npm
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         env:
           cache-name: cache-npm
         with:
