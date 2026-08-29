@@ -67,10 +67,37 @@ class TestMJMLHTTPServer(MJMLFixtures, MJMLServers, TestCase):
         self.assertIn(' Tag: mj-button Message: mj-button ', str(cm.exception))
 
     @mock.patch('requests.post')
-    def test_http_auth(self, post_mock) -> None:
+    def test_http_basic_auth(self, post_mock) -> None:
         with safe_change_mjml_settings():
             for server_conf in mjml_settings.MJML_HTTPSERVERS:
                 server_conf['HTTP_AUTH'] = ('testuser', 'testpassword')
+
+            response = requests.Response()
+            response.status_code = 200
+            response._content = force_bytes(json.dumps({
+                'errors': [],
+                'html': 'html_string',
+                'mjml': 'mjml_string',
+                'mjml_version': '4.5.1',
+            }))
+            response.encoding = 'utf-8'
+            response.headers['Content-Type'] = 'text/html; charset=utf-8'
+            response.headers['Content-Length'] = len(response._content)
+            post_mock.return_value = response
+
+            render_tpl(self.TPLS['simple'])
+
+            self.assertTrue(post_mock.called)
+            self.assertIn('auth', post_mock.call_args[1])
+            self.assertIsInstance(post_mock.call_args[1]['auth'], requests.auth.HTTPBasicAuth)
+            self.assertEqual(post_mock.call_args[1]['auth'].username, 'testuser')
+            self.assertEqual(post_mock.call_args[1]['auth'].password, 'testpassword')
+
+    @mock.patch('requests.post')
+    def test_http_auth(self, post_mock) -> None:
+        with safe_change_mjml_settings():
+            for server_conf in mjml_settings.MJML_HTTPSERVERS:
+                server_conf['HTTP_AUTH'] = requests.auth.HTTPBasicAuth('testuser', 'testpassword')
 
             response = requests.Response()
             response.status_code = 200
